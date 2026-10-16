@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Download Artifice</title>
+  <meta name="description" content="Artifice catalogs your folders and hands your AI tools only the context they need. Download for macOS and Windows.">
+  <style>
+    :root {
+      --bg: #ffffff; --panel: #f6f6f6; --ink: #1f1f1f; --ink-2: #555555; --ink-3: #8a8a8a;
+      --line: #e5e5e5; --accent: #4a5fd6; --accent-ink: #ffffff;
+      --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #1e1e1e; --panel: #262626; --ink: #dadada; --ink-2: #b3b3b3; --ink-3: #858585; --line: #363636; --accent: #8b9bf5; --accent-ink: #14162b; color-scheme: dark; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+    main { max-width: 720px; margin: 0 auto; padding: 12vh 16px 64px; }
+    .mark { width: 56px; height: 56px; }
+    h1 { font-size: 40px; line-height: 1.1; letter-spacing: -.025em; margin: 20px 0 10px; }
+    .lede { font-size: 17px; color: var(--ink-2); margin: 0 0 32px; max-width: 560px; }
+    .primary { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: var(--accent-ink); text-decoration: none; font-weight: 600; padding: 12px 20px; border-radius: 10px; }
+    .primary:hover { filter: brightness(1.08); }
+    .primary[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+    .meta { color: var(--ink-3); font-size: 13px; margin-top: 10px; }
+    h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-3); margin: 48px 0 12px; font-weight: 600; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+    .dl { display: block; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--ink); text-decoration: none; }
+    .dl:hover { border-color: var(--ink-3); }
+    .dl b { display: block; }
+    .dl span { color: var(--ink-3); font-size: 13px; }
+    .dl.missing { opacity: .45; pointer-events: none; }
+    .note { color: var(--ink-2); font-size: 14px; border-top: 1px solid var(--line); margin-top: 40px; padding-top: 20px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <svg class="mark" viewBox="0 0 1024 1024" aria-hidden="true"><rect x="64" y="64" width="896" height="896" rx="200" fill="#262626"/><rect x="236" y="300" width="96" height="460" rx="14" fill="#f3ead8"/><rect x="352" y="250" width="96" height="510" rx="14" fill="#d9a441"/><rect x="468" y="330" width="96" height="430" rx="14" fill="#f3ead8"/><rect x="590" y="290" width="96" height="470" rx="14" fill="#f3ead8" transform="rotate(14 638 525)"/><rect x="200" y="780" width="624" height="40" rx="12" fill="#d9a441"/></svg>
+    <h1>Artifice</h1>
+    <p class="lede">The librarian for your folders. Artifice catalogs your documents, notes and code, keeps them fresh, and hands your AI tools only the context they need.</p>
+    <a class="primary" id="primary" href="https://github.com/alberthodo/ArtificeAppDownload/releases/latest" aria-disabled="true">Download</a>
+    <div class="meta" id="meta">Finding the latest version…</div>
+
+    <h2>All downloads</h2>
+    <div class="grid" id="all">
+      <a class="dl missing" data-kind="mac-arm"><b>macOS · Apple Silicon</b><span>M1 and later</span></a>
+      <a class="dl missing" data-kind="mac-intel"><b>macOS · Intel</b><span>Intel Macs</span></a>
+      <a class="dl missing" data-kind="win-x64"><b>Windows · x64</b><span>Most Windows PCs</span></a>
+      <a class="dl missing" data-kind="win-arm"><b>Windows · ARM64</b><span>Snapdragon and other ARM PCs</span></a>
+    </div>
+
+    <p class="note">Artifice updates itself: once installed, new versions arrive inside the app. Older versions and release notes are on the <a href="https://github.com/alberthodo/ArtificeAppDownload/releases">releases page</a>.</p>
+  </main>
+  <script>
+    (async () => {
+      const REPO = 'alberthodo/ArtificeAppDownload';
+      const kinds = {
+        'mac-arm': [/aarch64\.dmg$/i, 'macOS (Apple Silicon)'],
+        'mac-intel': [/x64\.dmg$/i, 'macOS (Intel)'],
+        'win-x64': [/x64-setup\.exe$/i, 'Windows (x64)'],
+        'win-arm': [/arm64-setup\.exe$/i, 'Windows (ARM64)'],
+      };
+      async function detect() {
+        const ua = navigator.userAgent;
+        let arch = '';
+        try { if (navigator.userAgentData) arch = (await navigator.userAgentData.getHighEntropyValues(['architecture'])).architecture || ''; } catch (_) {}
+        if (/Windows/i.test(ua)) return /arm/i.test(arch) || /ARM64/i.test(ua) ? 'win-arm' : 'win-x64';
+        if (/Mac/i.test(ua)) return arch === 'x86' ? 'mac-intel' : 'mac-arm'; // Safari can't tell; most Macs are Apple Silicon
+        return null;
+      }
+      const meta = document.getElementById('meta');
+      const primary = document.getElementById('primary');
+      try {
+        const r = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
+        if (!r.ok) throw new Error('No release yet');
+        const rel = await r.json();
+        const found = {};
+        for (const [k, [re]] of Object.entries(kinds)) {
+          const a = rel.assets.find(x => re.test(x.name));
+          if (a) found[k] = a;
+        }
+        document.querySelectorAll('.dl').forEach(el => {
+          const a = found[el.dataset.kind];
+          if (a) { el.href = a.browser_download_url; el.classList.remove('missing'); el.querySelector('span').textContent += ` · ${(a.size / 1e6).toFixed(0)} MB`; }
+        });
+        const mine = await detect();
+        if (mine && found[mine]) {
+          primary.href = found[mine].browser_download_url;
+          primary.textContent = `Download for ${kinds[mine][1]}`;
+        } else {
+          primary.textContent = 'See all downloads';
+          primary.href = '#all';
+        }
+        primary.removeAttribute('aria-disabled');
+        meta.textContent = `Version ${rel.tag_name.replace(/^v/, '')} · ${new Date(rel.published_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}`;
+      } catch (e) {
+        meta.textContent = 'The first release is on its way. Check back soon.';
+        primary.textContent = 'Releases page';
+        primary.removeAttribute('aria-disabled');
+      }
+    })();
+  </script>
+</body>
+</html>
