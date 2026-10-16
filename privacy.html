@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artifice privacy</title>
+  <style>
+    :root { --bg: #ffffff; --ink: #1f1f1f; --ink-2: #555555; --ink-3: #8a8a8a; --line: #e5e5e5; --accent: #4a5fd6;
+      --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif; color-scheme: light; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #1e1e1e; --ink: #dadada; --ink-2: #b3b3b3; --ink-3: #858585; --line: #363636; --accent: #8b9bf5; color-scheme: dark; } }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--sans); -webkit-font-smoothing: antialiased; }
+    main { max-width: 680px; margin: 0 auto; padding: 10vh 16px 64px; }
+    h1 { font-size: 34px; letter-spacing: -.02em; margin: 0 0 6px; }
+    h2 { font-size: 18px; margin: 32px 0 8px; }
+    .meta { color: var(--ink-3); font-size: 13px; }
+    li { margin: 4px 0; color: var(--ink-2); }
+    p { color: var(--ink-2); }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Privacy</h1>
+    <p class="meta">Artifice · last updated October 2026</p>
+
+    <p>Artifice runs on your computer. Your files, your catalog and your notebook stay there. This page explains the little that does leave your computer, and how to turn it off.</p>
+
+    <h2>What Artifice never sends</h2>
+    <ul>
+      <li>Your files or their contents</li>
+      <li>File, folder or project names and paths</li>
+      <li>The questions you or your AI tools ask, and the context Artifice returns</li>
+      <li>Your notebook</li>
+    </ul>
+
+    <h2>Anonymous usage numbers</h2>
+    <p>To learn what works and improve Artifice for everyone, the app sends anonymous usage numbers. This is on by default. You're told about it the first time you open Artifice, and you can turn it off at any time in <b>Settings → Privacy</b>.</p>
+    <ul>
+      <li>Which features are used and when (for example: a folder was added, a context pack was served)</li>
+      <li>Counts and token figures, with sizes rounded into ranges (for example: 100–999 files)</li>
+      <li>Estimated tokens and money saved</li>
+      <li>The names of the AI tools that ask Artifice for context (for example: Claude Code, Cursor) and the AI model you chose</li>
+      <li>Artifice version, operating system and processor type</li>
+      <li>A random ID for your installation, so usage can be counted without knowing who you are</li>
+    </ul>
+    <p>The numbers are sent to PostHog, an analytics service, hosted in the European Union. Setting the environment variable <code>DO_NOT_TRACK=1</code> or <code>ARTIFICE_TELEMETRY=0</code> also turns them off.</p>
+
+    <h2>Optional features that connect to the internet</h2>
+    <ul>
+      <li><b>Updates:</b> Artifice checks this site for new versions and downloads them.</li>
+      <li><b>Enhanced librarian:</b> if you choose it, the model file is downloaded from Hugging Face. It then runs on your computer.</li>
+      <li><b>Cloud AI models:</b> if you choose an Anthropic or OpenAI-compatible model as the librarian, or measure token counts with Anthropic, the text being summarized or measured is sent to that provider under their terms.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>Questions or deletion requests: <a href="mailto:alberthododesign@gmail.com">alberthododesign@gmail.com</a>. Include your installation ID, shown in Settings → Privacy, and we'll delete its data.</p>
+  </main>
+</body>
+</html>
