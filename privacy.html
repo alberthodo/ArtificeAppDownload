@@ -21,7 +21,7 @@
 <body>
   <main>
     <h1>Privacy</h1>
-    <p class="meta">Artifice · last updated October 2026</p>
+    <p class="meta">Artifice · last updated October 20, 2026</p>
 
     <p>Artifice runs on your computer. Your files, your catalog and your notebook stay there. This page explains the little that does leave your computer, and how to turn it off.</p>
 
@@ -31,17 +31,19 @@
       <li>File, folder or project names and paths</li>
       <li>The questions you or your AI tools ask, and the context Artifice returns</li>
       <li>Your notebook</li>
+      <li>Error messages</li>
     </ul>
 
     <h2>Anonymous usage numbers</h2>
     <p>To learn what works and improve Artifice for everyone, the app sends anonymous usage numbers. This is on by default. You're told about it the first time you open Artifice, and you can turn it off at any time in <b>Settings → Privacy</b>.</p>
     <ul>
-      <li>Which features are used and when (for example: a folder was added, a context pack was served)</li>
+      <li>Which features and pages are used and when (for example: a project was added, the Savings page was opened, context was given to an AI tool)</li>
+      <li>How Artifice is working: how long things take, which AI tools are connected, and when something fails or crashes. Only the kind of problem is sent (for example: “permission” or “busy”) and, for crashes, where in Artifice’s own code it happened. The error message itself is never sent</li>
       <li>Counts and token figures, with sizes rounded into ranges (for example: 100–999 files)</li>
       <li>Estimated tokens and money saved</li>
       <li>The names of the AI tools that ask Artifice for context (for example: Claude Code, Cursor) and the AI model you chose</li>
       <li>Artifice version, operating system and processor type</li>
-      <li>A random ID for your installation, so usage can be counted without knowing who you are</li>
+      <li>A random ID for your installation, and one for each time the app or an AI tool’s connection is in use, so usage can be counted without knowing who you are</li>
     </ul>
     <p>The numbers are sent to PostHog, an analytics service, hosted in the European Union. Setting the environment variable <code>DO_NOT_TRACK=1</code> or <code>ARTIFICE_TELEMETRY=0</code> also turns them off.</p>
 
