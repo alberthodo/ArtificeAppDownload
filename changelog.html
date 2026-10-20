@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artifice changelog</title>
+  <meta name="description" content="Every change to Artifice, version by version.">
+  <style>
+    :root { --bg: #ffffff; --panel: #f6f6f6; --ink: #1f1f1f; --ink-2: #555555; --ink-3: #8a8a8a; --line: #e5e5e5; --accent: #4a5fd6;
+      --new: #2f7d4f; --new-soft: #e6f3eb; --imp: #4a5fd6; --imp-soft: #eaedfb; --fix: #9a6a12; --fix-soft: #f7efdc;
+      --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif; color-scheme: light; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #1e1e1e; --panel: #262626; --ink: #dadada; --ink-2: #b3b3b3; --ink-3: #858585; --line: #363636; --accent: #8b9bf5;
+      --new: #7fcf9e; --new-soft: #1f3327; --imp: #8b9bf5; --imp-soft: #23263d; --fix: #e2b766; --fix-soft: #352b17; color-scheme: dark; } }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+    main { max-width: 720px; margin: 0 auto; padding: 10vh 16px 64px; }
+    .back { color: var(--ink-3); font-size: 13px; text-decoration: none; }
+    .back:hover { color: var(--ink); }
+    h1 { font-size: 34px; letter-spacing: -.02em; margin: 14px 0 6px; }
+    .lede { color: var(--ink-2); margin: 0 0 8px; }
+    .meta { color: var(--ink-3); font-size: 13px; }
+    .release { border-top: 1px solid var(--line); margin-top: 40px; padding-top: 28px; scroll-margin-top: 24px; }
+    .release header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .release h2 { font-size: 22px; letter-spacing: -.01em; margin: 0; }
+    .release h2 a { color: inherit; text-decoration: none; }
+    .release h2 a:hover { text-decoration: underline; }
+    .date { color: var(--ink-3); font-size: 14px; }
+    .tag { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: var(--panel); color: var(--ink-2); }
+    .summary { color: var(--ink-2); margin: 8px 0 0; }
+    .group { margin-top: 18px; }
+    .label { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .02em; padding: 2px 8px; border-radius: 6px; margin-bottom: 8px; }
+    .label.new { background: var(--new-soft); color: var(--new); }
+    .label.improved { background: var(--imp-soft); color: var(--imp); }
+    .label.fixed { background: var(--fix-soft); color: var(--fix); }
+    ul { margin: 0; padding-left: 20px; }
+    li { margin: 6px 0; color: var(--ink-2); }
+    li b { color: var(--ink); font-weight: 600; }
+    nav.versions { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; }
+    nav.versions a { font-size: 13px; color: var(--ink-2); text-decoration: none; border: 1px solid var(--line); border-radius: 99px; padding: 3px 10px; }
+    nav.versions a:hover { border-color: var(--ink-3); color: var(--ink); }
+    footer { border-top: 1px solid var(--line); margin-top: 48px; padding-top: 20px; color: var(--ink-3); font-size: 13px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="back" href="./">← Artifice</a>
+    <h1>Changelog</h1>
+    <p class="lede">Every change to Artifice, newest first. Artifice updates itself, so you get these changes without doing anything.</p>
+    <nav class="versions" id="versions" aria-label="Versions"></nav>
+    <div id="releases"></div>
+    <footer>Questions about a change? <a href="mailto:alberthododesign@gmail.com">alberthododesign@gmail.com</a> · <a href="privacy.html">Privacy</a></footer>
+  </main>
+  <script>
+    // The changelog itself is CHANGELOG.md in this repository (GitHub shows it
+    // as a page too). This page reads and lays it out:
+    //   ## Version <x.y.z> · <date, or "Next update">
+    //   <one-line summary>
+    //   ### New | Improved | Fixed
+    //   - **Title.** sentence      or      - sentence
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/`([^`]+)`/g, '<code>$1</code>');
+    function parse(md) {
+      const releases = [];
+      let r = null, group = null;
+      for (const raw of md.split('\n')) {
+        const line = raw.trim();
+        let m;
+        if ((m = line.match(/^## Version\s+(\S+)\s*(?:[·—-]\s*(.*))?$/))) {
+          r = { version: m[1], when: (m[2] || '').trim(), summary: '', groups: [] }; group = null; releases.push(r);
+        } else if (r && (m = line.match(/^### (.+)$/))) {
+          group = { name: m[1].trim(), items: [] }; r.groups.push(group);
+        } else if (r && group && (m = line.match(/^[-*] (.+)$/))) {
+          group.items.push(m[1]);
+        } else if (r && !group && line && !line.startsWith('#')) {
+          r.summary += (r.summary ? ' ' : '') + line;
+        }
+      }
+      return releases;
+    }
+    function render(releases) {
+      const cls = n => ({ new: 'new', improved: 'improved', fixed: 'fixed' }[n.toLowerCase()] || 'improved');
+      document.getElementById('versions').innerHTML = releases.map(r => `<a href="#v${esc(r.version)}">${esc(r.version)}</a>`).join('');
+      document.getElementById('releases').innerHTML = releases.map(r => `
+        <section class="release" id="v${esc(r.version)}">
+          <header><h2><a href="#v${esc(r.version)}">Version ${esc(r.version)}</a></h2>${/next/i.test(r.when) ? `<span class="tag">${esc(r.when)}</span>` : `<span class="date">${esc(r.when)}</span>`}</header>
+          ${r.summary ? `<p class="summary">${inline(r.summary)}</p>` : ''}
+          ${r.groups.filter(g => g.items.length).map(g => `<div class="group"><span class="label ${cls(g.name)}">${esc(g.name)}</span><ul>${g.items.map(i => `<li>${inline(i)}</li>`).join('')}</ul></div>`).join('')}
+        </section>`).join('');
+      if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+    }
+    fetch('CHANGELOG.md', { cache: 'no-cache' })
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(md => render(parse(md)))
+      .catch(() => { document.getElementById('releases').innerHTML = '<p class="summary">The changelog couldn’t be loaded. It’s also on <a href="https://github.com/alberthodo/ArtificeAppDownload/blob/main/CHANGELOG.md">GitHub</a>.</p>'; });
+  </script>
+</body>
+</html>
