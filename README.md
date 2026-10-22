@@ -1,6 +1,6 @@
 # Download Artifice
 
-Artifice is the librarian for your folders. It catalogs your documents, notes and code, keeps them fresh, and hands your AI tools only the context they need.
+Artifice is the librarian for your projects. It catalogs your documents, notes and code, keeps them fresh, and hands your AI tools only the context they need.
 
 **[Download the latest version](https://github.com/alberthodo/ArtificeAppDownload/releases/latest)**
 

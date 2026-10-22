@@ -3,6 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- link previews; image is in this repo (the site has no domain of its own yet) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Artifice">
+  <meta property="og:title" content="Artifice privacy">
+  <meta property="og:description" content="What Artifice keeps on your computer, the little it shares, and how to turn it off.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/alberthodo/ArtificeAppDownload/main/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Artifice: four books on a shelf, cream and gold on oxblood">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -13,16 +23,20 @@
     @media (prefers-color-scheme: dark) { :root { --bg: #1e1e1e; --ink: #dadada; --ink-2: #b3b3b3; --ink-3: #858585; --line: #363636; --accent: #8b9bf5; color-scheme: dark; } }
     body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--sans); -webkit-font-smoothing: antialiased; }
     main { max-width: 680px; margin: 0 auto; padding: 10vh 16px 64px; }
-    h1 { font-size: 34px; letter-spacing: -.02em; margin: 0 0 6px; }
+    h1 { font-size: 34px; letter-spacing: -.02em; margin: 14px 0 6px; }
     h2 { font-size: 18px; margin: 32px 0 8px; }
     .meta { color: var(--ink-3); font-size: 13px; }
     li { margin: 4px 0; color: var(--ink-2); }
     p { color: var(--ink-2); }
     a { color: var(--accent); }
+    .back { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); font-size: 14px; font-weight: 600; text-decoration: none; }
+    .back img { border-radius: 5px; }
+    .back:hover { color: var(--ink); }
   </style>
 </head>
 <body>
   <main>
+    <a class="back" href="./"><img src="favicon.svg" width="22" height="22" alt="">Artifice</a>
     <h1>Privacy</h1>
     <p class="meta">Artifice · last updated October 20, 2026</p>
 
