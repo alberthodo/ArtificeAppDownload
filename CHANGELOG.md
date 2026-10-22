@@ -2,7 +2,22 @@
 
 Every change to Artifice, newest first. Artifice updates itself, so you get these changes without doing anything.
 
-## Version 0.1.4 · Next update
+## Version 0.1.5 · Next update
+
+Antigravity and Gemini CLI on Windows, fixed.
+
+### Improved
+
+- **Antigravity, told apart.** Artifice now finds Antigravity however it’s set up (the agent app, the IDE, the command line or a single project), and files its requests under Antigravity, not Gemini CLI.
+- **A report for when something’s off.** `artifice doctor` shows each tool’s setup, which tools have used Artifice and how often, and a log of recent sessions, ready to paste into a bug report.
+
+### Fixed
+
+- On Windows, connecting Gemini CLI could fail with “not valid JSON” when its settings file had comments or was saved with a byte-order mark. Artifice now reads these and keeps your comments when it connects.
+- Antigravity could show as Gemini CLI, and its requests weren’t recorded, so no savings appeared. Antigravity is now recognised, and its requests count toward your project.
+- Connecting an AI tool could leave Windows paths in a form some tools can’t start.
+
+## Version 0.1.4 · October 20, 2026
 
 Savings you can rely on, connections that just show up, and jobs anyone can write.
 
