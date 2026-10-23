@@ -2,9 +2,9 @@
 
 Every change to Artifice, newest first. Artifice updates itself, so you get these changes without doing anything.
 
-## Version 0.1.5 · Next update
+## Version 0.1.5 · October 22, 2026
 
-Antigravity and Gemini CLI on Windows, fixed.
+Antigravity and Gemini CLI on Windows fixed, and a clean way to uninstall.
 
 ### Improved
 
@@ -17,6 +17,7 @@ Antigravity and Gemini CLI on Windows, fixed.
 - On Windows, connecting Gemini CLI could fail with “not valid JSON” when its settings file had comments or was saved with a byte-order mark. Artifice now reads these and keeps your comments when it connects.
 - Antigravity could show as Gemini CLI, and its requests weren’t recorded, so no savings appeared. Antigravity is now recognised, and its requests count toward your project.
 - Connecting an AI tool could leave Windows paths in a form some tools can’t start.
+- The Savings page asked you to connect an AI tool even when one was already connected. It now says what’s connected and what to do next.
 
 ## Version 0.1.4 · October 20, 2026
 
