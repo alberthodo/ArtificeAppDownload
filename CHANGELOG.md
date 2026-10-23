@@ -2,6 +2,23 @@
 
 Every change to Artifice, newest first. Artifice updates itself, so you get these changes without doing anything.
 
+## Version 0.1.6 · Next update
+
+Context your AI can rely on, so it doesn't search again.
+
+### Improved
+
+- **Context your AI trusts.** Every context pack now tells your AI what Artifice has done (searched every file in your project, from an index synced just now) and how to use it: start from these sections, read only the lines it needs, and use Artifice's search before searching the files itself. It's worded for every AI tool, not just Claude Code.
+- **Where the names in your request appear.** For code tasks, the pack lists every place the functions, classes and other names in your request occur, by file and line, source code first. That's usually the first search your AI would run.
+- **Sharper packs for code.** For bug fixes and code changes, Artifice now puts source code ahead of docs, tests, changelogs and examples, unless you ask about those, and leaves out the project overview and one-line outlines that told your AI little.
+- **Quieter when unsure.** When Artifice can't find a clear match for a request, Claude Code now gets a short list of possible places instead of a full pack.
+
+### Fixed
+
+- Composer Pro's model used up to 13 GB of memory; it now uses under 4 GB, at the same speed.
+- After reopening a project with Composer Pro, a few short sections could stay "pending" forever.
+- Running `artifice-desktop` with an option before the command (for example `-p folder summarize`) opened the app in the background instead of running the command.
+
 ## Version 0.1.5 · October 22, 2026
 
 Antigravity and Gemini CLI on Windows fixed, and a clean way to uninstall.
