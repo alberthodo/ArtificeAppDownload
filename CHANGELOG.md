@@ -9,6 +9,7 @@ Antigravity and Gemini CLI on Windows, fixed.
 ### Improved
 
 - **Antigravity, told apart.** Artifice now finds Antigravity however it’s set up (the agent app, the IDE, the command line or a single project), and files its requests under Antigravity, not Gemini CLI.
+- **Uninstall cleanly.** Settings → Uninstall disconnects Artifice from every AI tool before you delete it, and can delete its data too. On Windows the uninstaller does this for you. On a Mac you can also just drag Artifice to the Trash: a small helper notices and disconnects your AI tools, and connects them again if you put Artifice back.
 - **A report for when something’s off.** `artifice doctor` shows each tool’s setup, which tools have used Artifice and how often, and a log of recent sessions, ready to paste into a bug report.
 
 ### Fixed
