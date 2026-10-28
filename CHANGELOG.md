@@ -4,19 +4,28 @@ Every change to Artifice, newest first. Artifice updates itself, so you get thes
 
 ## Version 0.1.6 · Next update
 
-Context your AI can rely on, so it doesn't search again.
+Artifice now spends your tokens only where it saves them.
+
+### New
+
+- **Quiet when your AI is coding.** When you ask your AI to fix, add or change something, Artifice adds nothing to the conversation. In our tests, coding agents found the right place on their own in a few steps, and even being handed the exact lines to change didn't make them cheaper, so anything Artifice added was extra cost. Artifice tells a question from everything else with a small model that runs on your computer in about 30 milliseconds, without asking any AI. It understands what you mean rather than looking for words, so "ok, go on", "why did you do that?", debugging and writing get nothing, and questions get the code. In our tests it was right 9 times in 10 on realistic conversations, and sent a quarter as many unneeded packs as matching words did.
+- **The code for your questions.** When you ask how something works, where something is handled, or why the code does what it does, Claude Code gets the exact code to answer from: the relevant functions in full, and for classes, a map of their attributes and methods. In our tests on questions about real projects, Claude answered in fewer steps and at a lower cost, with answers about as good as before.
 
 ### Improved
 
-- **Context your AI trusts.** Every context pack now tells your AI what Artifice has done (searched every file in your project, from an index synced just now) and how to use it: start from these sections, read only the lines it needs, and use Artifice's search before searching the files itself. It's worded for every AI tool, not just Claude Code.
-- **Where the names in your request appear.** For code tasks, the pack lists every place the functions, classes and other names in your request occur, by file and line, source code first. That's usually the first search your AI would run.
-- **Sharper packs for code.** For bug fixes and code changes, Artifice now puts source code ahead of docs, tests, changelogs and examples, unless you ask about those, and leaves out the project overview and one-line outlines that told your AI little.
-- **Quieter when unsure.** When Artifice can't find a clear match for a request, Claude Code now gets a short list of possible places instead of a full pack.
+- **Lighter in Claude Code.** Artifice no longer adds a "since your last session" note to every Claude Code session (you can turn it back on), its tools aren't loaded into every conversation, and Claude Code sees five of them with two sentences of instructions instead of twelve.
+- **Packs your AI can rely on.** Every pack tells your AI what Artifice did (searched every file, from an index synced just now) and how to use it, worded for every AI tool.
+- **Sharper packs for code.** When your AI asks Artifice for context on a code change, source code comes ahead of docs, tests, changelogs and examples, unless you ask about those, and the pack lists where the names in your request appear.
+
+### Changed
+
+- **Savings, as measured.** The Savings page now counts what we measured instead of estimating each pack: every question Artifice answers for your AI counts the saving of an answered question in our benchmark (about 4% of the question's cost in Claude Code, about a third of a cent with Claude Sonnet 5.5). Requests to change code count nothing, because Artifice adds nothing to them. Cursor, Codex, Gemini and other tools use the figure measured in Claude Code for now, and the page says so. Savings from earlier versions stay as they were.
+- **Composer Pro is paused** while we build a better version. Projects that used Composer Pro switch to Composer when you update and keep the summaries it already wrote. If you downloaded its model, Settings → Composer Pro → Remove frees the space (about 2.5 GB).
 
 ### Fixed
 
-- Composer Pro's model used up to 13 GB of memory; it now uses under 4 GB, at the same speed.
-- After reopening a project with Composer Pro, a few short sections could stay "pending" forever.
+- **"Database is locked" when several AI tools used Artifice at once.** After a big change to a project (switching git branches, a large pull, a big first catalog), requests from Claude, ChatGPT, Gemini and other tools could fail with "database is locked" or wait minutes. Requests now never wait behind each other: a big change is synced in the background while your AI keeps getting answers, and Artifice's database is written in small steps.
+- The Overview and Savings pages showed "Loading…" every time you opened them. They now show right away and update in place.
 - Running `artifice-desktop` with an option before the command (for example `-p folder summarize`) opened the app in the background instead of running the command.
 
 ## Version 0.1.5 · October 22, 2026
