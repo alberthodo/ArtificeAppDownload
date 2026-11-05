@@ -21,4 +21,4 @@ Run this in a terminal:
 artifice doctor
 ```
 
-It prints a report you can share: versions, your AI tools' connections and recent errors. It holds no file contents or questions. Send it with your question to [alberthododesign@gmail.com](mailto:alberthododesign@gmail.com).
+It prints a report you can share: versions, your AI tools' connections and recent errors. It holds no file contents or questions. Send it with your question to [support@tryartifice.com](mailto:support@tryartifice.com).

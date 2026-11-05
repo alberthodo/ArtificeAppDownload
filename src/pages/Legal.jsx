@@ -2,7 +2,9 @@
 // (see README: "Before going live").
 import { Link } from '../lib/router.jsx';
 
-const CONTACT = 'alberthododesign@gmail.com';
+// Help, privacy and deletion requests go to support; anything else to info.
+const SUPPORT = 'support@tryartifice.com';
+const INFO = 'info@tryartifice.com';
 
 export function Privacy() {
   return (
@@ -46,7 +48,7 @@ export function Privacy() {
       <p>This site is hosted on Vercel. It uses no cookies and no analytics. The download page asks GitHub for the latest version.</p>
 
       <h2>Contact</h2>
-      <p>Questions or deletion requests: <a href={`mailto:${CONTACT}`}>{CONTACT}</a>. For usage numbers, include your installation ID, shown in Settings › Privacy.</p>
+      <p>Privacy questions or deletion requests: <a href={`mailto:${SUPPORT}`}>{SUPPORT}</a>. For usage numbers, include your installation ID, shown in Settings › Privacy. Anything else: <a href={`mailto:${INFO}`}>{INFO}</a>.</p>
     </div>
   );
 }
@@ -74,7 +76,7 @@ export function Terms() {
       <p>We may update these terms. The date above shows the latest version; using Artifice after a change means you accept it.</p>
 
       <h2>Contact</h2>
-      <p><a href={`mailto:${CONTACT}`}>{CONTACT}</a></p>
+      <p>Questions about these terms: <a href={`mailto:${INFO}`}>{INFO}</a>. Help with Artifice: <a href={`mailto:${SUPPORT}`}>{SUPPORT}</a>.</p>
     </div>
   );
 }
