@@ -2,7 +2,52 @@
 
 Every change to Artifice, newest first. Artifice updates itself, so you get these changes without doing anything.
 
-## Version 0.1.6 · Next update
+## Version 0.1.8 · Next update
+
+Artifice now reads your documents, not just code and text, and the app is redesigned around what you want to know.
+
+### New
+
+- **A calmer Artifice.** The app has five places in plain words: **Home** (is it working?), **Library** (your documents), **Memory** (what was learned), **Playbooks** (step-by-step work) and **Activity** (what your AI did). Notebook is now Memory, and Jobs are now Playbooks. Everything you had is still there.
+- **Your documents, readable here.** Library lists every file in your project, with each document's own title. Open one to read it at the page your AI used, or type a question to see exactly what your AI would get.
+- **See what your AI was given.** Every briefing in Activity opens to show the passages your AI got, and what it opened on its own afterwards.
+- **A short welcome.** New users add a folder and connect their AI in four steps. The first time your AI uses Artifice, it says so.
+- **PDF, Word, Excel, PowerPoint and more.** Artifice now reads PDF, Word, Excel and PowerPoint files (including the older 97–2003 formats), OpenDocument, RTF, EPUB, CSV, emails and Outlook messages. Your AI gets the right page, slide or sheet with a question, and Artifice can hand it a whole document when it needs one. In our tests on a folder of company documents, AI answers were clearly better (8.2 vs 6.6 out of 10) and cost 13% less than without Artifice.
+- **Diagrams that make sense.** For Visio, draw.io and Excalidraw diagrams, Artifice keeps what connects to what ("Order service → Payment API"), not just the labels.
+- **Open any document in Artifice.** PDFs page by page, Word documents with their layout, spreadsheets sheet by sheet, slides, emails, diagrams and pictures, at the page, slide or sheet your AI was given. Search everything with ⌘K (Ctrl+K on Windows).
+- **Scans and pictures.** On a Mac, Artifice reads the text in scanned PDFs, screenshots and photos of whiteboards with the text recognition built into macOS. Nothing extra is downloaded.
+
+### Improved
+
+- **Safe with any file.** Each document is read on its own with a time limit, so a broken or unusual file can't slow Artifice down. Password-protected files are listed as such, and files up to 200 MB are read.
+- **Overviews of document folders** list what each document is.
+- **Better at company questions.** Artifice now recognises questions about policies, budgets, contracts and decks as questions it can answer.
+
+### Fixed
+
+- A link inside a project that pointed to a file outside it could be read through it. Artifice now only reads files that are really inside the project.
+- Folders full of documents made AI tools more expensive with 0.1.7, because Artifice couldn't see the documents. It now reads them.
+
+## Version 0.1.7 · Next update
+
+Artifice now understands what your questions mean.
+
+### New
+
+- **Finds things by what they mean.** Artifice now finds the code and documents a question is about by meaning, not by matching its words, using a small model that runs on your computer. "Where do we retry failed uploads?" finds the upload code even when no word matches, and "tell me about this project" no longer pulls in files that just have "project" in their name. In our tests on five real projects, AI tools answered questions for 28% less than without Artifice (0.1.6: 12% less), in fewer steps, with answers just as good.
+- **Overviews that make sense.** Ask your AI about your project, or one of its folders, and it gets the project's own description and a map of what's in it.
+- **Nothing when nothing fits.** When nothing in your project is close to a question, Artifice adds nothing instead of its best guess.
+
+### Improved
+
+- **Less noise in big projects.** 3D models, game-engine asset files, logs and data files are now kept by name only, so the code and documents stand out. Big projects catalogue several times faster (a Unity project: 4 minutes instead of 17). After you update, Artifice reads each project once more in the background; your AI keeps getting answers meanwhile.
+- **The brain's connections.** The Graph page links parts that mean the same thing, instead of parts that happen to share words.
+
+### Fixed
+
+- Files in folders with spaces in their names (for example `Product docs/`) could be misread by your AI, which then looked for a file that doesn't exist.
+
+## Version 0.1.6 · Not released
 
 Artifice now spends your tokens only where it saves them.
 
