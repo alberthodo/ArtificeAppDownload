@@ -18,6 +18,10 @@ const MARKS = {
   azure: <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#F25022" d="M3 3h8.5v8.5H3z"/><path fill="#7FBA00" d="M12.5 3H21v8.5h-8.5z"/><path fill="#00A4EF" d="M3 12.5h8.5V21H3z"/><path fill="#FFB900" d="M12.5 12.5H21V21h-8.5z"/></svg>,
 };
 
+// The buttons shown, in order. Apple comes later: put ['apple', 'Apple']
+// back after Google once its Supabase provider is on (see README).
+const PROVIDERS = [['google', 'Google'], ['azure', 'Microsoft']];
+
 async function auth(path, body) {
   const r = await fetch(BASE + path, { method: 'POST', headers: { apikey: ANON, 'content-type': 'application/json' }, body: JSON.stringify(body) });
   const j = await r.json().catch(() => ({}));
@@ -109,9 +113,7 @@ function Choose({ to, state, challenge }) {
     <h1>Sign in to Artifice</h1>
     <p className="sub">New or returning, it’s the same.</p>
     <div className="col">
-      <button className="idp" onClick={() => provider('google')}>{MARKS.google}Continue with Google</button>
-      <button className="idp" onClick={() => provider('apple')}>{MARKS.apple}Continue with Apple</button>
-      <button className="idp" onClick={() => provider('azure')}>{MARKS.azure}Continue with Microsoft</button>
+      {PROVIDERS.map(([p, name]) => <button key={p} className="idp" onClick={() => provider(p)}>{MARKS[p]}Continue with {name}</button>)}
       <div className="or">or</div>
       <input className="line" type="email" placeholder="Your email" autoComplete="email" aria-label="Your email" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={enter(sendLink)} />
       <button className="btn primary full" disabled={busy} onClick={sendLink}>Email me a sign-in link</button>

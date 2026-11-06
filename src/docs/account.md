@@ -5,7 +5,7 @@
 Artifice signs you in through your own web browser, the same way many desktop apps do:
 
 1. Click **Sign in with your browser**. Your browser opens Artifice's sign-in page.
-2. Choose **Continue with Google**, **Apple** or **Microsoft**. You can also type your email and open the sign-in link we send you. If your company uses single sign-on, choose **Use your company's single sign-on**.
+2. Choose **Continue with Google** or **Continue with Microsoft**. You can also type your email and open the sign-in link we send you. If your company uses single sign-on, choose **Use your company's single sign-on**.
 3. Your browser hands you back to Artifice.
 
 There's no password to create. New here? The same steps create your account, and Artifice then asks what to call you.

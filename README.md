@@ -42,7 +42,7 @@ The site is deliberately quiet:
 3. Add your domain. Never use hodo.studio.
 4. In Supabase › Authentication › URL Configuration, add `https://<domain>/sign-in**` to the allowed redirect URLs. Turn on these providers:
    - Google;
-   - Apple;
+   - Apple, later (the sign-in page doesn't show it yet; add it back in `PROVIDERS` in `src/pages/SignIn.jsx`);
    - Azure, for Microsoft;
    - Email, with the magic link email and a sending service such as Resend.
 5. Build the app with `ARTIFICE_SIGNIN_URL=https://<domain>/sign-in`, together with `ARTIFICE_SUPABASE_URL` and `ARTIFICE_SUPABASE_ANON_KEY`.

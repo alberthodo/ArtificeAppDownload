@@ -23,7 +23,7 @@ export function Privacy() {
       </ul>
 
       <h2>Your account</h2>
-      <p>Signing in keeps your email address and the name you choose, so the same account works on each of your computers. Sign-in is handled by our authentication provider, Supabase. If you sign in with Google, Apple or Microsoft, they tell us your email and name; we don’t receive your password. You can delete your account at any time in Artifice (Account › Delete account). Deleting it doesn’t touch anything on your computer.</p>
+      <p>Signing in keeps your email address and the name you choose, so the same account works on each of your computers. Sign-in is handled by our authentication provider, Supabase. If you sign in with Google or Microsoft, they tell us your email and name; we don’t receive your password. You can delete your account at any time in Artifice (Account › Delete account). Deleting it doesn’t touch anything on your computer.</p>
 
       <h2>Anonymous usage numbers</h2>
       <p>To learn what works, the app sends anonymous usage numbers. This is on by default, and you can turn it off at any time in Settings › Privacy. They are not linked to your account.</p>

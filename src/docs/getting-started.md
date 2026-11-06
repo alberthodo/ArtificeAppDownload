@@ -18,7 +18,7 @@ Once installed, Artifice updates itself.
 
 Artifice walks you through four short steps.
 
-1. **Sign in.** Click **Sign in with your browser**. Your browser opens, where you can continue with Google, Apple or Microsoft, or with a link sent to your email. Then you're taken back to Artifice. New here? The same button creates your account. See [Your account](/docs/account).
+1. **Sign in.** Click **Sign in with your browser**. Your browser opens, where you can continue with Google or Microsoft, or with a link sent to your email. Then you're taken back to Artifice. New here? The same button creates your account. See [Your account](/docs/account).
 2. **Choose a folder.** Pick a folder of documents, notes or code. Artifice starts reading it straight away, and you can keep working while it does. It only reads your files; it never changes them.
 3. **Connect your AI.** Artifice lists the AI tools installed on your computer. Click **Connect** next to the ones you use, then restart the tool or start a new session. See [Connecting AI tools](/docs/ai-tools).
 4. **You're set.** Artifice suggests a question to ask your AI about your folder.
