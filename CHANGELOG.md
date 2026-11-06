@@ -22,6 +22,9 @@ Artifice now reads your documents, not just code and text, and the app is redesi
 - **Safe with any file.** Each document is read on its own with a time limit, so a broken or unusual file can't slow Artifice down. Password-protected files are listed as such, and files up to 200 MB are read.
 - **Overviews of document folders** list what each document is.
 - **Better at company questions.** Artifice now recognises questions about policies, budgets, contracts and decks as questions it can answer.
+- **Rate briefings.** Open a briefing in Activity and give it a thumbs up or down. Artifice learns from it.
+- **Help improve Artifice with examples.** A new choice in Settings › Privacy, off unless you turn it on, shares real briefings with secrets and personal details removed. You can see an example first and leave any project out. Usage numbers now also measure how well each briefing worked, and are linked to your account once you sign in. See the [privacy policy](/privacy).
+- **No restart after updates.** Your AI tools now switch to the new version of Artifice on their own, without reconnecting. This starts with the update after this one: restart your AI tools once after installing 0.1.8.
 
 ### Fixed
 

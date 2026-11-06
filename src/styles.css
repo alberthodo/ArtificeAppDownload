@@ -125,3 +125,17 @@ input.line:focus { border-bottom-color: var(--ink3); }
 .ring { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--line); border-top-color: var(--ink2); animation: spin 1s linear infinite; vertical-align: -2px; margin-right: 8px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .ring { animation: none; } }
+
+/* privacy and terms: short version, contents, "in short" lines */
+.legal section { scroll-margin-top: 16px; }
+.legal .summary, .legal .toc { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 14px 18px; margin: 24px 0 0; }
+.legal .summary ul { margin: 6px 0 8px; }
+.legal .summary .small { color: var(--ink3); margin: 0; }
+.legal .summary-h { font-size: 13px; font-weight: 600; color: var(--ink3); margin: 0 0 4px; }
+.legal .toc ol { margin: 6px 0 0; padding-left: 22px; columns: 2; column-gap: 28px; font-size: 14px; }
+.legal .toc li { margin: 2px 0; break-inside: avoid; }
+.legal .toc a { text-decoration: none; color: var(--ink2); }
+.legal .toc a:hover { color: var(--ink); }
+.legal .inshort { color: var(--ink2); border-left: 2px solid var(--line); padding-left: 12px; }
+.legal td { font-size: 13.5px; }
+@media (max-width: 640px) { .legal .toc ol { columns: 1; } }

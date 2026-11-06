@@ -4,6 +4,8 @@
 
 Artifice checks for updates on its own. When one is ready, a line at the bottom of the sidebar offers to install it and restart. You can also check in **Settings › Updates**. What changed in each version is in the [changelog](/changelog).
 
+Your AI tools carry on through an update without a restart: the next time they use Artifice, they get the new version.
+
 ## Uninstalling
 
 Artifice adds itself to your AI tools' settings. Uninstalling it properly takes it out of them first, so no tool is left trying to start a program that's gone. Your own files are never touched.
