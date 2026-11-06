@@ -28,8 +28,8 @@ Click your name at the bottom of the sidebar, then **Account…**. The badge at 
 
 Once you've signed in, Artifice keeps working offline. You only need the internet to sign in.
 
-If you're signed out on another device, Home shows a quiet line with **Sign in**. Your AI tools keep working meanwhile.
+If you're signed out from another computer (with **Sign out everywhere**), Artifice asks you to sign in again, and your AI tools can't use it until you do. Being offline doesn't sign you out. If Artifice isn't used on a computer for 30 days, it asks you to sign in again there; using it at least once a month keeps you signed in.
 
 ## Signing out
 
-When you sign out, your AI tools stop getting briefings on that computer until you sign in again. Your projects, memories and playbooks stay where they are.
+When you sign out, Artifice goes back to the sign-in page, and your AI tools can't use it on that computer until you sign in again. Your projects, memories and playbooks stay where they are.
