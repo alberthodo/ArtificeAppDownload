@@ -4,7 +4,7 @@
 
 From the top, the sidebar has:
 
-- **Your project:** its name and status, such as **Ready**, **Reading 40%** or **Needs a look**. Click it to switch projects or add one.
+- **Your project:** its name, and a status only when something is going on, such as **Reading 40%** or **Needs a look**. Click it to switch projects or add one.
 - **Search** (<kbd>⌘</kbd> <kbd>K</kbd>): your project's files, passages and memories.
 - **The five places:** Home, Library, Memory, Playbooks and Activity.
 - **AI tools** and **Settings.**
@@ -20,7 +20,7 @@ Documents, briefings and lists open as pages, with **← Back** to where you wer
 | **Library** | What's in your project? Every file Artifice reads, by folder. Open a document to read it here, or type a question to see what your AI would get. |
 | **Memory** | What has been learned? Facts, decisions and open questions, each linked to the file it came from. See [Memory and playbooks](/docs/memory-and-playbooks). |
 | **Playbooks** | What work repeats? Step-by-step tasks your AI can run. See [Memory and playbooks](/docs/memory-and-playbooks). |
-| **Activity** | What did my AI do, and was it worth it? Every briefing, newest first. Open one to see exactly what your AI was given. |
+| **Activity** | What did my AI ask, and what should I do about it? Every briefing, newest first, with what your AI was given and the tokens it saved. Questions your AI keeps asking can become a memory or a playbook, and questions that found nothing say which documents are missing. |
 
 When something needs you, such as an AI tool needing a repair or a memory that may be out of date, a single line appears at the top of Home with one button.
 

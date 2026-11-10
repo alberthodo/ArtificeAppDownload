@@ -16,13 +16,13 @@ From a terminal, run `artifice login`. Its last page shows a code to paste into 
 
 ## Your account page
 
-Click your name at the bottom of the sidebar, then **Account…**. The badge at the top of Settings opens it too. The page shows:
+Click your name at the bottom of the sidebar, then **Account…**, or click your name at the top of Settings. The page shows:
 
-- **Your name,** which you can change here;
-- your email, and how you signed in;
-- your plan;
-- **This computer:** **Sign out**, and **Sign out everywhere…**, which signs you out on every computer;
-- **Delete account…**, which deletes your account. Everything on your computer stays.
+- **Your name:** point at it and click to change it;
+- your email, how you signed in, and your plan;
+- when you signed in on this computer, with **Sign out**, and **Sign out everywhere…**, which signs you out on every computer;
+- what your account holds: only your email and name;
+- **Delete account…**, which removes your email and name from Artifice. Everything on your computer stays.
 
 ## Offline
 

@@ -2,7 +2,7 @@
 
 ## Updates
 
-Artifice checks for updates on its own. When one is ready, a line at the bottom of the sidebar offers to install it and restart. You can also check in **Settings › Updates**. What changed in each version is in the [changelog](/changelog).
+Artifice checks for updates on its own. When one is ready, a line at the bottom of the sidebar offers to install it and restart. You can also check from the menu bar, with **File › Check for Updates…**, or in **Settings › Updates**. What changed in each version is in the [changelog](/changelog).
 
 Your AI tools carry on through an update without a restart: the next time they use Artifice, they get the new version.
 

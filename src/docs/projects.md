@@ -25,8 +25,8 @@ The project menu shows your five most recent projects. With more than five, type
 
 ## Moved or renamed folders
 
-If a project's folder moves, its status becomes **Can't find the folder**. Click **Locate…** and pick its new place.
+If a project's folder moves, its status becomes **Can't find the folder**. Click it in **All projects** (or choose **Locate…**) and pick its new place.
 
 ## Removing a project
 
-Open **Settings › This project › Remove project…**. Your files stay where they are. You can also delete Artifice's data for the project.
+In **All projects**, point at the project, click **⋯** and choose **Remove from Artifice…**, or use **Settings › This project › Remove project…**. Your files stay where they are. You can also delete Artifice's data for the project.

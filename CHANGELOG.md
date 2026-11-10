@@ -9,6 +9,11 @@ Artifice now reads your documents, not just code and text, and the app is redesi
 ### New
 
 - **A calmer Artifice.** The app has five places in plain words: **Home** (is it working?), **Library** (your documents), **Memory** (what was learned), **Playbooks** (step-by-step work) and **Activity** (what your AI did). Notebook is now Memory, and Jobs are now Playbooks. Everything you had is still there.
+- **An Artifice account.** Sign in in your browser with Google, Microsoft, an email link or your company's single sign-on. Your account page shows your name and since when this computer is signed in, and lets you sign out everywhere or delete your account.
+- **Memory you can add to.** Write a rule or a note your AI should always know, search what's been learned, and go through new memories one at a time: keep, edit or remove each with one key.
+- **Playbooks that read like a sentence.** Fill in the blanks, edit steps where they are, and try a playbook before you run it. Each run shows how far it got.
+- **Activity in tokens.** Activity shows how many tokens Artifice saved, which AI tools asked, the questions your AI keeps asking (remember the answer, or make it a playbook) and the questions Artifice had nothing for, so you can add a document or write the answer.
+- **Connect any AI app.** AI tools shows each app with its own logo and when it last asked. Using one that isn't listed? Follow the steps, or let your AI connect itself.
 - **Your documents, readable here.** Library lists every file in your project, with each document's own title. Open one to read it at the page your AI used, or type a question to see exactly what your AI would get.
 - **See what your AI was given.** Every briefing in Activity opens to show the passages your AI got, and what it opened on its own afterwards.
 - **A short welcome.** New users add a folder and connect their AI in four steps. The first time your AI uses Artifice, it says so.
@@ -19,6 +24,8 @@ Artifice now reads your documents, not just code and text, and the app is redesi
 
 ### Improved
 
+- **Check for updates from the menu.** Choose File › Check for Updates… at any time. Artifice still checks by itself.
+- **Simpler Settings.** Fewer choices, in plain sections, with exactly what's shared shown before you decide.
 - **Safe with any file.** Each document is read on its own with a time limit, so a broken or unusual file can't slow Artifice down. Password-protected files are listed as such, and files up to 200 MB are read.
 - **Overviews of document folders** list what each document is.
 - **Better at company questions.** Artifice now recognises questions about policies, budgets, contracts and decks as questions it can answer.
