@@ -139,3 +139,19 @@ input.line:focus { border-bottom-color: var(--ink3); }
 .legal .inshort { color: var(--ink2); border-left: 2px solid var(--line); padding-left: 12px; }
 .legal td { font-size: 13.5px; }
 @media (max-width: 640px) { .legal .toc ol { columns: 1; } }
+
+/* plans (Pricing.jsx) */
+.narrow.wide-ish { max-width: 720px; }
+@media (max-width: 560px) { .plans { grid-template-columns: 1fr; } }
+.inline-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; }
+.plans { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 28px; }
+.plan { padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); font-size: 14px; }
+.plan > b { display: block; font-weight: 600; font-size: 15px; }
+.plan-price { font-size: 22px; font-weight: 600; margin-top: 8px; letter-spacing: -.01em; }
+.plan p { color: var(--ink2); margin: 10px 0 6px; }
+.plan ul { margin: 0 0 10px; padding-left: 18px; color: var(--ink2); }
+.faq dt { font-weight: 500; margin-top: 16px; }
+.faq dd { margin: 4px 0 0; color: var(--ink2); }
+.steps li { margin: 6px 0; }
+.redeem-code { display: flex; align-items: center; gap: 14px; margin: 20px 0 8px; }
+.redeem-code .inline-code { font-size: 20px; letter-spacing: .04em; }

@@ -6,6 +6,9 @@ import SignIn from './pages/SignIn.jsx';
 import Docs from './pages/Docs.jsx';
 import Changelog from './pages/Changelog.jsx';
 import { Privacy, Terms } from './pages/Legal.jsx';
+import Pricing from './pages/Pricing.jsx';
+import Student from './pages/Student.jsx';
+import Redeem from './pages/Redeem.jsx';
 
 const PAGES = {
   '/': { el: Home, title: 'Artifice', bare: true },
@@ -14,6 +17,11 @@ const PAGES = {
   '/changelog': { el: Changelog, title: 'Changelog · Artifice', hidden: true },
   '/privacy': { el: Privacy, title: 'Privacy · Artifice' },
   '/terms': { el: Terms, title: 'Terms · Artifice' },
+  // paid plans: hidden from search and not linked until they're announced
+  '/pricing': { el: Pricing, title: 'Plans · Artifice', hidden: true },
+  '/pricing/thanks': { el: Pricing, title: 'Thank you · Artifice', hidden: true },
+  '/student': { el: Student, title: 'Artifice for students', hidden: true },
+  '/redeem': { el: Redeem, title: 'Redeem a code · Artifice', hidden: true },
 };
 
 export default function App() {

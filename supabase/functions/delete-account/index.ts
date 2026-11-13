@@ -27,6 +27,12 @@ Deno.serve(async (req: Request) => {
   const { data, error } = await admin.auth.getUser(token);
   if (error || !data?.user) return Response.json({ msg: "Sign in again, then delete the account." }, { status: 401 });
 
+  // Stop any Pro subscription first, so nobody is charged for a deleted
+  // account. (Plan rows, codes used and computers go with the user: the
+  // tables cascade on auth.users.)
+  const cancelled = await cancelSubscription(admin, data.user.id);
+  if (cancelled === "failed") return Response.json({ msg: "The account couldn't be deleted because its subscription couldn't be stopped. Try again, or email support@tryartifice.com." }, { status: 500 });
+
   const del = await admin.auth.admin.deleteUser(data.user.id);
   if (del.error) return Response.json({ msg: "The account couldn't be deleted. Try again in a moment." }, { status: 500 });
   const analytics = await forgetInPostHog(data.user.id);
@@ -51,4 +57,19 @@ async function forgetInPostHog(userId: string): Promise<string> {
     console.error("PostHog deletion failed", e);
     return "failed";
   }
+}
+
+/** Cancel the person's Stripe subscription at once, if they have one. */
+async function cancelSubscription(db: ReturnType<typeof createClient>, userId: string): Promise<string> {
+  const { data } = await db.from("entitlements").select("stripe_subscription,status").eq("user_id", userId).maybeSingle();
+  const sub = (data as { stripe_subscription?: string; status?: string } | null)?.stripe_subscription;
+  if (!sub || data?.status === "ended") return "none";
+  const sk = Deno.env.get("STRIPE_SECRET_KEY");
+  if (!sk) return "failed";
+  const r = await fetch(`https://api.stripe.com/v1/subscriptions/${encodeURIComponent(sub)}`, { method: "DELETE", headers: { authorization: `Bearer ${sk}` } });
+  if (!r.ok && r.status !== 404) {
+    console.error("Stripe cancel failed", r.status, await r.text());
+    return "failed";
+  }
+  return "cancelled";
 }
