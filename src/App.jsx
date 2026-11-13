@@ -9,6 +9,7 @@ import { Privacy, Terms } from './pages/Legal.jsx';
 import Pricing from './pages/Pricing.jsx';
 import Student from './pages/Student.jsx';
 import Redeem from './pages/Redeem.jsx';
+import Checkout from './pages/Checkout.jsx';
 
 const PAGES = {
   '/': { el: Home, title: 'Artifice', bare: true },
@@ -22,6 +23,8 @@ const PAGES = {
   '/pricing/thanks': { el: Pricing, title: 'Thank you · Artifice', hidden: true },
   '/student': { el: Student, title: 'Artifice for students', hidden: true },
   '/redeem': { el: Redeem, title: 'Redeem a code · Artifice', hidden: true },
+  // our own payment page, opened from the app (Stripe's card fields inside)
+  '/checkout': { el: Checkout, title: 'Artifice Pro · Checkout', bare: true, hidden: true },
 };
 
 export default function App() {

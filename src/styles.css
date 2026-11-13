@@ -155,3 +155,20 @@ input.line:focus { border-bottom-color: var(--ink3); }
 .steps li { margin: 6px 0; }
 .redeem-code { display: flex; align-items: center; gap: 14px; margin: 20px 0 8px; }
 .redeem-code .inline-code { font-size: 20px; letter-spacing: .04em; }
+
+/* checkout (Checkout.jsx): a narrow, quiet column; Stripe's fields wear the site's colours */
+.ck { max-width: 480px; margin: 0 auto; padding: 48px 20px 64px; }
+.ck-brand { display: flex; align-items: center; gap: 8px; font-weight: 600; margin-bottom: 36px; }
+.ck-who { color: var(--ink3); font-size: 13px; margin: 6px 0 0; }
+.ck-loading { display: flex; align-items: center; gap: 10px; margin-top: 24px; }
+.ck-h { font-size: 13px; font-weight: 600; color: var(--ink2); margin: 26px 0 10px; }
+.ck-periods { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 26px; }
+.ck-period { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); text-align: left; font-size: 14px; color: var(--ink2); }
+.ck-period b { color: var(--ink); font-weight: 600; }
+.ck-period.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.ck-save { color: #B08A2E; font-size: 13px; }
+.ck-sum { margin-top: 24px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 14px; }
+.ck-sum > div { display: flex; justify-content: space-between; padding: 3px 0; color: var(--ink2); }
+.ck-sum .ck-total { color: var(--ink); font-weight: 600; padding-top: 8px; }
+.ck-note { color: var(--ink3); font-size: 13px; margin: 10px 0 0; }
+.ck-secure { color: var(--ink3); font-size: 12.5px; text-align: center; margin: 14px 0 0; }

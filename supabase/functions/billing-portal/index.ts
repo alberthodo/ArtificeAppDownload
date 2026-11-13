@@ -11,6 +11,11 @@ Deno.serve(async (req: Request) => {
   if (!user) return fail("Sign in to Artifice again.", 401);
   const e = await entitlement(db, user.id);
   if (!e?.stripe_customer) return fail("There's no billing for this account yet.", 404);
-  const s = await stripe("POST", "billing_portal/sessions", { customer: e.stripe_customer, return_url: `${siteUrl()}/pricing` });
-  return reply({ url: s.url });
+  try {
+    const s = await stripe("POST", "billing_portal/sessions", { customer: e.stripe_customer, return_url: `${siteUrl()}/pricing` });
+    return reply({ url: s.url });
+  } catch (err) {
+    console.error("billing-portal", err);
+    return fail("Billing couldn't open right now. Try again in a moment, or email support@tryartifice.com.", 502);
+  }
 });

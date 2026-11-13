@@ -1,6 +1,7 @@
 // The person's plan, signed for the app (plan.rs checks it with the key built
-// into the app). Creates the trial the first time. Records the computer, and
-// refuses a new one past the limit.
+// into the app). Someone new has no plan until they choose one; with
+// {start_trial: true} it starts their free trial (once per account). Records
+// the computer, and refuses a new one past the limit.
 //
 // Deploy: supabase functions deploy entitlement
 import { admin, config, ensureEntitlement, claims, sign, who, reply, fail } from "../_shared/plans.ts";
@@ -36,6 +37,10 @@ Deno.serve(async (req: Request) => {
     );
   }
 
-  const e = await ensureEntitlement(db, user.id);
+  const e = await ensureEntitlement(db, user.id, body.start_trial === true);
+  // asked for the trial but still has no plan: the trial was used before
+  if (body.start_trial === true && e.plan === "none") {
+    return fail("This account has already had its free trial. Choose Pro, or use a student check or a code.", 409, { code: "trial_used" });
+  }
   return reply({ token: await sign(claims(e, cfg, deviceId)) });
 });

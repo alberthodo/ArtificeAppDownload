@@ -1,41 +1,26 @@
-// A Stripe Checkout page for Pro. The app opens the URL in the browser; the
+// Starts paying for Pro: returns a link to Artifice's own payment page
+// (tryartifice.com/checkout), signed for this person for 30 minutes. The page
+// shows Stripe's card fields and talks to the `pay` function; the
 // stripe-webhook function turns the payment into the plan.
 //
+// Tax: Stripe's automatic tax needs Stripe Tax set up (head office address and
+// registrations). It's on when STRIPE_AUTOMATIC_TAX=1 (used by `pay`).
+//
 // Deploy: supabase functions deploy checkout
-import { admin, config, ensureEntitlement, paying, siteUrl, stripe, who, reply, fail } from "../_shared/plans.ts";
+import { admin, config, ensureEntitlement, paying, payLink, priceFor, who, reply, fail } from "../_shared/plans.ts";
 
 Deno.serve(async (req: Request) => {
   if (req.method !== "POST") return new Response("Method not allowed", { status: 405 });
   const db = admin();
   const user = await who(req, db);
   if (!user) return fail("Sign in to Artifice again.", 401);
-  const { period } = await req.json().catch(() => ({}));
+  const { period, purpose } = await req.json().catch(() => ({}));
   const [cfg, e] = await Promise.all([config(db), ensureEntitlement(db, user.id)]);
-  if (paying(e)) return fail("You already have Pro. Use Manage billing to change it.", 409);
-
-  const price = period === "yearly" ? cfg.price_yearly : e.founding && cfg.price_founding_monthly ? cfg.price_founding_monthly : cfg.price_monthly;
-  if (!price) return fail("Paying for Pro isn't open yet.", 503);
-
-  let customer = e.stripe_customer;
-  if (!customer) {
-    const c = await stripe("POST", "customers", { email: user.email ?? undefined, "metadata[user_id]": user.id });
-    customer = c.id as string;
-    await db.from("entitlements").update({ stripe_customer: customer }).eq("user_id", user.id);
+  if (purpose === "card") {
+    if (!e.stripe_customer) return fail("There's no billing for this account yet.", 404);
+    return reply({ url: await payLink(user.id, "card") });
   }
-  const site = siteUrl();
-  const session = await stripe("POST", "checkout/sessions", {
-    mode: "subscription",
-    customer,
-    client_reference_id: user.id,
-    "line_items[0][price]": price,
-    "line_items[0][quantity]": 1,
-    "subscription_data[metadata][user_id]": user.id,
-    "automatic_tax[enabled]": true,
-    "customer_update[address]": "auto",
-    "discounts[0][coupon]": e.discount_coupon ?? undefined,
-    allow_promotion_codes: e.discount_coupon ? undefined : true,
-    success_url: `${site}/pricing/thanks`,
-    cancel_url: `${site}/pricing`,
-  });
-  return reply({ url: session.url });
+  if (paying(e)) return fail("You already have Pro. Manage it in Account › Plan.", 409);
+  if (!priceFor(cfg, e, period === "yearly" ? "yearly" : "monthly").price || !cfg.stripe_publishable_key) return fail("Paying for Pro isn't open yet.", 503);
+  return reply({ url: await payLink(user.id, "checkout", period === "yearly" ? "yearly" : "monthly") });
 });
