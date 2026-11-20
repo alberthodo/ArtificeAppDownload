@@ -1,12 +1,13 @@
 // Home hero: four short chapters, one benefit each, shown in the real apps one at a time.
-//   1. Fewer tokens on code          (Claude Code without and with Artifice, side by side: a real benchmark run)
-//   2. Answers from your documents   (Claude Code with Artifice, then without it, one window: a real benchmark run)
-//   3. Your plan lasts longer        (a usage card over an example day: the 28% as time before the limit)
-//   4. Nothing hidden                (Artifice: every briefing is listed and can be opened)
-// (2026-11-20: chapters 1 and 2 are new; chapters 3 and 4 are being redone next.)
+//   1. Your plan lasts longer        (a usage card over an example day: the 28% as time before the limit)
+//   2. Fewer tokens on code          (Claude Code without and with Artifice, side by side: a real benchmark run)
+//   3. Skips the busywork            (your AI with Artifice, then without it, one window: a real benchmark run)
+//   4. Always up to date             (a file changes; Artifice flags the memory learned from it, and your AI is told)
 // The caption under the desktop states the chapter's benefit and stays put while it plays.
 // Artifice's window is built once per chapter and only the parts that change move.
-// Chapters can be clicked; the loop pauses while the hero is off screen.
+// Chapters can be clicked. The hero pauses when the desktop is clicked (or tapped), while it's off screen or
+// in a background tab, and with the pause button at the end of the story bar (WCAG 2.2.2). Every wait, the
+// chapter 3 clock, the camera and the progress bars run on one pausable clock.
 (function () {
   const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const main = $('#app-main'), stage = $('#stage');
@@ -24,41 +25,35 @@
   // ---- a run can be interrupted (a chapter clicked): every wait checks it's still current ----
   let gen = 0;
   const STOP = Symbol('stop');
-  const wait = (ms, g) => new Promise((res, rej) => setTimeout(() => (g === gen ? res() : rej(STOP)), reduce ? Math.min(ms, 1200) : ms));
+  // one clock for the whole hero: it stops while the hero is paused
+  let isPaused = false, pausedAt = 0, pausedTotal = 0;
+  const clock = () => performance.now() - pausedTotal - (isPaused ? performance.now() - pausedAt : 0);
+  const wait = (ms, g) => new Promise((res, rej) => {
+    const end = clock() + (reduce ? Math.min(ms, 1200) : ms);
+    const tick = () => { if (g !== gen) return rej(STOP); const left = end - clock(); if (left <= 0) return res(); setTimeout(tick, isPaused ? 120 : left); };
+    tick();
+  });
   async function type(el, text, g, ms = 38) { for (let i = 1; i <= text.length; i++) { el.textContent = text.slice(0, i); await wait(ms, g); } }
 
   // ---- content ----
-  const CODE = {
-    q: 'Where do we round invoice totals?', files: 3,
-    passages: [
-      ['billing.ts · roundTotal()', '<code>return Math.round(total * 100 + Number.EPSILON) / 100; // half up, to the cent</code>'],
-      ['docs/billing.md · Rounding', '“Totals are rounded half up to the cent after tax, never per line.”'],
-      ['billing.test.ts · rounds half up', '<code>expect(roundTotal(10.005)).toBe(10.01)</code>'],
-      ['billing.ts · ROUNDING_MODE', '<code>export const ROUNDING_MODE = "half-up";</code>'],
-    ],
-    answer: 'Totals are rounded half up to the cent, once, after tax, in <b>roundTotal()</b> (src/billing.ts:46). The mode is set by ROUNDING_MODE and covered by billing.test.ts.',
-  };
-  const DOCS = {
-    q: 'What is our hotel limit in Geneva?', files: 2, n: 3,
-    answer: '<p>The limit in Geneva is <b>260 CHF a night</b>, breakfast included. Elsewhere in Europe it is 180 EUR.</p><p>Bookings go through Expensely at least 14 days ahead.<span class="cw-cite">travel-policy.docx</span></p>',
-  };
 
   // ---- the chapters' benefits, said once each ----
   const CAPS = [
+    'Keep working when you\'d normally hit your limit. Artifice uses fewer tokens on questions about your code, so <b>the same plan goes about 40% further</b>.',
     'On questions about your code, Claude Code uses <b>28% fewer tokens</b> with Artifice, and still answers accurately.',
     'Artifice has already read your PDFs, spreadsheets and scans, so your AI <b>goes straight to the answer</b>. No scripts to open your files, and no approvals to click through.',
-    'On questions about your code, Artifice cuts token use by 28%, so the same plan covers <b>about 40% more questions</b> before you hit your limit.',
-    'Every briefing is in Artifice, so you can see <b>exactly what your AI was given</b> and what it saved.',
+    'When a file changes, Artifice flags anything your AI learned from it and hands over the current version, so your AI answers from <b>today\'s file, not last month\'s</b>.',
   ];
-  const LENGTH = [21000, 33000, 18000, 12500];   // roughly how long each chapter plays, for its progress bar
   let capWant = 0, capTimer = 0;
+  // each chapter's bar fills over that chapter's real length (LEN, worked out from its own timings below),
+  // on the hero's clock, so it stops when the hero is paused and is full exactly when the chapter ends
+  let chIdx = 0, chStart = 0, chLen = 1;
   function chapter(i) {
     chapters.forEach((c, k) => {
       c.classList.toggle('on', k === i); c.classList.toggle('done', k < i);
-      const bar = $('.ch-bar i', c);
-      bar.style.transition = 'none'; bar.style.width = k < i ? '100%' : '0';
-      if (k === i) { bar.offsetWidth; bar.style.transition = `width ${reduce ? 1 : LENGTH[i]}ms linear`; bar.style.width = '100%'; }
+      $('.ch-bar i', c).style.width = k < i ? '100%' : '0';
     });
+    chIdx = i; chStart = clock(); chLen = LEN[i]();
     // the latest chapter always wins, even if chapters are clicked quickly
     capWant = i;
     if (cap.dataset.i !== String(i)) {
@@ -69,15 +64,16 @@
   }
 
   // ---- which app is in front (on a Mac the menu bar follows it) ----
-  const MENUS = { artifice: ['Artifice', 'File Edit View Window Help'], claude: ['Claude', 'File Edit View Window Help'], terminal: ['Terminal', 'Shell Edit View Window Help'], compare: ['Terminal', 'Shell Edit View Window Help'], docs: ['Terminal', 'Shell Edit View Window Help'], plan: ['Safari', 'File Edit View History Bookmarks Window Help'] };
+  const MENUS = { artifice: ['Artifice', 'File Edit View Window Help'], claude: ['Claude', 'File Edit View Window Help'], terminal: ['Terminal', 'Shell Edit View Window Help'], compare: ['Terminal', 'Shell Edit View Window Help'], docs: ['Terminal', 'Shell Edit View Window Help'], plan: ['Finder', 'File Edit View Go Window Help'], memory: ['Artifice', 'File Edit View Window Help'] };
   const mbApp = $('#mb-app'), mbMenus = $('#mb-menus');
   function front(app) {
     $$('.desk .appwin').forEach(w => w.classList.toggle('front', w.dataset.app === app));
     $('.desk').classList.remove('cam'); $('.duo').classList.remove('focus-1', 'focus-2');   // each chapter starts its own camera move
     $('.desk-dim').classList.remove('on', 'dark'); $('.solo-card').classList.remove('on');
+    if (app !== 'plan' && mbClock) mbClock.innerHTML = mbClockWas;
     if (mbApp) { mbApp.textContent = MENUS[app][0]; mbMenus.innerHTML = MENUS[app][1].split(' ').map(m => `<span>${m}</span>`).join(''); }
   }
-  const nav = which => $$('.desk .app-nav div[data-nav]').forEach(d => d.classList.toggle('on', d.dataset.nav === which));
+  const nav = which => $$('.desk .window.appwin .app-nav div[data-nav]').forEach(d => d.classList.toggle('on', d.dataset.nav === which));
   const row = (box, cls, html, at = 'end') => { const d = document.createElement('div'); d.className = cls; d.innerHTML = html; at === 'start' ? box.prepend(d) : box.appendChild(d); return d; };
   const show = (box, cls, html) => { const d = row(box, cls, html); requestAnimationFrame(() => requestAnimationFrame(() => d.classList.add('on'))); return d; };
   async function swapView(html, g) {   // only when Artifice changes page: a short cross-fade, then nothing moves but what changes
@@ -87,17 +83,22 @@
   }
 
   // ---- 3. Your plan lasts longer: an example day of questions about your code ----
-  // One usage card over the desktop, a clock running from 9 am to 6 pm, and two usage bars for the same
-  // steady stream of questions. The only measured number is the 28% (pack-quality benchmark, 144 code
-  // questions: with Artifice, Claude Code used 72% of the tokens). Everything else follows from it:
+  // A usage widget on the desktop, a clock running from 9 am to 6 pm in quarter hours, and two usage bars
+  // for the same steady stream of questions. The only measured number is the 28% (pack-quality benchmark,
+  // 144 code questions: with Artifice, Claude Code used 72% of the tokens). Everything else follows from it:
   //   your AI alone reaches its limit at 4 pm in this example; at that moment the same work with Artifice
-  //   has used 72%; by 6 pm it has used 0.72 × 9/7 ≈ 93% and is still going.
-  // The card says it's an example day; the caption carries the measured figure (28%, so about 40% more
-  // questions on the same plan: 1 / 0.72 ≈ 1.39).
-  const PLAN = { start: 9, end: 18, limitAt: 16, ratio: 0.72, dayMs: 9000 };
+  //   has used 72%; by 6 pm it has used 0.72 × 9/7 ≈ 93%, so 7% is still left.
+  // The widget says it's an example day; the caption carries the measured figure (about 40% further:
+  // 1 / 0.72 ≈ 1.39). The menu bar clock follows the widget's clock while this chapter plays.
+  const PLAN = { start: 9, end: 18, limitAt: 16, ratio: 0.72, intro: 1100, dayMs: 9000, hold: 1200, end_: 6000 };
   const usage = $('.usage'), uClock = $('.u-clock', usage);
   const uRow = side => $(`.u-row[data-side="${side}"]`, usage);
-  const fmtHour = h => { const m = Math.round((h % 1) * 60), hh = Math.floor(h) + (m === 60 ? 1 : 0), mm = m === 60 ? 0 : m; const ap = hh < 12 ? 'am' : 'pm'; const h12 = ((hh + 11) % 12) + 1; return `${h12}:${String(mm).padStart(2, '0')} ${ap}`; };
+  const mbClock = $('.menubar .mb-clock'), mbClockWas = mbClock ? mbClock.innerHTML : '';
+  const fmtHour = (h, caps) => { const q = Math.floor(h * 4 + 1e-9) / 4, hh = Math.floor(q), mm = Math.round((q - hh) * 60); const h12 = ((hh + 11) % 12) + 1; const ap = hh < 12 ? 'am' : 'pm'; return `${h12}:${String(mm).padStart(2, '0')} ${caps ? ap.toUpperCase() : ap}`; };
+  function setClock(h) {
+    uClock.textContent = fmtHour(h);
+    if (mbClock) mbClock.innerHTML = `Wed 19 Nov&nbsp;&nbsp;${fmtHour(h, true)}`;
+  }
   function setRow(side, pct) {
     const r = uRow(side);
     $('.u-track i', r).style.transform = `scaleX(${Math.min(1, pct / 100)})`;
@@ -105,34 +106,41 @@
   }
   function resetPlan() {
     usage.classList.remove('limit', 'done');
-    uClock.textContent = fmtHour(PLAN.start);
-    setRow('off', 0); setRow('on', 0);
+    $('.u-val', uRow('on')).classList.remove('pulse');
+    setClock(PLAN.start); setRow('off', 0); setRow('on', 0);
   }
   async function ch3(g) {
-    chapter(2); front('plan');
+    chapter(0); front('plan');
     const desk = $('.desk');
     resetPlan();
     void desk.offsetWidth; requestAnimationFrame(() => { if (g === gen) desk.classList.add('cam'); });
-    await wait(1100, g);
-    // the day runs; it pauses for a moment when your AI alone reaches its limit
+    await wait(PLAN.intro, g);
+    // the day runs on real time, so the chapter lasts exactly as long as its progress bar says;
+    // it pauses at 4 pm, when your AI alone reaches its limit
     const hours = PLAN.end - PLAN.start, span = PLAN.limitAt - PLAN.start;
-    const step = 40, ticks = Math.round(PLAN.dayMs / step);
-    let paused = false;
-    for (let i = 1; i <= ticks; i++) {
-      const h = PLAN.start + hours * (i / ticks);
+    let t0 = clock(), paused = false;
+    for (;;) {
+      const k = Math.min(1, (clock() - t0) / PLAN.dayMs);
+      let h = PLAN.start + hours * k;
+      if (!paused && h >= PLAN.limitAt) h = PLAN.limitAt;
       const alone = (h - PLAN.start) / span * 100;
-      uClock.textContent = fmtHour(h);
-      setRow('off', alone);
-      setRow('on', alone * PLAN.ratio);
-      if (!paused && alone >= 100) {
+      setClock(h); setRow('off', alone); setRow('on', alone * PLAN.ratio);
+      if (!paused && h >= PLAN.limitAt) {
         paused = true;
         usage.classList.add('limit');
-        await wait(1500, g);
+        await wait(250, g);
+        $('.u-val', uRow('on')).classList.add('pulse');
+        await wait(PLAN.hold - 250, g);
+        t0 = clock() - span / hours * PLAN.dayMs;   // the day resumes where it stopped
+        continue;
       }
-      await wait(step, g);
+      if (k >= 1) break;
+      await wait(40, g);
     }
+    const left = 100 - Math.round(span ? (hours / span) * 100 * PLAN.ratio : 0);
+    $('.u-note', uRow('on')).textContent = `Still ${left}% left at 6:00 pm`;
     usage.classList.add('done');
-    await wait(6500, g);
+    await wait(PLAN.end_, g);
   }
 
   // ---- 2. Ask like you'd ask a colleague: a question about the company's documents ----
@@ -190,12 +198,12 @@
     const perm = document.createElement('div'); perm.className = 'cc-perm';
     perm.innerHTML = `<b>Bash command</b><div class="cmd">${esc(cmd)}</div><div class="ask">Do you want to proceed?</div><div class="opt on">❯ 1. Yes</div><div class="opt">2. Yes, and don't ask again for ${kind} commands</div><div class="opt">3. No, and tell Claude what to do differently <span class="cc-dim">(esc)</span></div>`;
     soloInput.after(perm); requestAnimationFrame(() => requestAnimationFrame(() => perm.classList.add('on')));
-    soloDone.className = 'done wait'; soloDone.innerHTML = '<i class="pulse"></i>Waiting for your approval';
+    soloDone.className = 'done wait'; soloDone.innerHTML = '<i class="pulse"></i><span class="long">Waiting for your approval</span><span class="short">Waiting for you</span>';   // the short form fits a phone
     requestAnimationFrame(() => requestAnimationFrame(() => soloDone.classList.add('on')));
     return perm;
   }
   async function ch2(g) {
-    chapter(1); front('docs');
+    chapter(2); front('docs');
     const desk = $('.desk');
     soloSide('on'); dim.classList.remove('on', 'dark'); card.classList.remove('on');
     void desk.offsetWidth; requestAnimationFrame(() => { if (g === gen) desk.classList.add('cam'); });
@@ -286,8 +294,8 @@
   const duo = { off: $('.duo-col[data-side="off"]'), on: $('.duo-col[data-side="on"]') };
   const fmt = n => Math.round(n).toLocaleString('en-US');
   function count(el, from, to, ms) {   // a counter that eases to its new value
-    const t0 = performance.now();
-    const step = () => { const k = Math.min(1, (performance.now() - t0) / ms); el.textContent = fmt(from + (to - from) * (1 - Math.pow(1 - k, 3))); if (k < 1 && el.isConnected) requestAnimationFrame(step); };
+    const t0 = clock();
+    const step = () => { const k = Math.min(1, (clock() - t0) / ms); el.textContent = fmt(from + (to - from) * (1 - Math.pow(1 - k, 3))); if (k < 1 && el.isConnected) requestAnimationFrame(step); };
     requestAnimationFrame(step);
   }
   function resetPane(col) {
@@ -331,7 +339,7 @@
     $('.done', col).classList.add('on');
   }
   async function ch0(g) {
-    chapter(0); front('compare');
+    chapter(1); front('compare');
     resetPane(duo.off); resetPane(duo.on);
     // the camera starts from rest each time, then pushes in slowly for the whole chapter
     const desk = $('.desk'), pair = $('.duo');
@@ -358,31 +366,121 @@
     await wait(8500, g);   // a long hold on the result, so it can be read and understood
   }
 
-  // ---- 4. Nothing hidden ----
+  // ---- 4. Always up to date: a file changes, Artifice flags what was learned from it ----
+  // Three windows on the desktop, as in real work: the Artifice app on its Memory page, the policy document,
+  // and your AI in a terminal. The behaviour shown is the product's own:
+  //   · a memory remembers where it came from (the Memory page shows "from travel-policy.docx");
+  //   · when that source changes significantly, the memory is flagged; the app shows "<file> changed today"
+  //     with See the change / Still true / Remove (wording and layout from the 0.1.8 redesign);
+  //   · the brief your AI gets marks the memory "needs review: its source changed", and since Artifice keeps
+  //     its index in step with your files, the passage it sends is the current one.
+  // No number is claimed here: the change-detection benchmark compared Artifice with small local models only.
+  const MEM = {
+    q: 'what\'s our hotel limit in Geneva?',
+    brief: 'Artifice briefed your AI: the current travel policy, and 1 memory that needs review (its source changed)',
+    say: 'Hotels in Geneva are capped at <b>280 CHF a night</b>, breakfast included.',
+    more: ['<code>travel-policy.docx</code> changed today. An earlier memory said 260 CHF; it\'s flagged for review in Artifice.'],
+  };
+  const mem = $('.mem'), mApp = $('.m4-app', mem), mDoc = $('.m4-doc', mem), mTerm = $('.m4-term', mem);
+  const mFlag = $('.m4-flag', mem), mNum = $('.m4-num', mem), mDocTitle = $('.m4-doc .t', mem);
+  const mLog = $('.cc-log', mTerm), mTyped = $('.cc-typed', mTerm);
+  const MENU4 = { app: ['Artifice', 'File Edit View Window Help'], doc: ['TextEdit', 'File Edit Format View Window Help'], term: ['Terminal', 'Shell Edit View Window Help'] };
+  function focusWin(which) {   // the window in front, as on a real desktop; the menu bar follows it
+    [['app', mApp], ['doc', mDoc], ['term', mTerm]].forEach(([k, el]) => el.classList.toggle('act', k === which));
+    if (mbApp) { mbApp.textContent = MENU4[which][0]; mbMenus.innerHTML = MENU4[which][1].split(' ').map(m => `<span>${m}</span>`).join(''); }
+  }
+  const mAdd = (cls, html) => { const d = document.createElement('div'); d.className = cls; d.innerHTML = html; mLog.appendChild(d); requestAnimationFrame(() => requestAnimationFrame(() => d.classList.add('on'))); return d; };
+  function resetMem() {
+    mDoc.classList.remove('show'); mTerm.classList.remove('show'); mFlag.classList.remove('on');
+    mNum.textContent = '260'; mNum.classList.remove('sel', 'new'); mDocTitle.textContent = 'travel-policy.docx';
+    const home = win ? 'C:\\Users\\maya\\acme' : '/Users/maya/acme';
+    mLog.innerHTML = `<div class="cc-welcome"><div><span class="cc-star">✻</span> Welcome! Ask anything about this folder.</div><div class="cc-dim">/help for help</div><div class="cc-dim cc-cwd">cwd: ${home}</div></div>`;
+    mTyped.textContent = '';
+    focusWin('app');
+  }
   async function ch4(g) {
-    chapter(3); front('artifice'); nav('activity');
-    await swapView(`<div class="app-page app-view"><div class="app-title">Activity</div><div class="app-meta">Briefed 13 times this week · about 138k tokens saved</div><div class="app-h">Today</div><div class="app-list" id="act"><div><span><div class="t">Claude asked “What's in the Q3 board deck?”</div><div class="s">5 passages from 2 files</div></span><span class="w">9:12</span></div></div></div>`, g);
-    const act = $('#act');
-    await wait(500, g);
-    row(act, 'live-row', `<span><div class="t">Claude asked “${DOCS.q}”</div><div class="s">${DOCS.n} passages from ${DOCS.files} files</div></span><span class="w">1 min ago</span>`, 'start');
-    await wait(500, g);
-    const pick = row(act, 'live-row', `<span><div class="t">Claude Code asked “${CODE.q}”</div><div class="s">${CODE.passages.length} passages from ${CODE.files} files</div></span><span class="w">just now</span>`, 'start');
+    chapter(3); front('memory');
+    const desk = $('.desk');
+    resetMem();
+    void desk.offsetWidth; requestAnimationFrame(() => { if (g === gen) desk.classList.add('cam'); });
+    await wait(1600, g);
+    // 1. the policy is edited: 260 becomes 280, and it's saved
+    mDoc.classList.add('show'); focusWin('doc');
+    await wait(1100, g);
+    mNum.classList.add('sel');
+    await wait(650, g);
+    mNum.classList.remove('sel'); mNum.classList.add('new');
+    for (const t of ['2', '28', '280']) { mNum.textContent = t; await wait(140, g); }
+    mDocTitle.textContent = 'travel-policy.docx — Edited';
+    await wait(900, g);
+    mDocTitle.textContent = 'travel-policy.docx';   // saved
+    await wait(700, g);
+    // 2. Artifice notices: the memory learned from that file is flagged
+    focusWin('app'); mDoc.classList.remove('show');
+    await wait(700, g);
+    mFlag.classList.add('on');
+    await wait(2200, g);
+    // 3. your AI asks, and is told
+    mTerm.classList.add('show'); focusWin('term');
+    await wait(700, g);
+    for (let i = 1; i <= MEM.q.length; i++) { mTyped.textContent = MEM.q.slice(0, i); await wait(26, g); }
+    await wait(400, g); mTyped.textContent = '';
+    mAdd('ln you', `&gt; <b>${esc(MEM.q)}</b>`);
+    mAdd('ln res', `&nbsp;⎿&nbsp; <span class="art">${MEM.brief}</span>`);
+    const spin = mAdd('ln spin', '✻ Thinking…');
     await wait(1700, g);
-    pick.classList.add('pick');
-    await wait(600, g);
-    await swapView(`<div class="app-page app-view"><div class="app-back">← Activity</div><div class="app-ask">Claude Code asked · just now</div><div class="app-q">“${CODE.q}”</div><div class="app-given">It was given ${CODE.passages.length} passages from ${CODE.files} files</div><div id="bp"></div></div>`, g);
-    const bp = $('#bp');
-    for (let i = 0; i < CODE.passages.length; i++) {
-      const [w, t] = CODE.passages[i];
-      row(bp, 'app-pass live-row', `<span class="n">${i + 1}</span><span><div class="where">${w}</div><div class="txt">${t}</div></span>`);
-      await wait(560, g);
-    }
-    row(bp, 'app-foot live-row', 'Saved about 10,600 tokens <u>How we count</u>');
-    await wait(4800, g);
+    spin.remove();
+    mAdd('ln say', `<span class="dot">●</span> ${MEM.say}`);
+    for (const m of MEM.more) { await wait(160, g); mAdd('ln more', m); }
+    await wait(5600, g);
   }
 
+  // ---- each chapter's real length: the sum of its own waits ----
+  const LEN = [
+    () => PLAN.intro + PLAN.dayMs + PLAN.hold + PLAN.end_,
+    () => 900 + CMP.q.length * 22 + 450 + 300 + CMP.off.ms * SPEED + 500 + 500 + 8500,
+    () => 900 + DOC.q.length * 24 + 400 + 2300 + DOC.on.more.length * 160 + 300 + 2600 + 800 + 1500 + 600
+          + DOC.off.length * 1300 + 1300 + 1100 + (DOC.scripts.length - 1) * (1400 + 1900 + 420) + 900 + 1500 + 4400,
+    () => 1600 + 1100 + 650 + 3 * 140 + 900 + 700 + 700 + 2200 + 700 + MEM.q.length * 26 + 400 + 1700 + MEM.more.length * 160 + 5600,
+  ];
+  (function bars() {
+    const b = chapters[chIdx] && $('.ch-bar i', chapters[chIdx]);
+    if (b) b.style.width = `${Math.min(100, Math.max(0, (clock() - chStart) / chLen * 100))}%`;
+    requestAnimationFrame(bars);
+  })();
+
+  // ---- pausing: a click on the desktop or the pause button, or off screen / a background tab ----
+  const why = { user: false, hover: false, away: false };
+  const pauseBtn = $('.story-pause');
+  let byHand = false;   // paused by a click (desktop or button) (not by scrolling away): only that shows the icon
+  function updatePause() {
+    const p = why.user || why.hover || why.away;
+    if (p !== isPaused) {
+      if (p) pausedAt = performance.now(); else pausedTotal += performance.now() - pausedAt;
+      isPaused = p;
+      stage.classList.toggle('paused', p);
+    }
+    const hand = why.user || why.hover;
+    if (hand !== byHand) { byHand = hand; if (!why.away) flashPause(hand); }
+    if (pauseBtn) {
+      pauseBtn.setAttribute('aria-pressed', String(hand));
+      pauseBtn.setAttribute('aria-label', hand ? 'Play the demo' : 'Pause the demo');
+      pauseBtn.classList.toggle('is-paused', hand);   // shows the real state, whichever was clicked
+    }
+  }
+  const flash = $('.desk-flash');
+  function flashPause(p) {   // like a video player: the icon appears, then fades away
+    if (!flash) return;
+    flash.classList.toggle('is-play', !p);
+    flash.classList.remove('show'); void flash.offsetWidth; flash.classList.add('show');
+  }
+  const deskEl = $('.desk');
+  deskEl.addEventListener('click', () => { why.user = !why.user; updatePause(); });   // click or tap the desktop to pause; again to play
+  document.addEventListener('visibilitychange', () => { why.away = document.hidden || !visible; updatePause(); });
+  if (pauseBtn) pauseBtn.addEventListener('click', () => { why.user = !why.user; updatePause(); });
+
   // ---- the loop ----
-  const CH = [ch0, ch2, ch3, ch4];
+  const CH = [ch3, ch0, ch2, ch4];   // the order on screen: plan, tokens, busywork, up to date
   let visible = false;
   const waitVisible = g => new Promise((res, rej) => { const t = setInterval(() => { if (g !== gen) { clearInterval(t); rej(STOP); } else if (visible && !document.hidden) { clearInterval(t); res(); } }, 250); });
   async function run(from) {
@@ -396,14 +494,14 @@
       }
     } catch (e) { if (e !== STOP) throw e; }
   }
-  chapters.forEach((c, k) => c.addEventListener('click', () => run(k)));
+  chapters.forEach((c, k) => c.addEventListener('click', () => { why.user = false; updatePause(); run(k); }));   // choosing a chapter means: play it
 
   // first frame, before it starts
-  chapter(0); front('compare'); nav('library'); resetPane(duo.off); resetPane(duo.on);
+  resetPane(duo.off); resetPane(duo.on); resetPlan(); chapter(0); front('plan'); nav('library');
   main.innerHTML = `<div class="app-page app-view"><div class="app-title">Library</div><div class="app-meta">Reading… 0 of 214 files</div><div class="app-ask-box">${icon('search')}Search or ask about acme</div><div class="app-files"></div></div>`;
   let started = false;
   const start = () => { if (!started) { started = true; run(0); } };
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); }, { threshold: .25 }).observe(stage);
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; why.away = !visible || document.hidden; updatePause(); if (visible) start(); }, { threshold: .25 }).observe(stage);
   } else { visible = true; start(); }
 })();
