@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docs: set up Artifice and connect your AI tools | Artifice</title>
+<meta name="description" content="How to install Artifice, add a folder, and connect Claude Code, Cursor, Codex or any MCP app. Plus every command, setting and MCP tool, for developers.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* ---------- docs home: head and search ---------- */
+  .docs-head .h1 { max-width: 14em; }
+  .docs-head .lead { max-width: 36em; }
+  .docs-find { margin-top: 36px; width: 100%; max-width: 560px; height: 52px; display: flex; align-items: center; gap: 12px; padding: 0 12px 0 16px; border: 1px solid var(--line-2); border-radius: 12px; background: var(--surface); box-shadow: var(--shadow-s); color: var(--ink-3); font: 16px var(--sans); text-align: left; cursor: text; transition: border-color .16s var(--ease), box-shadow .16s var(--ease); }
+  .docs-find:hover { border-color: var(--ink-3); box-shadow: var(--shadow-m); }
+  .docs-find svg { width: 18px; height: 18px; flex: none; }
+  .docs-find .ph { flex: 1; }
+  .docs-find kbd { flex: none; }
+  .docs-find-hint { margin-top: 12px; }
+
+  /* ---------- start paths ---------- */
+  .paths { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .path { display: flex; flex-direction: column; padding: 24px 22px 22px; text-decoration: none; color: var(--ink); transition: border-color .16s var(--ease), box-shadow .16s var(--ease), transform .16s var(--ease); }
+  .path:hover { border-color: var(--line-2); box-shadow: var(--shadow-m); }
+  .path:hover .go::after { transform: translateX(3px); }
+  .path .ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--sunken); color: var(--ink-2); }
+  .path .ic svg { width: 18px; height: 18px; }
+  .path h3 { font-size: 17px; line-height: 1.35; margin-top: 20px; letter-spacing: -0.008em; }
+  .path p { font-size: 14.5px; line-height: 1.55; color: var(--ink-3); margin-top: 6px; flex: 1; }
+  .path .go { margin-top: 18px; font-size: 14px; font-weight: 500; display: inline-flex; gap: 6px; }
+  .path .go::after { content: "→"; transition: transform .16s var(--ease); }
+
+  /* ---------- contents, grouped like the docs folder ---------- */
+  .contents { border-top: 1px solid var(--line); }
+  .cgroup { display: grid; grid-template-columns: 3fr 9fr; gap: 48px; padding: 40px 0; border-bottom: 1px solid var(--line); }
+  .cgroup-h h3 { font-size: 19px; letter-spacing: -0.01em; }
+  .cgroup-h p { margin-top: 8px; font-size: 14.5px; line-height: 1.55; color: var(--ink-3); max-width: 24ch; }
+  .cgroup-h .count { margin-top: 14px; display: inline-block; }
+  .clist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 40px; }
+  .clist a { display: block; padding: 10px 12px; margin: 0 -12px; border-radius: 10px; text-decoration: none; transition: background .16s var(--ease); }
+  .clist a:hover { background: var(--sunken); }
+  .clist b { display: block; font-weight: 500; font-size: 16px; line-height: 1.4; color: var(--ink); }
+  .clist span { display: block; margin-top: 2px; font-size: 14px; line-height: 1.5; color: var(--ink-3); }
+  .clist code { font-size: 12.5px; }
+
+  /* ---------- ask an AI, and help ---------- */
+  .ask { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; padding: 32px; border-radius: var(--r-xl); background: var(--sunken); }
+  .ask p { margin-top: 8px; font-size: 15.5px; line-height: 1.6; color: var(--ink-2); max-width: 40em; }
+  .ask .actions { gap: 10px; }
+  .ask .btn svg { width: 14px; height: 14px; }
+  .help-line { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px; color: var(--ink-2); }
+  .help-line svg { width: 17px; height: 17px; color: var(--ink-3); }
+  .help-line .q { display: inline-flex; align-items: center; gap: 10px; }
+
+  @media (max-width: 1080px) {
+    .paths { grid-template-columns: 1fr 1fr; }
+    .cgroup { grid-template-columns: 1fr; gap: 20px; }
+    .cgroup-h p { max-width: 44em; }
+  }
+  @media (max-width: 860px) {
+    .docs-find { height: 50px; }
+    .docs-find kbd { display: none; }
+    .paths { grid-template-columns: 1fr; gap: 12px; }
+    .path { padding: 20px; display: grid; grid-template-columns: 36px 1fr; gap: 4px 16px; }
+    .path .ic { grid-row: 1 / span 3; }
+    .path h3 { margin-top: 0; }
+    .path .go { margin-top: 10px; }
+    .clist { grid-template-columns: 1fr; }
+    .cgroup { padding: 32px 0; }
+    .ask { grid-template-columns: 1fr; padding: 24px; gap: 20px; }
+    .ask .actions .btn { flex: 1 1 auto; }
+  }
+</style>
+</head>
+<body data-page="docs">
+<main id="main">
+
+  <!-- ======================= HEAD ======================= -->
+  <section class="page-head docs-head">
+    <div class="container">
+      <span class="label reveal">Docs</span>
+      <h1 class="h1 reveal d1">Set up Artifice and put it to work.</h1>
+      <p class="lead reveal d2">Add a folder, connect Claude Code, Cursor or another AI tool, and see exactly what your AI was given. For developers, every command, setting and MCP tool.</p>
+      <button class="docs-find reveal d3" type="button" data-search aria-label="Search the docs">
+        <svg data-i="search"></svg><span class="ph">Search the docs</span><kbd data-os-show="mac other phone">⌘K</kbd><kbd data-os-show="windows" hidden>Ctrl K</kbd>
+      </button>
+    </div>
+  </section>
+
+  <!-- ======================= START PATHS ======================= -->
+  <section class="section tight">
+    <div class="container">
+      <h2 class="vh">Start here</h2>
+      <div class="paths">
+        <a class="card path reveal" href="docs-article.html" data-doc="basics/quickstart-app">
+          <span class="ic"><svg data-i="home"></svg></span>
+          <h3>Get started with the app</h3>
+          <p>Sign in, choose a folder, connect your AI, and ask your first question.</p>
+          <span class="go">Quickstart</span>
+        </a>
+        <a class="card path reveal d1" href="docs-article.html" data-doc="basics/quickstart-cli">
+          <span class="ic"><svg data-i="terminal"></svg></span>
+          <h3>Use the command line</h3>
+          <p>From an empty terminal to your first briefing with <code>artifice init</code> and <code>artifice ask</code>.</p>
+          <span class="go">Quickstart</span>
+        </a>
+        <a class="card path reveal d2" href="docs-article.html" data-doc="guides/connect-ai-tools">
+          <span class="ic"><svg data-i="tools"></svg></span>
+          <h3>Connect an AI tool</h3>
+          <p>Claude Code, Claude, Cursor, Codex, Gemini CLI, Windsurf, VS Code or any MCP app. Once, for every project.</p>
+          <span class="go">Connecting AI tools</span>
+        </a>
+        <a class="card path reveal d3" href="privacy-and-data.html">
+          <span class="ic"><svg data-i="lock"></svg></span>
+          <h3>Privacy and data</h3>
+          <p>What stays on your computer, what Artifice sends, and how to turn usage numbers off.</p>
+          <span class="go">Privacy and data</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CONTENTS ======================= -->
+  <section class="section tight">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">Contents</span>
+        <h2 class="h2">Every page, in reading order.</h2>
+        <p class="lead">New to Artifice? Read Basics in order. Want to do something specific? Use Guides. Looking up a command or a setting? Use Reference.</p>
+      </div>
+
+      <div class="contents">
+
+        <div class="cgroup reveal" id="basics">
+          <div class="cgroup-h">
+            <h3>Basics</h3>
+            <p>What Artifice is, and your first briefing.</p>
+            <span class="tag count">5 pages</span>
+          </div>
+          <ul class="clist">
+            <li><a href="docs-article.html" data-doc="basics/what-is-artifice"><b>What is Artifice?</b><span>What it does for your AI tools, and what it doesn't do.</span></a></li>
+            <li><a href="docs-article.html" data-doc="basics/install-and-build"><b>Install and build</b><span>The tools you need, building the command line and the app, and running the tests.</span></a></li>
+            <li><a href="docs-article.html" data-doc="basics/quickstart-cli"><b>Quickstart: command line</b><span>From an empty terminal to your first briefing in five minutes.</span></a></li>
+            <li><a href="docs-article.html" data-doc="basics/quickstart-app"><b>Quickstart: desktop app</b><span>The same first steps, in the app.</span></a></li>
+            <li><a href="docs-article.html" data-doc="basics/glossary"><b>Glossary</b><span>Every Artifice term in one place.</span></a></li>
+          </ul>
+        </div>
+
+        <div class="cgroup reveal" id="concepts">
+          <div class="cgroup-h">
+            <h3>Concepts</h3>
+            <p>The ideas behind briefings, Memory and Playbooks.</p>
+            <span class="tag count">9 pages</span>
+          </div>
+          <ul class="clist">
+            <li><a href="docs-article.html" data-doc="concepts/projects"><b>Projects</b><span>What adding a folder does, the hidden <code>.artifice</code> folder, and working with several projects.</span></a></li>
+            <li><a href="docs-article.html" data-doc="concepts/segments-and-levels"><b>Passages and detail levels</b><span>How each file is cut into passages, and the four levels of detail.</span></a></li>
+            <li><a href="docs-article.html" data-doc="concepts/librarian"><b>How Artifice does the work</b><span>Exact bookkeeping in plain code, and summaries on top.</span></a></li>
+            <li><a href="docs-article.html" data-doc="concepts/freshness"><b>Freshness: how changes propagate</b><span>What happens when a file changes, and what gets updated.</span></a></li>
+            <li><a href="docs-article.html" data-doc="concepts/context-packs"><b>Briefings</b><span>How Artifice picks what your AI is given for each question.</span></a></li>
+            <li><a href="docs-article.html" data-doc="concepts/notebook"><b>Memory</b><span>Facts, decisions and questions that you and your AI save.</span></a></li>
+            <li><a href="docs-article.html" data-doc="concepts/jobs"><b>Playbooks</b><span>Step-by-step work, with a briefing prepared for every step.</span></a></li>
+            <li><a href="docs-article.html" data-doc="concepts/learning-from-agents"><b>Learning from your AI</b><span>What Artifice notices after a briefing: gaps, further searches and outcomes.</span></a></li>
+            <li><a href="docs-article.html" data-doc="concepts/savings"><b>How savings are counted</b><span>What the savings numbers mean, and what they don't.</span></a></li>
+          </ul>
+        </div>
+
+        <div class="cgroup reveal" id="guides">
+          <div class="cgroup-h">
+            <h3>Guides</h3>
+            <p>Doing one thing, start to finish.</p>
+            <span class="tag count">7 pages</span>
+          </div>
+          <ul class="clist">
+            <li><a href="docs-article.html" data-doc="guides/desktop-app"><b>Using the desktop app</b><span>Every place and button in the app.</span></a></li>
+            <li><a href="docs-article.html" data-doc="guides/connect-ai-tools"><b>Connecting AI tools</b><span>Claude Code with hooks, the Claude app, Cursor, Codex and any MCP app.</span></a></li>
+            <li><a href="docs-article.html" data-doc="guides/choose-a-librarian"><b>Choosing a summaries model</b><span>Built-in summaries, or a model of your own through Ollama, Anthropic or an OpenAI-compatible service.</span></a></li>
+            <li><a href="docs-article.html" data-doc="guides/writing-jobs"><b>Writing playbooks</b><span>The Markdown format playbooks are written in, with examples.</span></a></li>
+            <li><a href="docs-article.html" data-doc="guides/benchmarking"><b>Benchmarking</b><span>Measure Artifice yourself, with the quick benchmark and the real-AI harness.</span></a></li>
+            <li><a href="docs-article.html" data-doc="guides/uninstall"><b>Uninstalling Artifice</b><span>Disconnecting every AI tool first, and what is removed.</span></a></li>
+            <li><a href="docs-article.html" data-doc="guides/troubleshooting"><b>Troubleshooting</b><span>Common messages, what causes them, and how to fix them.</span></a></li>
+          </ul>
+        </div>
+
+        <div class="cgroup reveal" id="reference">
+          <div class="cgroup-h">
+            <h3>Reference</h3>
+            <p>Every command, tool, setting and file.</p>
+            <span class="tag count">9 pages</span>
+          </div>
+          <ul class="clist">
+            <li><a href="docs-article.html" data-doc="reference/cli"><b>CLI reference</b><span>Every <code>artifice</code> command and option.</span></a></li>
+            <li><a href="docs-article.html" data-doc="reference/mcp-tools"><b>MCP tools</b><span>The tools your AI sees, and what each one returns.</span></a></li>
+            <li><a href="docs-article.html" data-doc="reference/api-commands"><b>API commands</b><span>The JSON commands shared by the app, the HTTP bridge, the MCP server and the command line.</span></a></li>
+            <li><a href="docs-article.html" data-doc="reference/configuration"><b>Configuration</b><span><code>config.json</code> and every setting, with its default.</span></a></li>
+            <li><a href="docs-article.html" data-doc="reference/files-and-locations"><b>Files and locations</b><span>What Artifice keeps where, and its environment variables.</span></a></li>
+            <li><a href="docs-article.html" data-doc="reference/database-schema"><b>Database schema</b><span>Every table and column in a project's database.</span></a></li>
+            <li><a href="docs-article.html" data-doc="reference/hooks"><b>Claude Code hooks</b><span>The Claude Code events Artifice handles, and what it does for each.</span></a></li>
+            <li><a href="docs-article.html" data-doc="reference/usage-analytics"><b>Usage analytics</b><span>Every usage event Artifice sends, what is never sent, and how to read it.</span></a></li>
+            <li><a href="docs-article.html" data-doc="reference/pack-format"><b>Briefing format</b><span>The exact text your AI receives.</span></a></li>
+          </ul>
+        </div>
+
+        <div class="cgroup reveal" id="misc">
+          <div class="cgroup-h">
+            <h3>More</h3>
+            <p>Questions, limits, plans and history.</p>
+            <span class="tag count">4 pages</span>
+          </div>
+          <ul class="clist">
+            <li><a href="docs-article.html" data-doc="misc/faq"><b>FAQ</b><span>Short answers to the questions people ask most.</span></a></li>
+            <li><a href="docs-article.html" data-doc="misc/limitations"><b>Known limitations</b><span>What Artifice doesn't do well yet.</span></a></li>
+            <li><a href="docs-article.html" data-doc="misc/roadmap"><b>Roadmap</b><span>What's planned next, and where each piece stands.</span></a></li>
+            <li><a href="changelog.html"><b>Changelog</b><span>Every release, and what changed in it.</span></a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= ASK AN AI, HELP ======================= -->
+  <section class="section tight end">
+    <div class="container">
+      <div class="ask reveal">
+        <div>
+          <h2 class="h4">Ask an AI about these docs</h2>
+          <p>Open Claude or ChatGPT with the docs already given to it, and ask in your own words. Or point your own AI tool at <code>llms.txt</code>, the whole of the docs as plain text.</p>
+        </div>
+        <div class="actions">
+          <a class="btn" href="https://claude.ai/new?q=Read%20https%3A%2F%2Ftryartifice.com%2Fllms.txt%20and%20then%20help%20me%20with%20Artifice." target="_blank" rel="noopener">Open in Claude<svg data-i="out"></svg></a>
+          <a class="btn" href="https://chatgpt.com/?q=Read%20https%3A%2F%2Ftryartifice.com%2Fllms.txt%20and%20then%20help%20me%20with%20Artifice." target="_blank" rel="noopener">Open in ChatGPT<svg data-i="out"></svg></a>
+          <a class="btn ghost" href="llms.txt">llms.txt</a>
+        </div>
+      </div>
+      <p class="help-line reveal">
+        <span class="q"><svg data-i="help"></svg>Can't find what you need? Write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>. We read every one.</span>
+        <a class="arrow" href="docs-article.html" data-doc="guides/troubleshooting">Troubleshooting</a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

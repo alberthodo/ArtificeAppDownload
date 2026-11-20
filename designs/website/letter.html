@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building Artifice, November 2026: why Artifice is a paid app | Artifice</title>
+<meta name="description" content="The November 2026 letter from the Artifice team: why Artifice is a paid app, Pro at $5.99 a month, and free for students, what 0.1.8 and 0.1.9 shipped, what broke, and what's next.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/product.css">
+<style>
+  /* ---------- letter head ---------- */
+  .lh { padding: 80px 0 0; }
+  .lh .back { font-size: 14px; color: var(--ink-3); text-decoration: none; display: inline-flex; gap: 6px; }
+  .lh .back:hover { color: var(--ink); }
+  .lh .label { display: block; margin-top: 40px; }
+  .lh .h1 { margin-top: 14px; font-size: 48px; max-width: 14em; }
+  .byline { display: flex; align-items: center; gap: 12px; margin-top: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--ink-3); }
+  .byline img { width: 36px; height: 36px; border-radius: 10px; }
+  .byline b { display: block; font-size: 15px; color: var(--ink); font-weight: 600; }
+
+  /* ---------- the letter ---------- */
+  .letter { padding-top: 40px; }
+  .letter .newhere { font-size: 15.5px; line-height: 1.6; color: var(--ink-3); font-style: italic; }
+  .letter .opening { font-family: var(--display); font-size: 21px; line-height: 1.6; letter-spacing: -0.008em; color: var(--ink); }
+  .letter h2 { scroll-margin-top: 96px; }
+  .letter h3 .version { margin-left: 8px; vertical-align: 3px; }
+  .letter strong { font-weight: 600; }
+  .letter .num-line { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 1.6em 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .letter .num-line > div { padding: 18px 16px 18px 0; }
+  .letter .num-line > div + div { padding-left: 16px; border-left: 1px solid var(--line); }
+  .letter .num-line b { display: block; font-family: var(--display); font-size: 30px; line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .letter .num-line span { display: block; margin-top: 6px; font-size: 13.5px; line-height: 1.45; color: var(--ink-3); }
+  .letter .hard { list-style: none; padding: 0; }
+  .letter .hard li { padding: 18px 0 18px 22px; border-top: 1px solid var(--line); position: relative; }
+  .letter .hard li:last-child { border-bottom: 1px solid var(--line); }
+  .letter .hard li::before { content: ""; position: absolute; left: 0; top: 31px; width: 8px; height: 8px; border-radius: 50%; background: var(--attn); }
+  .letter .hard li.fixed::before { background: var(--ready); }
+  .letter .hard li b { display: block; }
+  .letter .hard .st { display: block; margin-top: 4px; font-size: 14px; color: var(--ink-3); }
+  .letter .ask { margin: 1.8em 0 0; padding: 28px 30px; border-radius: var(--r-l); background: var(--sunken); }
+  .letter .ask p { font-family: var(--display); font-size: 21px; line-height: 1.5; letter-spacing: -0.01em; color: var(--ink); }
+  .letter .ask p + p { margin-top: 12px; font-family: var(--sans); font-size: 15.5px; color: var(--ink-2); letter-spacing: 0; }
+  .signoff { margin-top: 2.4em; display: flex; align-items: center; gap: 14px; }
+  .signoff img { width: 40px; height: 40px; border-radius: 11px; }
+  .signoff b { display: block; font-size: 16px; font-weight: 600; }
+  .signoff span { font-size: 14.5px; color: var(--ink-3); }
+
+  /* figures: a piece of the real app (product.css) */
+  .lfig { margin: 2em 0; }
+  .lshot { height: 236px; padding: 26px 28px 0; border-radius: var(--r-l) var(--r-l) 0 0; background: var(--sunken); border: 1px solid var(--line); border-bottom: 0; overflow: hidden; display: flex; }
+  .lshot > * { flex: 1; min-width: 0; }
+  .lshot .app { display: block; height: auto; min-height: 100%; padding: 18px 22px 0; background: var(--bg); border: 1px solid var(--line-2); border-bottom: 0; border-radius: 11px 11px 0 0; box-shadow: var(--shadow-m); }
+  .lfig figcaption { margin-top: 0; padding: 12px 0 0; border-top: 1px solid var(--line); }
+  .m-h { font-size: 15px; font-weight: 600; letter-spacing: -0.008em; margin-top: 2px; }
+  .m-sub { font-size: 12px; color: var(--ink-3); margin-top: 3px; line-height: 1.45; }
+  .m-opt { display: grid; grid-template-columns: 1fr auto; gap: 1px 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
+  .m-opt:first-of-type { margin-top: 12px; }
+  .m-opt b { font-size: 13px; font-weight: 600; }
+  .m-opt b span { font-weight: 400; color: var(--ink-3); margin-left: 6px; }
+  .m-opt .n { grid-column: 1; font-size: 11.5px; color: var(--ink-3); }
+  .m-opt .app-btn { grid-row: 1 / 3; grid-column: 2; margin: 0; }
+  .app-pass .where, .app-pass .txt { display: block; }
+  .app-btn.ink { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+
+  /* ---------- after the letter ---------- */
+  .after { margin-top: 72px; }
+  .pn { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pn a, .pn .none { display: block; padding: 20px 22px; border: 1px solid var(--line); border-radius: var(--r-l); text-decoration: none; background: var(--surface); transition: border-color .16s var(--ease); }
+  .pn a:hover { border-color: var(--line-2); }
+  .pn .k { display: block; font-size: 13px; color: var(--ink-3); }
+  .pn .t { display: block; margin-top: 4px; font-weight: 500; line-height: 1.4; }
+  .pn .next { text-align: right; }
+  .pn .none { background: none; border-style: dashed; color: var(--ink-3); text-align: right; }
+  .pn .none .t { color: var(--ink-2); font-weight: 400; }
+  .full { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px 28px; }
+
+  .join { margin-top: 72px; padding: 36px; border-radius: var(--r-xl); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-s); }
+  .join .h3 { max-width: 20ch; }
+  .join .body { margin-top: 8px; margin-bottom: 22px; }
+
+  /* email signup (same component as changelog.html and letters.html) */
+  .signup { display: grid; gap: 12px; }
+  .signup .row { display: flex; gap: 10px; }
+  .signup input[type="email"] { flex: 1; min-width: 0; height: 50px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 12px; background: var(--surface); color: var(--ink); font: 16px var(--sans); box-shadow: var(--shadow-s); transition: border-color .16s var(--ease); }
+  .signup input[type="email"]::placeholder { color: var(--ink-3); }
+  .signup input[type="email"]:hover { border-color: var(--ink-3); }
+  .signup input[type="email"]:focus { outline: 2px solid var(--ink); outline-offset: 2px; border-color: var(--ink); }
+  .signup .promise { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13.5px; color: var(--ink-3); }
+  .signup .promise span { display: inline-flex; align-items: center; gap: 6px; }
+  .signup .promise svg { width: 14px; height: 14px; }
+  .signup .done { display: none; align-items: center; gap: 8px; font-size: 15px; color: var(--ink); min-height: 50px; }
+  .signup .done svg { width: 18px; height: 18px; color: var(--ready); flex: none; }
+  .signup.sent .row { display: none; }
+  .signup.sent .done { display: flex; }
+
+  @media (max-width: 860px) {
+    .lh { padding-top: 40px; }
+    .lh .label { margin-top: 28px; }
+    .lh .h1 { font-size: 34px; }
+    .letter .opening { font-size: 19px; }
+    .prose { font-size: 17px; }
+    .letter .num-line { grid-template-columns: 1fr; }
+    .letter .num-line > div { padding: 14px 0; }
+    .letter .num-line > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+    .letter .ask { padding: 22px; }
+    .letter .ask p { font-size: 19px; }
+    .lshot { height: 220px; padding: 20px 16px 0; }
+    .lshot .app { padding: 16px 16px 0; }
+    .pn { grid-template-columns: 1fr; }
+    .pn .next, .pn .none { text-align: left; }
+    .join { padding: 24px; }
+    .signup .row { flex-direction: column; }
+    .signup .row .btn { width: 100%; }
+  }
+</style>
+</head>
+<body data-page="letters">
+<main id="main">
+  <article aria-labelledby="letter-title">
+
+    <!-- ======================= HEAD ======================= -->
+    <header class="lh">
+      <div class="container read">
+        <a class="back" href="letters.html">← All letters</a>
+        <span class="label ox">Building Artifice · November 2026</span>
+        <h1 class="h1" id="letter-title">Why Artifice is a paid app, and why students stay free.</h1>
+        <div class="byline"><img src="assets/mark.svg" alt=""><span><b>The Artifice team</b>Letter 2 · about 5 minutes to read</span></div>
+      </div>
+    </header>
+
+    <!-- ======================= LETTER ======================= -->
+    <div class="container read">
+      <div class="prose letter">
+        <p class="newhere">New here? Once a month, the people who make Artifice write about what we shipped and what we learned. One email, no promotions.</p>
+
+        <p class="opening">Artifice 0.1.9 brings plans: Pro at $5.99 a month or $59 a year, after a 14-day trial with no card, and free for students. Here's why we chose to make a paid app.</p>
+
+        <p>We considered the usual shape: a free app with paid cloud extras on top. But almost everything Artifice does happens on your own computer. Since 0.1.7 it finds the right passages with a small model that runs there, and your files never leave. There's no cloud service to sell you, and we didn't want to invent one. What we make is the app, so the app is what we sell, and Pro is the whole app.</p>
+
+        <p>Students stay free. Verify a school email, and Artifice is yours for study and personal projects, checked again once a year. A student costs us almost nothing to serve, because Artifice runs on their computer, and we'd rather people learn with it than without it. We'll be honest: we also hope some of them bring it to work one day. People we give an access code to, such as testers, partners, events and classes, don't pay either.</p>
+
+        <p>If a plan ends, Artifice stops briefing your AI tools and stops reading new changes. Nothing else is taken away: your projects, Memory and Playbooks stay readable, and export always works.</p>
+
+        <h2 id="shipped">What shipped</h2>
+
+        <h3>Your documents, read <span class="version">0.1.8</span></h3>
+        <p>Until 0.1.8, Artifice skipped every PDF, Word file, spreadsheet and deck as “binary”. Now it reads them, along with OpenDocument, RTF, EPUB, emails and Outlook messages, and your AI gets the right page, slide or sheet for a question. We tested it on 58 questions about a folder of company documents, held back from everything we tuned on:</p>
+
+        <div class="num-line" role="group" aria-label="Results on a folder of company documents">
+          <div><b>8.2 <small style="font-size:16px;color:var(--ink-3);letter-spacing:0">vs 6.6</small></b><span>Answer score out of 10, with and without Artifice</span></div>
+          <div><b class="gold">−13%</b><span>Cost per question in Claude Code</span></div>
+          <div><b>3.6 <small style="font-size:16px;color:var(--ink-3);letter-spacing:0">vs 5.5</small></b><span>Turns to reach an answer</span></div>
+        </div>
+
+        <figure class="lfig">
+          <div class="lshot" role="img" aria-label="A briefing in Artifice: Claude was given the hotels section of the travel policy and rows of the expenses sheet">
+            <div class="app">
+              <div class="app-back">← Activity</div>
+              <div class="app-ask">Claude asked · Monday 10:12</div>
+              <div class="m-h">What's our hotel limit in Geneva?</div>
+              <div class="app-given" style="margin-top:12px">Claude was given</div>
+              <div class="app-pass"><span class="n">1</span><span><span class="where">travel-policy.docx · Hotels</span><span class="txt">Geneva: 260 CHF a night, including breakfast.</span></span></div>
+              <div class="app-pass"><span class="n">2</span><span><span class="where">expenses-2025.xlsx · Limits, rows 2–41</span><span class="txt">Europe: 180 EUR. United States: 220 USD.</span></span></div>
+            </div>
+          </div>
+          <figcaption>Every briefing in Activity opens to show what your AI was given, down to the section and the rows.</figcaption>
+        </figure>
+
+        <p>The app changed shape too. It now has five places, in plain words: Home, Library, Memory, Playbooks and Activity. Notebook became Memory and Jobs became Playbooks, and everything people had is still there.</p>
+
+        <h3>Pro, the trial, students and codes <span class="version">0.1.9</span></h3>
+        <p>Account › Plan shows where you stand: your plan, its price and when it renews or ends. One plan works on up to 3 computers. The trial never nags: the only reminder is a banner in its last 3 days.</p>
+
+        <figure class="lfig">
+          <div class="lshot" role="img" aria-label="Choosing how to use Artifice: free trial, Pro or Student">
+            <div class="app">
+              <div class="m-h">Choose how to use Artifice</div>
+              <div class="m-sub">Pick one to turn on briefings for your AI. You can change it anytime in Account.</div>
+              <div class="m-opt"><b>Free trial<span>14 days</span></b><span class="n">Everything in Pro. No card needed.</span><span class="app-btn ink">Start free trial</span></div>
+              <div class="m-opt"><b>Pro<span>$5.99 a month</span></b><span class="n">Or $59 a year. Cancel anytime.</span><span class="app-btn">Choose Pro</span></div>
+              <div class="m-opt"><b>Student<span>Free</span></b><span class="n">With your school email address.</span><span class="app-btn">Check my school email</span></div>
+            </div>
+          </div>
+          <figcaption>The first thing Artifice 0.1.9 asks. “Have a code?” sits just below.</figcaption>
+        </figure>
+
+        <p><strong>Smaller things:</strong></p>
+        <ul>
+          <li>On a Mac, Artifice reads the text in scans, screenshots and whiteboard photos, with the text recognition built into macOS.</li>
+          <li>Visio, draw.io and Excalidraw diagrams keep what connects to what, not just the labels.</li>
+          <li>Rate any briefing with a thumbs up or down in Activity, and Artifice learns from it.</li>
+          <li>File › Check for Updates… whenever you like.</li>
+        </ul>
+
+        <h2 id="hard">What broke, or was hard</h2>
+        <ul class="hard">
+          <li class="fixed"><b>0.1.7 made folders of documents more expensive.</b> It couldn't see Office files or PDFs, so on a folder of them, Claude Code paid 51% more with Artifice than without it, and got no better answers. Our own benchmark caught it, and 0.1.8 fixes it.<span class="st">Fixed in 0.1.8</span></li>
+          <li class="fixed"><b>A link inside a project could reach a file outside it.</b> Artifice could read that file through the link. It now reads only files that are really inside the project.<span class="st">Fixed in 0.1.8</span></li>
+          <li><b>Artifice still saves nothing when your AI fixes code.</b> On 50 real bug fixes, three runs each, the cost was the same with Artifice as without it. Versions before 0.1.6 cost 9–11% more, which is why Artifice now stays quiet while your AI is changing code. Our home page says 0% for fixing code, and it will keep saying so until we can show otherwise.<span class="st">Still true</span></li>
+        </ul>
+
+        <h2 id="next">What's next</h2>
+        <p>Teams, later: shared Memory and Playbooks for people who work on the same projects. Before that, we keep working on the code-fix case, and we'll tell you either way. We won't give dates we can't keep.</p>
+
+        <h2 id="question">One question for you</h2>
+        <div class="ask">
+          <p>What's one question you asked your AI this month that Artifice should have answered better?</p>
+          <p>Reply with it, as you typed it if you can, and which AI tool you asked. Leave out anything private; the wording is what helps.</p>
+        </div>
+
+        <div class="signoff"><img src="assets/mark.svg" alt=""><span><b>The Artifice team</b><span>Reply to this letter, or write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>. We read every one.</span></span></div>
+      </div>
+
+      <!-- ======================= AFTER ======================= -->
+      <nav class="after" aria-label="More letters">
+        <div class="pn">
+          <a href="letter-2026-10.html"><span class="k">← Previous letter</span><span class="t">October 2026: What we measured, including where Artifice didn't help.</span></a>
+          <span class="none"><span class="k">Next letter</span><span class="t">The December letter isn't written yet.</span></span>
+        </div>
+        <div class="full"><a class="arrow" href="changelog.html#v0-1-9">The full notes for 0.1.9</a><a class="arrow" href="changelog.html#v0-1-8">and for 0.1.8</a><a class="arrow" href="letters.html">All letters</a></div>
+      </nav>
+
+      <section class="join" aria-labelledby="join-t">
+        <h2 class="h3" id="join-t">Get the next letter by email.</h2>
+        <p class="body">Once a month, from the people who make Artifice. No tracking pixels, and one click unsubscribes you.</p>
+        <form class="signup" action="#" data-signup>
+          <div class="row">
+            <label class="vh" for="l-email">Email address</label>
+            <input id="l-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+            <button class="btn primary lg" type="submit">Get the letter</button>
+          </div>
+          <p class="done" role="status"><svg data-i="check"></svg>We sent you an email. Confirm it, and the next letter is yours.</p>
+          <div class="promise"><span>Once a month</span><span>Unsubscribe anytime</span><span>Never sold or shared</span></div>
+        </form>
+      </section>
+    </div>
+  </article>
+  <div style="height:136px"></div>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  document.querySelectorAll('[data-signup]').forEach(function (f) {
+    f.addEventListener('submit', function (e) { e.preventDefault(); if (f.checkValidity()) f.classList.add('sent'); });
+  });
+</script>
+</body>
+</html>

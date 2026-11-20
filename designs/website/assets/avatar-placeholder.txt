@@ -1,0 +1,7 @@
+PLACEHOLDER — replace before launch with a real photo of the person who answers sales email.
+
+avatar-placeholder.jpg: "woman on focus photography" by Christina @ wocintechchat.com, Unsplash.
+https://unsplash.com/photos/woman-on-focus-photography-SJvDxw0azqw
+Licence: Unsplash License (https://unsplash.com/license), free for commercial use, no attribution required.
+Downloaded 2026-11-19 as a 200x200 face crop (images.unsplash.com/photo-1573497019940-1c28c88b4f3e).
+Used in: the "Talk to sales" button in the nav (assets/site.js).

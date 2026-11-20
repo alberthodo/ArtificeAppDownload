@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redeem a code: free time on Artifice Pro | Artifice</title>
+<meta name="description" content="Redeem an Artifice access code in the app, in Account › Plan › Have a code?, or with artifice plan code. Codes give free time on everything in Pro.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/product.css">
+<style>
+  /* without JavaScript there's no code from the link: show the box to type one */
+  .no-js [data-has-code] { display: none; }
+  [data-has-code][hidden], [data-no-code][hidden] { display: none !important; }
+
+  /* ---------- hero: the code, and the sheet it goes into ---------- */
+  .rd-hero { padding: 96px 0 0; }
+  .rd-hero-in { display: grid; grid-template-columns: 6fr 6fr; gap: 64px; align-items: center; }
+  .rd-hero .h1 { margin-top: 16px; max-width: 11em; }
+  .rd-hero .lead { margin-top: 20px; max-width: 30em; }
+
+  .code-card { margin-top: 36px; padding: 24px; border-radius: var(--r-xl); border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow-m); max-width: 480px; }
+  .code-card .label { display: block; margin-bottom: 10px; }
+  .code-line { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .the-code { font: 600 26px/1.2 var(--mono); letter-spacing: .06em; color: var(--ink); word-break: break-all; }
+  .code-line .copy { position: static; height: 32px; padding: 0 11px; font-size: 13px; }
+  .code-card .small { margin-top: 14px; }
+  .code-in { display: flex; gap: 10px; }
+  .code-in input { flex: 1; min-width: 0; height: 50px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); font: 500 18px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+  .code-in input::placeholder { color: var(--ink-3); text-transform: none; letter-spacing: .04em; font-weight: 400; }
+  .code-in input:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+  .code-err { margin-top: 10px; font-size: 14px; color: var(--err); min-height: 1.4em; }
+
+  /* the app with the code sheet open */
+  .veiled { position: relative; }
+  .veiled .app { height: 440px; }
+  .veiled .app-page { animation: none; padding: 32px 40px 28px 48px; }
+  .veiled .veil { position: absolute; inset: 0; background: color-mix(in srgb, var(--sunken) 62%, transparent); -webkit-backdrop-filter: blur(1.5px); backdrop-filter: blur(1.5px); display: flex; justify-content: center; align-items: flex-start; padding: 80px 24px 24px; }
+  .ash { width: 100%; max-width: 400px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow-l); padding: 22px 24px 18px; font: 13px/1.5 var(--sans); color: var(--ink); text-align: left; }
+  .ash h3 { font-size: 17px; line-height: 24px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.008em; }
+  .ash .sub { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 14px; }
+  .ash .in { display: block; width: 100%; border-bottom: 1px solid var(--ink-3); padding: 6px 0; font: 15px var(--mono); letter-spacing: .04em; color: var(--ink); min-height: 34px; }
+  .ash .in.empty { color: var(--ink-3); }
+  .ash .acts { display: flex; justify-content: flex-end; gap: 8px; margin-top: 22px; }
+  .ash .b { display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 8px; font-size: 12.5px; font-weight: 500; background: var(--surface); }
+  .ash .b.primary { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+
+  /* ---------- two ways ---------- */
+  .ways { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .way { padding: 32px; display: flex; flex-direction: column; }
+  .way .who { display: flex; align-items: center; gap: 10px; }
+  .way .who .ic { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--sunken); color: var(--ink-2); }
+  .way .who .ic svg { width: 15px; height: 15px; }
+  .way .h3 { margin-top: 18px; }
+  .way ol { list-style: none; margin: 20px 0 0; padding: 0; border-top: 1px solid var(--line); counter-reset: s; }
+  .way li { display: grid; grid-template-columns: 30px 1fr; gap: 8px; padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; line-height: 1.55; counter-increment: s; }
+  .way li::before { content: counter(s); font-size: 13px; color: var(--ink-3); font-variant-numeric: tabular-nums; padding-top: 2px; }
+  .way li b { font-weight: 500; }
+  .way .actions { margin-top: 28px; }
+  .way .term-alt { margin-top: auto; padding-top: 28px; }
+  .way .term-alt .small { margin-bottom: 10px; }
+
+  /* ---------- how codes work ---------- */
+  .rules { display: grid; grid-template-columns: 4fr 8fr; gap: 72px; }
+  .rules .lead { margin-top: 16px; font-size: 18px; }
+  .rule-list { border-top: 1px solid var(--line); }
+  .rule-row { display: grid; grid-template-columns: 40px 200px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); align-items: start; }
+  .rule-row .ic { width: 32px; height: 32px; border-radius: 9px; background: var(--sunken); display: grid; place-items: center; color: var(--ink-2); }
+  .rule-row .ic svg { width: 16px; height: 16px; }
+  .rule-row h3 { font-size: 16px; font-weight: 600; padding-top: 5px; letter-spacing: -0.005em; }
+  .rule-row p { font-size: 15.5px; color: var(--ink-2); line-height: 1.6; padding-top: 4px; }
+  .rule-row code { font-size: 13px; }
+
+  .help { margin-top: 48px; }
+
+  @media (max-width: 1080px) {
+    .rd-hero-in, .rules { grid-template-columns: 1fr; gap: 48px; }
+    .rule-row { grid-template-columns: 40px 170px 1fr; }
+  }
+  @media (max-width: 860px) {
+    .rd-hero { padding-top: 48px; }
+    .the-code { font-size: 21px; }
+    .code-in { flex-direction: column; }
+    .code-in .btn { width: 100%; }
+    .veiled .app { height: 400px; min-height: 0; }
+    .veiled .app-page { padding: 24px 20px; }
+    .veiled .veil { padding: 48px 16px 16px; }
+    .ways { grid-template-columns: 1fr; }
+    .way { padding: 28px 24px; }
+    .rule-row { grid-template-columns: 40px 1fr; gap: 4px 16px; }
+    .rule-row p { grid-column: 2; padding-top: 0; }
+  }
+</style>
+</head>
+<body data-page="redeem">
+<main id="main">
+
+  <!-- ======================= HERO ======================= -->
+  <section class="rd-hero">
+    <div class="container rd-hero-in">
+      <div>
+        <span class="label reveal">Redeem a code</span>
+        <h1 class="h1 reveal" data-has-code hidden>Your Artifice code is ready.</h1>
+        <h1 class="h1 reveal" data-no-code>Redeem your Artifice code.</h1>
+        <p class="lead reveal d1">A code from the Artifice team gives you free time on everything in Pro. Redeem it in the app, on the account you'll use Artifice with.</p>
+
+        <div class="code-card reveal d2" data-has-code hidden>
+          <span class="label">Your code</span>
+          <div class="code-line"><span class="the-code" data-code>ARTF-XXXX-XXXX</span><button class="copy" type="button" data-copy-code><svg data-i="copy"></svg>Copy</button></div>
+          <p class="small">Copy it now. You'll paste it into Artifice in a moment.</p>
+        </div>
+
+        <form class="code-card reveal d2" data-no-code id="code-form" action="#" novalidate>
+          <label class="label" for="code-input">Your code</label>
+          <div class="code-in">
+            <input id="code-input" name="code" placeholder="ARTF-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="40" aria-describedby="code-err">
+            <button class="btn lg" type="submit">Use this code</button>
+          </div>
+          <p class="code-err" id="code-err" role="alert"></p>
+        </form>
+      </div>
+
+      <div class="reveal d2">
+        <div class="window veiled" aria-label="Redeeming a code in the Artifice app">
+          <div class="window-bar"><span class="lights"><i></i><i></i><i></i></span><span class="window-title">Artifice</span><span class="win-btns"><i>—</i><i>▢</i><i>✕</i></span></div>
+          <div class="app" aria-hidden="true">
+            <aside class="app-side">
+              <div class="app-proj"><span class="av">a</span><span><span class="nm">acme</span><span class="st">Ready</span></span><svg data-i="updown" class="i chev"></svg></div>
+              <div class="app-search"><svg data-i="search"></svg>Search acme<kbd>⌘K</kbd></div>
+              <nav class="app-nav">
+                <div><svg data-i="home"></svg>Home</div>
+                <div><svg data-i="library"></svg>Library</div>
+                <div><svg data-i="memory"></svg>Memory</div>
+                <div><svg data-i="playbooks"></svg>Playbooks</div>
+                <div><svg data-i="activity"></svg>Activity</div>
+              </nav>
+              <div class="bottom">
+                <nav class="app-nav"><div><svg data-i="tools"></svg>AI tools</div><div><svg data-i="settings"></svg>Settings</div></nav>
+                <div class="app-ver"><img src="assets/mark.svg" alt="">Artifice 0.1.9 · <u>What's new</u></div>
+              </div>
+            </aside>
+            <div class="app-main">
+              <div class="app-page">
+                <div class="app-title">Account</div>
+                <div class="app-meta">Maya Lee · maya@acme.com · Signed in with Microsoft</div>
+                <div class="app-h">Plan</div>
+                <div class="app-list">
+                  <div><div><div class="t">Trial</div><div class="s">Your trial ends on November 25, 2026, in 7 days. Everything is on until then.</div></div><span class="w">Choose a plan…</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="veil">
+            <div class="ash" role="img" aria-label="Sheet: Redeem a code, with the code filled in, and a Redeem button.">
+              <h3>Redeem a code</h3>
+              <p class="sub">Codes come from the Artifice team: for testers, partners, events and classes.</p>
+              <span class="in" data-code-sheet>ARTF-XXXX-XXXX</span>
+              <div class="acts"><span class="b">Cancel</span><span class="b primary">Redeem</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= TWO WAYS ======================= -->
+  <section class="section">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">Two ways in</span>
+        <h2 class="h2">Redeem it in the app, new or not.</h2>
+      </div>
+      <div class="ways">
+        <article class="card way reveal" aria-labelledby="way-new">
+          <div class="who"><span class="ic"><svg data-i="download"></svg></span><span class="label">New to Artifice</span></div>
+          <h3 class="h3" id="way-new">Download first, then redeem.</h3>
+          <ol>
+            <li><span>Download Artifice for Mac or Windows, and install it.</span></li>
+            <li><span>Click <b>Sign in with your browser</b>. New here? The same button creates your account.</span></li>
+            <li><span>On <b>Choose how to use Artifice</b>, click <b>Have a code?</b>, paste it, and click <b>Redeem</b>.</span></li>
+          </ol>
+          <div class="actions"><a class="btn primary lg" href="download.html"><svg data-dl-icon></svg><span data-dl-label>Download for Mac</span></a></div>
+        </article>
+
+        <article class="card way reveal d1" aria-labelledby="way-have">
+          <div class="who"><span class="ic"><svg data-i="person"></svg></span><span class="label">Already have Artifice</span></div>
+          <h3 class="h3" id="way-have">Open the app and paste it.</h3>
+          <ol>
+            <li><span>Open Artifice and sign in, if you aren't already.</span></li>
+            <li><span>Go to <b>Account › Plan › Have a code?</b></span></li>
+            <li><span>Paste your code and click <b>Redeem</b>. Your plan changes at once.</span></li>
+          </ol>
+          <div class="actions"><a class="btn lg" href="artifice://"><svg data-i="open"></svg>Open Artifice</a></div>
+          <div class="term-alt">
+            <p class="small">Or in a terminal:</p>
+            <div class="code">
+              <button class="copy" type="button"><svg data-i="copy"></svg>Copy</button>
+<pre><span class="p">$ </span>artifice plan code <span class="s" data-code-cli>ARTF-XXXX-XXXX</span></pre>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= HOW CODES WORK ======================= -->
+  <section class="section end">
+    <div class="container rules">
+      <div class="reveal">
+        <span class="label">How codes work</span>
+        <h2 class="h2" style="margin-top:14px">The small print, in plain words.</h2>
+        <p class="lead">A code turns on the same Artifice as Pro, for a set time. Here's what to expect.</p>
+      </div>
+      <div class="reveal d1">
+        <div class="rule-list">
+          <div class="rule-row"><span class="ic"><svg data-i="ticket"></svg></span><h3>What it looks like</h3><p><code>ARTF-</code> and eight letters and digits, in two groups of four. There's no 0, O, 1, I or L, so it's easy to read out and type.</p></div>
+          <div class="rule-row"><span class="ic"><svg data-i="info"></svg></span><h3>How long it lasts</h3><p>Each code gives a set number of months, or free time with no end. It starts the day you redeem it, and <b style="font-weight:500;color:var(--ink)">Account › Plan</b> shows until when. A few codes give a discount on Pro instead; the app says which.</p></div>
+          <div class="rule-row"><span class="ic"><svg data-i="person"></svg></span><h3>One per person</h3><p>You can use a code once on your account. A code for a class or an event works once for each person, until its places run out. Codes also have a last day to redeem them.</p></div>
+          <div class="rule-row"><span class="ic"><svg data-i="plus"></svg></span><h3>Time adds up</h3><p>If free time from another code is still running, the new code's time is added on to the end of it.</p></div>
+          <div class="rule-row"><span class="ic"><svg data-i="card"></svg></span><h3>Already paying for Pro?</h3><p>Then the code isn't needed for now. Email <a href="mailto:support@tryartifice.com?subject=Turn%20my%20code%20into%20credit">support@tryartifice.com</a> with it, and we'll turn it into credit on your plan.</p></div>
+          <div class="rule-row"><span class="ic"><svg data-i="refresh"></svg></span><h3>When it ends</h3><p>Artifice stops briefing your AI tools, and your projects, memories and playbooks stay readable. Choose Pro in <b style="font-weight:500;color:var(--ink)">Account › Plan</b> to carry on. <a href="pricing.html#faq">More about plans</a>.</p></div>
+        </div>
+        <p class="note help"><svg data-i="help"></svg><span><strong>Code not working?</strong> Check it against the one you were given, or ask whoever gave it to you. Still stuck? Write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a> with the code.</span></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  // This page only: read ?code= from the link, or let the visitor type one.
+  (function () {
+    var clean = function (s) { return String(s || '').toUpperCase().replace(/[^A-Z0-9-]/g, '').slice(0, 40); };
+    var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+
+    function show(code) {
+      var has = code.length >= 6;
+      $$('[data-has-code]').forEach(function (el) { el.hidden = !has; });
+      $$('[data-no-code]').forEach(function (el) { el.hidden = has; });
+      $$('[data-code], [data-code-cli]').forEach(function (el) { el.textContent = has ? code : 'ARTF-XXXX-XXXX'; });
+      $$('[data-code-sheet]').forEach(function (el) { el.textContent = has ? code : 'ARTF-XXXX-XXXX'; el.classList.toggle('empty', !has); });
+    }
+
+    show(clean(new URLSearchParams(location.search).get('code')));
+
+    var form = document.getElementById('code-form'), input = document.getElementById('code-input'), err = document.getElementById('code-err');
+    input.addEventListener('input', function () { err.textContent = ''; input.removeAttribute('aria-invalid'); });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var code = clean(input.value);
+      if (code.length < 6) { err.textContent = "That doesn't look like a code. Check it and try again."; input.setAttribute('aria-invalid', 'true'); input.focus(); return; }
+      try { history.replaceState(null, '', '?code=' + encodeURIComponent(code)); } catch (_) {}
+      show(code);
+    });
+
+    // copy the code itself (not a code block)
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-copy-code]'); if (!b) return;
+      e.stopImmediatePropagation();
+      var text = document.querySelector('[data-code]').textContent;
+      var done = function () { b.classList.add('done'); b.innerHTML = SITE.icon('check') + 'Copied'; setTimeout(function () { b.classList.remove('done'); b.innerHTML = SITE.icon('copy') + 'Copy'; }, 1600); };
+      (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.resolve()).then(done, done);
+    }, true);
+  })();
+</script>
+</body>
+</html>

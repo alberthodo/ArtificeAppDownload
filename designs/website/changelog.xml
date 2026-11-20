@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Artifice changelog</title>
+    <link>https://tryartifice.com/changelog.html</link>
+    <atom:link href="https://tryartifice.com/changelog.xml" rel="self" type="application/rss+xml"/>
+    <description>Every Artifice release in plain words: what's new, what improved and what's no longer broken.</description>
+    <language>en</language>
+    <lastBuildDate>Wed, 18 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <image>
+      <url>https://tryartifice.com/assets/mark.svg</url>
+      <title>Artifice changelog</title>
+      <link>https://tryartifice.com/changelog.html</link>
+    </image>
+
+    <item>
+      <title>0.1.9: Pro, a 14-day trial, and free for students</title>
+      <link>https://tryartifice.com/changelog.html#v0-1-9</link>
+      <guid isPermaLink="true">https://tryartifice.com/changelog.html#v0-1-9</guid>
+      <pubDate>Wed, 18 Nov 2026 12:00:00 GMT</pubDate>
+      <description>Plans arrive with Pro, at $5.99 a month or $59 a year. Everyone starts with 14 days of everything, with no card. Artifice is free for students with a school email (checked once a year, for non-commercial use) and for anyone with an access code. Account › Plan shows your plan, price and renewal date, and one plan works on up to 3 computers. When a plan ends, Artifice stops briefing your AI tools, and your projects, Memory and Playbooks stay readable and exportable.</description>
+    </item>
+
+    <item>
+      <title>0.1.8: Reads Word, PDF, Excel and PowerPoint</title>
+      <link>https://tryartifice.com/changelog.html#v0-1-8</link>
+      <guid isPermaLink="true">https://tryartifice.com/changelog.html#v0-1-8</guid>
+      <pubDate>Tue, 10 Nov 2026 12:00:00 GMT</pubDate>
+      <description>Artifice now reads PDF, Word, Excel and PowerPoint files (including the older 97–2003 formats), OpenDocument, RTF, EPUB, CSV, emails and Outlook messages, diagrams, and on a Mac the text in scans and pictures. The app is rebuilt around five places: Home, Library, Memory, Playbooks and Activity, with an Artifice account for sign-in. On a folder of company documents, AI answers scored 8.2 against 6.6 out of 10 and cost 13% less than without Artifice. Fixed: folders of documents cost more with 0.1.7, and a link inside a project could reach a file outside it.</description>
+    </item>
+
+    <item>
+      <title>0.1.7: Search by meaning</title>
+      <link>https://tryartifice.com/changelog.html#v0-1-7</link>
+      <guid isPermaLink="true">https://tryartifice.com/changelog.html#v0-1-7</guid>
+      <pubDate>Sun, 01 Nov 2026 12:00:00 GMT</pubDate>
+      <description>Artifice finds the code and documents a question is about by what it means, with a small model that runs on your computer, and adds nothing when nothing fits. On five real projects, AI tools answered questions for 28% less than without Artifice, in fewer steps, with answers just as good. Big projects are read several times faster. This release also brings everything from 0.1.6, which wasn't released on its own: Artifice stays quiet while your AI is changing code, and is lighter in Claude Code.</description>
+    </item>
+
+    <item>
+      <title>0.1.5: Antigravity told apart, and a clean uninstall</title>
+      <link>https://tryartifice.com/changelog.html#v0-1-5</link>
+      <guid isPermaLink="true">https://tryartifice.com/changelog.html#v0-1-5</guid>
+      <pubDate>Thu, 22 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Artifice finds Antigravity however it's set up and files its requests under Antigravity, not Gemini CLI. Settings › Uninstall disconnects every AI tool first, and artifice doctor prints a report ready for a bug report. Fixed: connecting Gemini CLI on Windows could fail with "not valid JSON", and Windows paths could be left in a form some tools can't start.</description>
+    </item>
+
+    <item>
+      <title>0.1.4: Savings that stay, and jobs without code</title>
+      <link>https://tryartifice.com/changelog.html#v0-1-4</link>
+      <guid isPermaLink="true">https://tryartifice.com/changelog.html#v0-1-4</guid>
+      <pubDate>Tue, 20 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Savings add up across all your projects and are kept even if you remove one. Jobs can be written with a simple form. Google Antigravity can be connected, every connected AI tool shows up with when it last used Artifice, and folders are now called projects. Several fixes to savings history, connections and jobs.</description>
+    </item>
+
+    <item>
+      <title>0.1.3: Connect an AI tool once, for every project</title>
+      <link>https://tryartifice.com/changelog.html#v0-1-3</link>
+      <guid isPermaLink="true">https://tryartifice.com/changelog.html#v0-1-3</guid>
+      <pubDate>Fri, 16 Oct 2026 18:00:00 GMT</pubDate>
+      <description>A connected AI tool uses Artifice in every project you add, without changing your project's files. Also a clearer Overview, a new Graph of how files and notes connect, and savings shown in money.</description>
+    </item>
+
+    <item>
+      <title>0.1.2: Opens on every Mac</title>
+      <link>https://tryartifice.com/changelog.html#v0-1-2</link>
+      <guid isPermaLink="true">https://tryartifice.com/changelog.html#v0-1-2</guid>
+      <pubDate>Fri, 16 Oct 2026 15:00:00 GMT</pubDate>
+      <description>On some Macs, Artifice could refuse to open after downloading it. It no longer does.</description>
+    </item>
+
+    <item>
+      <title>0.1.1: The first public release</title>
+      <link>https://tryartifice.com/changelog.html#v0-1-1</link>
+      <guid isPermaLink="true">https://tryartifice.com/changelog.html#v0-1-1</guid>
+      <pubDate>Fri, 16 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Downloads for macOS (Apple silicon and Intel) and Windows (x64 and ARM), with automatic updates. Counts and savings are shown in your AI's own tokens, as a range with every assumption spelled out. Carrel is now called Artifice.</description>
+    </item>
+
+    <item>
+      <title>0.1.0: The first preview</title>
+      <link>https://tryartifice.com/changelog.html#v0-1-0</link>
+      <guid isPermaLink="true">https://tryartifice.com/changelog.html#v0-1-0</guid>
+      <pubDate>Wed, 14 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Add any folder, and Artifice reads it on your computer, keeps it up to date and hands your AI tools just the parts they need. With a shared notebook, jobs for step-by-step work, and connections to Claude Code, Cursor, Codex and any MCP app.</description>
+    </item>
+  </channel>
+</rss>

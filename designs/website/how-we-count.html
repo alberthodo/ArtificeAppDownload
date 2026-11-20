@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How we count: how Artifice measures what it saves | Artifice</title>
+<meta name="description" content="How Artifice measures savings: the same AI tool, model and tasks with and without Artifice. Results: 28% lower cost on code questions, 13% on documents with better answers (8.2 vs 6.6), and no saving on code fixes. Method, limits and how the app counts tokens saved.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* ---------- page head ---------- */
+  .hc-head .h1 { max-width: 15ch; }
+  .hc-head .lead { max-width: 38em; }
+  .updated { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--ink-3); }
+  .jump { display: flex; flex-wrap: wrap; gap: 4px 22px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 14.5px; }
+  .jump a { color: var(--ink-2); text-decoration: none; }
+  .jump a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 4px; }
+
+  /* ---------- result cards with bars ---------- */
+  .res { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .resc { border-top: 2px solid var(--ink); padding-top: 22px; display: flex; flex-direction: column; }
+  .resc.zero { border-top-color: var(--line-2); }
+  .resc .v { font-family: var(--display); font-size: 56px; line-height: 1; letter-spacing: -0.04em; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .resc .v small { font-size: 24px; letter-spacing: -0.02em; margin-left: 2px; }
+  .resc.zero .v { color: var(--ink-3); }
+  .resc h3 { font-size: 17px; margin-top: 16px; }
+  .resc > p { margin-top: 6px; font-size: 15px; color: var(--ink-2); line-height: 1.6; }
+  .bars { margin-top: 24px; display: grid; gap: 10px; }
+  .bars .cap { font-size: 12.5px; color: var(--ink-3); margin-top: 8px; }
+  .bars .cap:first-child { margin-top: 0; }
+  .bar { display: grid; grid-template-columns: 64px 1fr 58px; align-items: center; gap: 12px; font-size: 13px; color: var(--ink-2); }
+  .bar .val { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .track { height: 10px; display: flex; }
+  .track i { display: block; height: 100%; }
+  .track .base { background: var(--line-2); border-radius: 999px; }
+  .track .with { background: var(--ink-2); border-radius: 999px 0 0 999px; }
+  .track .with.full { border-radius: 999px; }
+  .track .saved { background: var(--gold-fill); border: 1px dashed var(--gold); border-left: 0; border-radius: 0 999px 999px 0; box-sizing: border-box; }
+  .saved-note { font-size: 12.5px; color: var(--gold); text-align: right; margin-top: -4px; padding-right: 70px; }
+  .resc .src { margin-top: auto; padding-top: 18px; font-size: 13px; color: var(--ink-3); }
+
+  /* ---------- results table ---------- */
+  .results-table { margin-top: 72px; }
+  .results-table td.num, .results-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .results-table td .sub { display: block; font-size: 13px; color: var(--ink-3); font-weight: 400; margin-top: 2px; }
+  .results-table td.chg { font-weight: 600; }
+  .results-table .table th:last-child, .results-table .table td:last-child { padding-right: 0; }
+  .results-table .foot { margin-top: 14px; }
+
+  /* ---------- the arms ---------- */
+  .same { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .same > div { border-top: 1px solid var(--line); padding-top: 22px; }
+  .same .ic { width: 32px; height: 32px; border-radius: 9px; background: var(--sunken); display: grid; place-items: center; color: var(--ink-2); }
+  .same .ic svg { width: 16px; height: 16px; }
+  .same h3 { margin-top: 16px; }
+  .same p { margin-top: 6px; font-size: 15.5px; color: var(--ink-2); line-height: 1.6; }
+  .arms { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; }
+  .arms .card { padding: 28px; }
+  .arms .card.sunken { padding: 28px; }
+  .arms h3 { margin-top: 10px; }
+  .arms .check-list { margin-top: 14px; }
+
+  /* ---------- one benchmark ---------- */
+  .bm { display: grid; grid-template-columns: 4fr 8fr; gap: 72px; padding-top: 48px; border-top: 1px solid var(--line); }
+  .bm + .bm { margin-top: 80px; }
+  .bm .label { display: block; }
+  .bm .h3 { margin-top: 10px; }
+  .meta { margin: 24px 0 0; display: grid; }
+  .meta div { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; }
+  .meta div:last-child { border-bottom: 1px solid var(--line); }
+  .meta dt { color: var(--ink-3); }
+  .meta dd { margin: 0; color: var(--ink); }
+  .bm .prose { max-width: none; font-size: 17px; }
+  .bm .prose > * + * { margin-top: 1em; }
+  .bm .table { margin-top: 28px; }
+  .bm .table td.num, .bm .table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .bm .table th:last-child, .bm .table td:last-child { padding-right: 0; }
+  .bm .note { margin-top: 24px; }
+
+  /* ---------- the app's count ---------- */
+  .calc { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-l); box-shadow: var(--shadow-s); padding: 8px 24px; }
+  .calc .row { display: grid; grid-template-columns: 1fr auto; gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); font-size: 15px; }
+  .calc .row:first-child { border-top: 0; }
+  .calc .row span:last-child { font-variant-numeric: tabular-nums; text-align: right; }
+  .calc .row .s { display: block; font-size: 13px; color: var(--ink-3); }
+  .calc .row.total { border-top: 1px solid var(--ink); font-weight: 600; }
+  .calc .row.total span:last-child { color: var(--gold); }
+  .calc-cap { margin-top: 14px; }
+  .counts-not { margin-top: 28px; }
+
+  /* ---------- limits and next ---------- */
+  .limits { display: grid; grid-template-columns: 1fr 1fr; gap: 0 56px; }
+  .limits li { list-style: none; padding: 18px 0; border-top: 1px solid var(--line); font-size: 15.5px; line-height: 1.6; color: var(--ink-2); }
+  .limits li b { color: var(--ink); font-weight: 600; display: block; margin-bottom: 2px; }
+  .limits { padding: 0; margin: 0; }
+  .next { display: grid; grid-template-columns: 5fr 7fr; gap: 72px; align-items: start; }
+  .next .rows > div { display: grid; grid-template-columns: 28px 1fr; gap: 12px; padding: 18px 0; }
+  .next .rows svg { width: 18px; height: 18px; color: var(--ink-2); margin-top: 3px; }
+  .next .rows b { display: block; font-weight: 600; }
+  .next .rows span { font-size: 15.5px; color: var(--ink-2); line-height: 1.55; }
+
+  @media (max-width: 1080px) {
+    .res { grid-template-columns: 1fr; gap: 48px; max-width: 560px; }
+    .bm, .next { grid-template-columns: 1fr; gap: 32px; }
+    .same { gap: 28px; }
+  }
+  @media (max-width: 860px) {
+    .resc .v { font-size: 48px; }
+    .same, .arms, .limits { grid-template-columns: 1fr; }
+    .arms { margin-top: 40px; }
+    .results-table { margin-top: 56px; }
+    .results-table thead, .bm .table thead { display: none; }
+    .results-table tr, .bm .table tr { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+    .results-table tbody tr:last-child, .bm .table tbody tr:last-child { border-bottom: 1px solid var(--line); }
+    .results-table td, .results-table tbody tr:last-child td, .bm .table td, .bm .table tbody tr:last-child td { border: 0; padding: 0; text-align: left !important; white-space: normal; }
+    .results-table td:first-child, .bm .table td:first-child { grid-column: 1 / -1; }
+    .results-table td[data-l]::before, .bm .table td[data-l]::before { content: attr(data-l); display: block; font-size: 12.5px; color: var(--ink-3); font-weight: 400; }
+    .bm + .bm { margin-top: 56px; }
+  }
+</style>
+</head>
+<body data-page="how-we-count">
+<main id="main">
+
+  <!-- ======================= PAGE HEAD ======================= -->
+  <section class="page-head hc-head">
+    <div class="container">
+      <span class="label reveal">How we count</span>
+      <h1 class="h1 reveal d1">How we measure what Artifice saves.</h1>
+      <p class="lead reveal d2">We run the same AI tool on the same tasks twice, once without Artifice and once with it, and compare what each run cost and how good its answer was. Here is how, what we found, and where Artifice makes no difference.</p>
+      <div class="updated reveal d3"><span>Updated November 18, 2026</span><span>Three benchmarks, October and November 2026</span></div>
+      <nav class="jump reveal d3" aria-label="On this page">
+        <a href="#results">Results</a><a href="#method">The method</a><a href="#questions">Code questions</a><a href="#documents">Documents</a><a href="#fixes">Code fixes</a><a href="#judging">Judging</a><a href="#in-the-app">Tokens saved in the app</a><a href="#limits">Limits</a><a href="#next">What's next</a>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ======================= RESULTS ======================= -->
+  <section class="section" id="results" style="padding-top:112px">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">Results</span>
+        <h2 class="h2">It saves when your AI reads, not when it edits.</h2>
+        <p class="lead">Questions take broad reading, and that's what a briefing replaces. A fix takes a few steps to find the place, which an AI tool already does well on its own.</p>
+      </div>
+
+      <div class="res">
+        <article class="resc reveal">
+          <div class="v gold">−28<small>%</small></div>
+          <h3>Questions about code</h3>
+          <p>Lower cost per question, with answers just as good.</p>
+          <div class="bars" role="img" aria-label="Cost per question: $0.0698 without Artifice, $0.0504 with it. Score: 9.13 without, 9.15 with, out of 10.">
+            <div class="cap">Cost per question</div>
+            <div class="bar"><span>Without</span><span class="track"><i class="base" style="width:100%"></i></span><span class="val">$0.0698</span></div>
+            <div class="bar"><span>With</span><span class="track"><i class="with" style="width:72.2%"></i><i class="saved" style="width:27.8%"></i></span><span class="val">$0.0504</span></div>
+            <div class="saved-note">27.8% saved</div>
+            <div class="cap">Answer score, out of 10</div>
+            <div class="bar"><span>Without</span><span class="track"><i class="base" style="width:91.3%"></i></span><span class="val">9.13</span></div>
+            <div class="bar"><span>With</span><span class="track"><i class="with full" style="width:91.5%"></i></span><span class="val">9.15</span></div>
+          </div>
+          <div class="src">Artifice 0.1.7 · Oct 28, 2026 · 144 questions</div>
+        </article>
+        <article class="resc reveal d1">
+          <div class="v gold">−13<small>%</small></div>
+          <h3>Folders of documents</h3>
+          <p>Lower cost per question, and clearly better answers.</p>
+          <div class="bars" role="img" aria-label="Cost per question: $0.0484 without Artifice, $0.0422 with it. Score: 6.62 without, 8.16 with, out of 10.">
+            <div class="cap">Cost per question</div>
+            <div class="bar"><span>Without</span><span class="track"><i class="base" style="width:100%"></i></span><span class="val">$0.0484</span></div>
+            <div class="bar"><span>With</span><span class="track"><i class="with" style="width:87.3%"></i><i class="saved" style="width:12.7%"></i></span><span class="val">$0.0422</span></div>
+            <div class="saved-note">12.7% saved</div>
+            <div class="cap">Answer score, out of 10</div>
+            <div class="bar"><span>Without</span><span class="track"><i class="base" style="width:66.2%"></i></span><span class="val">6.62</span></div>
+            <div class="bar"><span>With</span><span class="track"><i class="with full" style="width:81.6%"></i></span><span class="val">8.16</span></div>
+          </div>
+          <div class="src">Artifice 0.1.8 · Nov 4, 2026 · 58 questions</div>
+        </article>
+        <article class="resc zero reveal d2">
+          <div class="v">0<small>%</small></div>
+          <h3>Fixing code</h3>
+          <p>No saving, and no extra cost: Artifice adds nothing to a change.</p>
+          <div class="bars" role="img" aria-label="Cost per task: $0.159 without Artifice and $0.159 with it. Solved: 54.0% without, 53.3% with.">
+            <div class="cap">Cost per task</div>
+            <div class="bar"><span>Without</span><span class="track"><i class="base" style="width:100%"></i></span><span class="val">$0.159</span></div>
+            <div class="bar"><span>With</span><span class="track"><i class="with full" style="width:99.9%"></i></span><span class="val">$0.159</span></div>
+            <div class="saved-note" style="color:var(--ink-3)">−0.1%, within noise</div>
+            <div class="cap">Tasks solved</div>
+            <div class="bar"><span>Without</span><span class="track"><i class="base" style="width:54%"></i></span><span class="val">54.0%</span></div>
+            <div class="bar"><span>With</span><span class="track"><i class="with full" style="width:53.3%"></i></span><span class="val">53.3%</span></div>
+          </div>
+          <div class="src">Artifice 0.1.6 · Oct 26, 2026 · 50 tasks × 3 runs</div>
+        </article>
+      </div>
+
+      <div class="results-table reveal">
+        <table class="table">
+          <caption class="vh">Benchmark results: cost and answer quality with and without Artifice</caption>
+          <thead><tr><th scope="col">Benchmark</th><th scope="col">Tasks and runs</th><th scope="col" class="num">Without Artifice</th><th scope="col" class="num">With Artifice</th><th scope="col" class="num">Cost</th><th scope="col">Answers</th></tr></thead>
+          <tbody>
+            <tr><td>Questions about code<span class="sub">Artifice 0.1.7 · Oct 2026</span></td><td data-l="Tasks and runs">144 held-out questions on 5 projects · 1 run each</td><td class="num" data-l="Without Artifice">$0.0698</td><td class="num" data-l="With Artifice">$0.0504</td><td class="num chg gold" data-l="Cost">−27.8%</td><td data-l="Answers">9.15 vs 9.13 out of 10<span class="sub">No difference</span></td></tr>
+            <tr><td>Folders of documents<span class="sub">Artifice 0.1.8 · Nov 2026</span></td><td data-l="Tasks and runs">58 questions on a 45-file folder · 1 run each</td><td class="num" data-l="Without Artifice">$0.0484</td><td class="num" data-l="With Artifice">$0.0422</td><td class="num chg gold" data-l="Cost">−12.7%</td><td data-l="Answers">8.16 vs 6.62 out of 10<span class="sub">+1.53, 95% CI +0.69 to +2.47</span></td></tr>
+            <tr><td>Fixing code<span class="sub">Artifice 0.1.6 · Oct 2026</span></td><td data-l="Tasks and runs">50 real GitHub issues · 3 runs each, 150 per arm</td><td class="num" data-l="Without Artifice">$0.159</td><td class="num" data-l="With Artifice">$0.159</td><td class="num chg" data-l="Cost">−0.1%</td><td data-l="Answers">53.3% vs 54.0% solved<span class="sub">95% CI on cost −3.5% to +3.2%</span></td></tr>
+          </tbody>
+        </table>
+        <p class="small foot">Cost is the average per question or task, as Claude Code reports it at Anthropic's list prices. All runs: Claude Code 2.1.308 with Claude Sonnet 5.5, effort high.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= METHOD ======================= -->
+  <section class="section" id="method">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">The method</span>
+        <h2 class="h2">Same tool, same model, same tasks.</h2>
+        <p class="lead">The only difference between the two arms of a test is whether Artifice is connected. Every comparison is paired: the same task, run in both arms.</p>
+      </div>
+      <div class="same">
+        <div class="reveal"><span class="ic"><svg data-i="terminal"></svg></span><h3 class="h4">The same AI tool</h3><p>Claude Code 2.1.308, the same pinned copy in every run, run without a person at the keyboard. No user settings, memory, skills or plugins.</p></div>
+        <div class="reveal d1"><span class="ic"><svg data-i="cpu"></svg></span><h3 class="h4">The same model</h3><p>Claude Sonnet 5.5 at effort high in both arms. The model that graded answers, Claude Opus 5.5, never wrote them.</p></div>
+        <div class="reveal d2"><span class="ic"><svg data-i="playbooks"></svg></span><h3 class="h4">The same tasks</h3><p>Each question or issue runs in both arms, given exactly as typed. Tasks used to tune Artifice are kept apart from the ones it is scored on.</p></div>
+      </div>
+      <div class="arms">
+        <div class="card sunken reveal">
+          <span class="label">Without Artifice</span>
+          <h3 class="h4">Claude Code on its own</h3>
+          <ul class="check-list">
+            <li><svg data-i="search"></svg>Finds what it needs with its own search and read tools.</li>
+            <li><svg data-i="folder"></svg>Works on the benchmark's own copy of each project, never the original.</li>
+          </ul>
+        </div>
+        <div class="card reveal d1">
+          <span class="label">With Artifice</span>
+          <h3 class="h4">Claude Code, connected as <code>artifice connect</code> does it</h3>
+          <ul class="check-list">
+            <li><svg data-i="check"></svg>The MCP server and the hooks, exactly as a person gets them.</li>
+            <li><svg data-i="check"></svg>Its own Artifice data, kept apart from anything we use day to day.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= THE THREE BENCHMARKS ======================= -->
+  <section class="section">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">The three benchmarks</span>
+        <h2 class="h2">What we asked, and what we found.</h2>
+      </div>
+
+      <article class="bm reveal" id="questions">
+        <div>
+          <span class="label">1 · Questions about code</span>
+          <h3 class="h3">How does this codebase work?</h3>
+          <dl class="meta">
+            <div><dt>Date</dt><dd>October 28, 2026</dd></div>
+            <div><dt>Version</dt><dd>Artifice 0.1.7</dd></div>
+            <div><dt>Projects</dt><dd>5: two of ours, three open source</dd></div>
+            <div><dt>Questions</dt><dd>144 held out, 1 run per arm</dd></div>
+            <div><dt>Judged by</dt><dd>Claude Opus 5.5, 0–10, blind</dd></div>
+          </dl>
+        </div>
+        <div class="prose">
+          <p>Five projects: a Unity game of about 10,000 files and a planning folder, both ours, and three open-source projects at fixed commits: memos (Go and TypeScript), httpie (Python) and pocketbase (Go and JavaScript). Artifice was never tuned on pocketbase.</p>
+          <p>Claude Opus 5.5 explored each project read-only and wrote questions the way people type them, each with the files that answer it. A second Opus session checked every one with tools; 278 of 287 survived. Half were used to tune Artifice, and the rest were scored once. Claude Code ran read-only.</p>
+          <p>With Artifice, Claude Code spent 27.8% less per question and took 4.2 turns instead of 6.4. It was cheaper on every project, by 20% to 37%. Scores didn't move: the paired difference was +0.01, with a 95% confidence interval of −0.17 to +0.22. The version before, 0.1.6, saved 12.2% on the same questions.</p>
+          <table class="table">
+            <caption class="vh">Code questions by kind</caption>
+            <thead><tr><th scope="col">Kind of question</th><th scope="col" class="num">Questions</th><th scope="col" class="num">Without</th><th scope="col" class="num">Cost with Artifice</th></tr></thead>
+            <tbody>
+              <tr><td>About the code</td><td class="num" data-l="Questions">64</td><td class="num" data-l="Without">$0.0703</td><td class="num gold" data-l="With Artifice">−27.6%</td></tr>
+              <tr><td>About the project's documents</td><td class="num" data-l="Questions">40</td><td class="num" data-l="Without">$0.0660</td><td class="num gold" data-l="With Artifice">−38.3%</td></tr>
+              <tr><td>An overview</td><td class="num" data-l="Questions">18</td><td class="num" data-l="Without">$0.0875</td><td class="num gold" data-l="With Artifice">−16.6%</td></tr>
+              <tr><td>Not answerable from the project</td><td class="num" data-l="Questions">22</td><td class="num" data-l="Without">$0.0607</td><td class="num gold" data-l="With Artifice">−21.0%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="bm reveal" id="documents">
+        <div>
+          <span class="label">2 · Folders of documents</span>
+          <h3 class="h3">What does the policy say?</h3>
+          <dl class="meta">
+            <div><dt>Date</dt><dd>November 4, 2026</dd></div>
+            <div><dt>Version</dt><dd>Artifice 0.1.8</dd></div>
+            <div><dt>Folder</dt><dd>45 company files</dd></div>
+            <div><dt>Questions</dt><dd>58 scored, 1 run per arm</dd></div>
+            <div><dt>Judged by</dt><dd>Claude Opus 5.5, 0–10, blind</dd></div>
+          </dl>
+        </div>
+        <div class="prose">
+          <p>The folder holds 45 files: 16 documents we generated from known text, one per format, six real public PDFs such as a 492-page security standard and a company's annual report, and 24 real Office and Outlook files from Apache Tika's public test set.</p>
+          <p>Opus 5.5 explored the folder and wrote 68 questions, each checked by a second Opus session. Ten were general questions that get no briefing in either arm, which leaves 58. Shell commands were allowed in both arms, so Claude Code could open Office files itself without Artifice.</p>
+          <p>With Artifice, answers scored 8.16 out of 10 against 6.62, at 12.7% lower cost and in 3.6 turns instead of 5.5. The version before, 0.1.7, skipped these files and made the same folder 51% more expensive.</p>
+          <table class="table">
+            <caption class="vh">Document questions by kind</caption>
+            <thead><tr><th scope="col">Kind of question</th><th scope="col" class="num">Questions</th><th scope="col" class="num">Cost with Artifice</th><th scope="col" class="num">Score without → with</th></tr></thead>
+            <tbody>
+              <tr><td>About what the documents say</td><td class="num" data-l="Questions">43</td><td class="num gold" data-l="Cost with Artifice">−13.4%</td><td class="num" data-l="Score">6.33 → 8.07</td></tr>
+              <tr><td>An overview</td><td class="num" data-l="Questions">6</td><td class="num gold" data-l="Cost with Artifice">−26.4%</td><td class="num" data-l="Score">5.33 → 7.50</td></tr>
+              <tr><td>Not in the folder</td><td class="num" data-l="Questions">9</td><td class="num" data-l="Cost with Artifice">+3.2%</td><td class="num" data-l="Score">9.59 → 9.55</td></tr>
+            </tbody>
+          </table>
+          <div class="note"><svg data-i="info"></svg><p><strong>Where it still answered poorly:</strong> questions whose answer spans a long PDF. Claude answered from the pages it was given and didn't read further.</p></div>
+        </div>
+      </article>
+
+      <article class="bm reveal" id="fixes">
+        <div>
+          <span class="label">3 · Fixing code</span>
+          <h3 class="h3">Fix this GitHub issue.</h3>
+          <dl class="meta">
+            <div><dt>Dates</dt><dd>October 22 and 26, 2026</dd></div>
+            <div><dt>Version</dt><dd>Artifice 0.1.6</dd></div>
+            <div><dt>Tasks</dt><dd>50 issues from 43 repositories</dd></div>
+            <div><dt>Runs</dt><dd>3 per task, 150 per arm</dd></div>
+            <div><dt>Judged by</dt><dd>The benchmark's own tests</dd></div>
+          </dl>
+        </div>
+        <div class="prose">
+          <p>The tasks are real GitHub issues from SWE-rebench's March 2026 set, created after the model's training, drawn at random with a fixed seed. We first tried the well-known SWE-bench Verified Mini, but the model named the file to change for 94% of its tasks from the issue text alone, so it measured memory, not search.</p>
+          <p>Each run started from a fresh copy of the repository with no history, so the real fix couldn't be found. Claude Code had no shell and no web access. Every patch was scored by the benchmark's official test harness, in Docker.</p>
+          <p>With Artifice, a task cost the same: −0.1%, with a 95% confidence interval of −3.5% to +3.2%. Earlier versions cost 9% to 11% more. Even when we handed Claude the exact lines the real fix changes, it cost the same, because it finds the place in a few steps on its own. So Artifice now tells a question from a change on your computer, and adds nothing to a change.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ======================= JUDGING ======================= -->
+  <section class="section" id="judging">
+    <div class="container split">
+      <div class="reveal">
+        <span class="label">Judging</span>
+        <h2 class="h2" style="margin-top:14px">How we decided an answer was right.</h2>
+      </div>
+      <div class="reveal d1">
+        <div class="rows">
+          <div style="padding:20px 0"><h3 class="h4">Questions: graded against a checked answer</h3><p class="body" style="margin-top:6px">Every question came with a reference answer, checked by a second Opus session with tools. Claude Opus 5.5 graded each answer from 0 to 10 against it, without being told which arm wrote it.</p></div>
+          <div style="padding:20px 0"><h3 class="h4">Fixes: the benchmark's own tests</h3><p class="body" style="margin-top:6px">A patch counts as solved only if the benchmark's tests pass. Before any run, each task's real fix was scored on our machine; four that couldn't be scored there were replaced by the next tasks in the fixed random order, as decided in advance.</p></div>
+          <div style="padding:20px 0"><h3 class="h4">Statistics: paired, with confidence intervals</h3><p class="body" style="margin-top:6px">Each task is compared with itself in the other arm, and every difference comes with a 95% confidence interval. When an interval includes zero, we call it no difference.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= IN THE APP ======================= -->
+  <section class="section" id="in-the-app">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">Tokens saved in the app</span>
+        <h2 class="h2">What “about 128k tokens saved” means.</h2>
+        <p class="lead">The app can't rerun your question without Artifice. So each question Artifice answers counts what an answered question saved when we measured it, priced at your AI's prices.</p>
+      </div>
+      <div class="split">
+        <div class="reveal">
+          <div class="prose" style="font-size:17px">
+            <p>The figure per question comes from a public benchmark of questions developers asked about 15 popular Python projects (SWE-QA-Bench): 60 held-out questions, each asked twice in each arm, in Claude Code with Sonnet 5.5 and Artifice 0.1.6. With Artifice, each question cost 3.8% less, with the same answer quality.</p>
+            <p>It is the smallest saving we have measured on questions: the later benchmarks above saved more. When your AI is on a subscription, money is shown as what the same use would cost at API prices.</p>
+          </div>
+          <div class="note counts-not"><svg data-i="info"></svg><p><strong>What counts nothing.</strong> Requests to change code, which get no briefing. Previews in Library and Playbooks. Questions from other AI tools count the figure measured in Claude Code, and the app says so for each of them.</p></div>
+        </div>
+        <div class="reveal d1">
+          <div class="calc" role="group" aria-label="How one answered question is counted">
+            <div class="row"><span>Fewer cache reads<span class="s">Context your AI didn't carry from turn to turn</span></span><span>10,246</span></div>
+            <div class="row"><span>Fewer cache writes<span class="s">Text that didn't enter the conversation</span></span><span>200</span></div>
+            <div class="row"><span>Fewer output tokens</span><span>180</span></div>
+            <div class="row total"><span>Saved per answered question</span><span>10,626 tokens</span></div>
+            <div class="row"><span>At Claude Sonnet 5.5's prices</span><span>about $0.003</span></div>
+            <div class="row"><span>20 questions in a month<span class="s">Range from the confidence interval: about −34k to 442k</span></span><span>about 213k tokens</span></div>
+          </div>
+          <p class="small calc-cap">The range runs from the low end of the benchmark's interval, a small extra cost, to its high end. Tokens are counted in your AI's own tokens, which differ between AI models.</p>
+        </div>
+      </div>
+      <p class="small reveal" style="margin-top:32px;max-width:44em">These numbers are an estimate of usage, not a bill. They don't account for whether your AI got the task right, and they are not proof: only running the same tasks with and without Artifice proves a saving, which is why we run the benchmarks above.</p>
+    </div>
+  </section>
+
+  <!-- ======================= LIMITS ======================= -->
+  <section class="section" id="limits">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">Limits</span>
+        <h2 class="h2">What these numbers don't show.</h2>
+      </div>
+      <ul class="limits reveal">
+        <li><b>One AI tool and one model.</b>Every run used Claude Code with Claude Sonnet 5.5. Cursor, Codex and the other tools work differently, and we haven't measured them yet.</li>
+        <li><b>AI-written questions and an AI judge.</b>Claude models wrote and checked the questions and graded the answers. Differences under a point are within the judge's noise.</li>
+        <li><b>One run per question.</b>The code and document question benchmarks ran each question once per arm. The fix benchmark ran each task three times.</li>
+        <li><b>One folder of documents.</b>Partly generated, partly public test files. Your company's documents will differ.</li>
+        <li><b>Single, self-contained tasks.</b>Long sessions and repeated work on the same project weren't measured.</li>
+        <li><b>Projects the model may know.</b>Popular open-source projects are partly familiar to the model, which tends to shrink a measured saving.</li>
+        <li><b>English first.</b>Search by meaning uses an English model, so questions and documents in other languages are matched less well.</li>
+        <li><b>Scans and images on a Mac only.</b>Text recognition uses the Mac's own; on Windows, scans and pictures aren't read yet.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ======================= NEXT ======================= -->
+  <section class="section" id="next">
+    <div class="container next">
+      <div class="reveal">
+        <span class="label">What's next</span>
+        <h2 class="h2" style="margin-top:14px">What we'll publish next.</h2>
+        <p class="lead" style="margin-top:20px">Each new result goes on this page and in the changelog, including results that show no saving.</p>
+      </div>
+      <div class="rows reveal d1">
+        <div><svg data-i="tools"></svg><p><b>A figure for each AI tool</b><span>Measured in that tool, to replace the Claude Code figure other tools count today.</span></p></div>
+        <div><svg data-i="mail"></svg><p><b>Your questions about the method</b><span>Write to <a href="mailto:info@tryartifice.com">info@tryartifice.com</a>. We keep the harness, the task lists, the random seeds, every transcript and every score.</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FINAL ======================= -->
+  <section class="final">
+    <div class="container">
+      <h2 class="h1 reveal">See what it saves on your own work.</h2>
+      <p class="lead reveal d1">Activity shows every briefing and what it saved, counted the way this page describes.</p>
+      <div class="actions reveal d2">
+        <a class="btn primary lg" href="download.html"><svg data-dl-icon></svg><span data-dl-label>Download for Mac</span></a>
+        <a class="btn lg" href="why-artifice.html">Why Artifice</a>
+      </div>
+      <div class="reassure reveal d2"><span>14 days free, no card</span><span>Free for students</span></div>
+    </div>
+  </section>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

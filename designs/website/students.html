@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Students: Artifice free while you study | Artifice</title>
+<meta name="description" content="Artifice is free for verified students: everything in Pro, for coursework, research and personal projects. Check your school email with a 6-digit code in the app, once a year.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/product.css">
+<style>
+  /* ---------- hero ---------- */
+  .st-hero { padding: 96px 0 0; }
+  .st-hero-in { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: center; }
+  .st-hero .h1 { max-width: 11em; margin-top: 16px; }
+  .st-hero .lead { margin-top: 20px; }
+  .st-hero .actions { margin-top: 36px; }
+  .st-hero .reassure { margin-top: 20px; }
+
+  /* ---------- the app with a sheet open over it ---------- */
+  .veiled { position: relative; }
+  .veiled .app { height: 480px; }
+  .veiled .app-page { animation: none; padding: 32px 40px 28px 48px; }
+  .veiled .veil { position: absolute; inset: 0; background: color-mix(in srgb, var(--sunken) 62%, transparent); -webkit-backdrop-filter: blur(1.5px); backdrop-filter: blur(1.5px); display: flex; justify-content: center; align-items: flex-start; padding: 72px 24px 24px; }
+  .ash { width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow-l); padding: 22px 24px 18px; font: 13px/1.5 var(--sans); color: var(--ink); text-align: left; }
+  .ash h3 { font-size: 17px; line-height: 24px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.008em; }
+  .ash .sub { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 14px; }
+  .ash .in { display: block; width: 100%; border-bottom: 1px solid var(--ink-3); padding: 6px 0; font-size: 15px; color: var(--ink); }
+  .ash .in.mono { font-family: var(--mono); letter-spacing: .18em; }
+  .ash .in .caret { display: inline-block; width: 1px; height: 1.05em; background: var(--ink); vertical-align: -2px; margin-left: 1px; animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .ash .q { font-size: 12.5px; color: var(--ink-3); margin-top: 10px; }
+  .ash .acts { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+  .ash .b { display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 8px; font-size: 12.5px; font-weight: 500; background: var(--surface); }
+  .ash .b.primary { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+  .toast-demo { display: inline-flex; align-items: center; gap: 8px; background: var(--ink); color: var(--on-ink); padding: 8px 14px; border-radius: 8px; font-size: 13px; box-shadow: var(--shadow-m); }
+  .toast-demo svg { width: 14px; height: 14px; }
+
+  /* ---------- who qualifies ---------- */
+  .quals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .qual { border-top: 2px solid var(--ink); padding-top: 24px; }
+  .qual .ic { width: 32px; height: 32px; border-radius: 9px; background: var(--sunken); display: grid; place-items: center; color: var(--ink-2); }
+  .qual .ic svg { width: 16px; height: 16px; }
+  .qual h3 { font-size: 17px; margin-top: 18px; letter-spacing: -0.005em; }
+  .qual p { margin-top: 6px; font-size: 15.5px; color: var(--ink-2); line-height: 1.6; }
+  .qual code { font-size: 13px; }
+
+  /* ---------- steps ---------- */
+  .steps { display: grid; grid-template-columns: 5fr 7fr; gap: 72px; align-items: start; }
+  .slist { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); counter-reset: s; }
+  .slist li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; padding: 22px 0; border-bottom: 1px solid var(--line); counter-increment: s; }
+  .slist li::before { content: counter(s); width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line-2); display: grid; place-items: center; font-size: 13px; font-weight: 500; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .slist b { display: block; font-weight: 600; font-size: 17px; letter-spacing: -0.005em; }
+  .slist span { display: block; margin-top: 4px; font-size: 15.5px; color: var(--ink-2); line-height: 1.6; }
+  .slist span b { display: inline; font-size: inherit; font-weight: 500; color: var(--ink); letter-spacing: 0; }
+  .code-step { background: var(--sunken); border-radius: var(--r-xl); padding: 48px 40px; display: grid; justify-items: center; gap: 20px; }
+  .code-step .ash { box-shadow: var(--shadow-m); }
+  .privacy-line { margin-top: 28px; }
+
+  /* ---------- what you get ---------- */
+  .get { display: grid; grid-template-columns: 5fr 7fr; gap: 72px; align-items: start; }
+  .get .check-list { columns: 2; column-gap: 32px; border-top: 1px solid var(--line); padding-top: 12px; }
+  .get .check-list li { break-inside: avoid; }
+  .get .check-list small { display: block; font-size: 13.5px; color: var(--ink-3); margin-top: 1px; }
+  .get .lead { margin-top: 20px; }
+
+  .faq-wrap { display: grid; grid-template-columns: 4fr 8fr; gap: 72px; }
+  .faq-wrap .lead { margin-top: 16px; font-size: 18px; }
+
+  @media (max-width: 1080px) {
+    .st-hero-in, .steps, .get, .faq-wrap { grid-template-columns: 1fr; gap: 48px; }
+    .quals { grid-template-columns: 1fr 1fr; }
+    .quals .qual:last-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 860px) {
+    .st-hero { padding-top: 48px; }
+    .veiled .app { height: 440px; min-height: 0; }
+    .veiled .app-page { padding: 24px 20px; }
+    .veiled .veil { padding: 40px 16px 16px; }
+    .quals { grid-template-columns: 1fr; gap: 32px; }
+    .quals .qual:last-child { grid-column: auto; }
+    .code-step { padding: 32px 16px; }
+    .get .check-list { columns: 1; }
+    .faq-wrap { gap: 32px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .ash .in .caret { animation: none; } }
+</style>
+</head>
+<body data-page="students">
+<main id="main">
+
+  <!-- ======================= HERO ======================= -->
+  <section class="st-hero">
+    <div class="container st-hero-in">
+      <div>
+        <span class="label reveal">Students</span>
+        <h1 class="h1 reveal">Free while you study. Everything in Pro.</h1>
+        <p class="lead reveal d1">Check your school email in the app, and Artifice is free for your coursework, research and personal projects: every project, every AI tool, Memory and Playbooks included.</p>
+        <div class="actions reveal d2">
+          <a class="btn primary lg" href="download.html"><svg data-dl-icon></svg><span data-dl-label>Download for Mac</span></a>
+          <a class="btn lg" href="#how">How the check works</a>
+        </div>
+        <div class="reassure reveal d2">
+          <span><svg data-i="check"></svg>No card needed</span>
+          <span><svg data-i="check"></svg>Checked once a year</span>
+          <span><svg data-i="lock"></svg>Your school address is deleted after the check</span>
+        </div>
+      </div>
+
+      <div class="reveal d2">
+        <div class="window veiled" aria-label="The student check in the Artifice app">
+          <div class="window-bar"><span class="lights"><i></i><i></i><i></i></span><span class="window-title">Artifice</span><span class="win-btns"><i>—</i><i>▢</i><i>✕</i></span></div>
+          <div class="app" aria-hidden="true">
+            <aside class="app-side">
+              <div class="app-proj"><span class="av">t</span><span><span class="nm">thesis</span><span class="st">Ready</span></span><svg data-i="updown" class="i chev"></svg></div>
+              <div class="app-search"><svg data-i="search"></svg>Search thesis<kbd>⌘K</kbd></div>
+              <nav class="app-nav">
+                <div><svg data-i="home"></svg>Home</div>
+                <div><svg data-i="library"></svg>Library</div>
+                <div><svg data-i="memory"></svg>Memory</div>
+                <div><svg data-i="playbooks"></svg>Playbooks</div>
+                <div><svg data-i="activity"></svg>Activity</div>
+              </nav>
+              <div class="bottom">
+                <nav class="app-nav"><div><svg data-i="tools"></svg>AI tools</div><div><svg data-i="settings"></svg>Settings</div></nav>
+                <div class="app-ver"><img src="assets/mark.svg" alt="">Artifice 0.1.9 · <u>What's new</u></div>
+              </div>
+            </aside>
+            <div class="app-main">
+              <div class="app-page">
+                <div class="app-title">Account</div>
+                <div class="app-meta">Lena Park · lena@example.com · Signed in with Google</div>
+                <div class="app-h">Plan</div>
+                <div class="app-list">
+                  <div><div><div class="t">Trial</div><div class="s">Your trial ends on November 27, 2026, in 9 days. Everything is on until then.</div></div><span class="w">Choose a plan…</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="veil">
+            <div class="ash" role="img" aria-label="Sheet: Artifice is free for students. Type your school email address, then Send the code.">
+              <h3>Artifice is free for students</h3>
+              <p class="sub">Type your school email address. We'll send a code there to check it's yours. Your school address is deleted once it's checked.</p>
+              <span class="in">lena.park@cs.example.edu<span class="caret"></span></span>
+              <p class="q">For study and personal projects. Using Artifice for paid work needs Pro.</p>
+              <div class="acts"><span class="b">Cancel</span><span class="b primary">Send the code</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= WHO QUALIFIES ======================= -->
+  <section class="section">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">Who it's for</span>
+        <h2 class="h2">If you study, it's free.</h2>
+        <p class="lead">Three things, and the app checks the first one for you.</p>
+      </div>
+      <div class="quals">
+        <div class="qual reveal"><span class="ic"><svg data-i="mail"></svg></span><h3>You have a school email address.</h3><p>At a school or university we recognise. Addresses in a department count too: <code>cs.example.edu</code> counts as <code>example.edu</code>.</p></div>
+        <div class="qual reveal d1"><span class="ic"><svg data-i="graduate"></svg></span><h3>You use it to learn.</h3><p>Coursework, a thesis, research for your degree and your own projects. Work you're paid for, or work for a company, needs Pro.</p></div>
+        <div class="qual reveal d2"><span class="ic"><svg data-i="refresh"></svg></span><h3>You check again each year.</h3><p>The student plan lasts a year from your check. When the year is up, check your school email again in the app and it carries on.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= HOW THE CHECK WORKS ======================= -->
+  <section class="section" id="how">
+    <div class="container steps">
+      <div class="reveal">
+        <span class="label">How the check works</span>
+        <h2 class="h2" style="margin-top:14px;margin-bottom:32px">Three steps, about a minute.</h2>
+        <ol class="slist">
+          <li><span><b>Download Artifice and sign in.</b><span>With Google, Microsoft or an email link. Your personal account is fine: the school address is checked separately.</span></span></li>
+          <li><span><b>Choose Student.</b><span>On the first screen, pick <b>Student</b> and type your school email. Started the trial already? Go to <b>Account › Plan › Student?</b></span></span></li>
+          <li><span><b>Type the code we send.</b><span>A 6-digit code arrives at your school address. It works for 15 minutes. Type it in Artifice, and you're done.</span></span></li>
+        </ol>
+        <p class="note privacy-line"><svg data-i="lock"></svg><span><strong>What we keep.</strong> Once your address is checked we delete it, and keep only your school's domain, such as example.edu, for next year's check.</span></p>
+      </div>
+
+      <div class="code-step reveal d1">
+        <div class="ash" role="img" aria-label="Sheet: we sent a 6-digit code. Type it, then Confirm.">
+          <h3>Artifice is free for students</h3>
+          <p class="sub">We sent a 6-digit code to lena.park@cs.example.edu. It works for 15 minutes.</p>
+          <span class="in mono">482913</span>
+          <p class="q">For study and personal projects. Using Artifice for paid work needs Pro.</p>
+          <div class="acts"><span class="b">Cancel</span><span class="b primary">Confirm</span></div>
+        </div>
+        <div class="toast-demo" role="img" aria-label="Message: You're all set. Artifice is free while you're a student."><svg data-i="check"></svg>You're all set. Artifice is free while you're a student.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= WHAT YOU GET ======================= -->
+  <section class="section">
+    <div class="container get">
+      <div class="reveal">
+        <span class="label">What you get</span>
+        <h2 class="h2" style="margin-top:14px">The whole app, not a student version.</h2>
+        <p class="lead">The student plan has everything Pro has. Only how you qualify is different.</p>
+        <a class="arrow" href="pricing.html" style="margin-top:24px">Compare with Pro</a>
+      </div>
+      <ul class="check-list reveal d1">
+        <li><svg data-i="check"></svg><span>Every project, as many as you like<small>Course folders, a thesis, a codebase</small></span></li>
+        <li><svg data-i="check"></svg><span>Every AI tool<small>Claude Code, Claude, Cursor, Codex, Gemini CLI, Antigravity, Windsurf, VS Code, any MCP app</small></span></li>
+        <li><svg data-i="check"></svg><span>Reads your documents<small>Lecture PDFs, Word, Excel, PowerPoint; scans and photos of whiteboards on a Mac</small></span></li>
+        <li><svg data-i="check"></svg><span>Memory and Playbooks<small>What your AI learns, kept with each project</small></span></li>
+        <li><svg data-i="check"></svg><span>Library and Activity<small>Every briefing, and the tokens it saved</small></span></li>
+        <li><svg data-i="check"></svg><span>The command line and MCP server<small>For scripts and agents</small></span></li>
+        <li><svg data-i="check"></svg><span>Up to 3 computers<small>A laptop and the lab machine</small></span></li>
+        <li><svg data-i="check"></svg><span>Updates and email support<small>Artifice installs updates itself</small></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ======================= FAQ ======================= -->
+  <section class="section end" id="faq">
+    <div class="container faq-wrap">
+      <div class="reveal">
+        <span class="label">Questions</span>
+        <h2 class="h2" style="margin-top:14px">Students ask us.</h2>
+        <p class="lead">Something else? Write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>.</p>
+      </div>
+      <div class="faq reveal d1">
+        <details open>
+          <summary>My school isn't recognised.</summary>
+          <div class="a"><p>Artifice tells you when it doesn't know a school's email addresses yet. Email <a href="mailto:support@tryartifice.com?subject=Please%20add%20my%20school">support@tryartifice.com</a> from your school address, and we'll add your school. Then try the check again.</p></div>
+        </details>
+        <details>
+          <summary>What happens when I graduate?</summary>
+          <div class="a"><p>Your student plan runs for a year from your check. When it ends and you're no longer a student, choose Pro in <b>Account › Plan</b> and carry on: your projects, memories and playbooks stay exactly as they are.</p><p>If you don't choose a plan, Artifice stops briefing your AI tools, and everything stays on your computer, readable and ready to export.</p></div>
+        </details>
+        <details>
+          <summary>Can I use it for an internship or paid work?</summary>
+          <div class="a"><p>The student plan is for study and personal projects, not for commercial use. Work you're paid for, such as a paid internship or freelance work, or work you do for a company, needs <a href="pricing.html">Pro</a>.</p><p>Coursework, a thesis and research for your degree are all fine on the student plan.</p></div>
+        </details>
+        <details>
+          <summary>I don't have a school email address.</summary>
+          <div class="a"><p>For now the check needs an email address at your school or university. You can still try everything for 14 days with the free trial.</p></div>
+        </details>
+        <details>
+          <summary>I've already started the free trial.</summary>
+          <div class="a"><p>Switch whenever you like: go to <b>Account › Plan › Student?</b> and check your school email.</p></div>
+        </details>
+        <details>
+          <summary>Do I need a card?</summary>
+          <div class="a"><p>No. The student plan never asks for one.</p></div>
+        </details>
+        <details>
+          <summary>What do you keep about my school?</summary>
+          <div class="a"><p>Only its domain, such as example.edu, so we can check again next year. Your school address is deleted as soon as it's checked. Your files and your AI's questions are never sent to us. <a href="privacy-and-data.html">Everything Artifice sends, and where</a>.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FINAL ======================= -->
+  <section class="final rule">
+    <div class="container">
+      <h2 class="h1 reveal">Bring your AI into your coursework.</h2>
+      <p class="lead reveal d1">Download Artifice, sign in, and check your school email. It takes about a minute.</p>
+      <div class="actions reveal d2">
+        <a class="btn primary lg" href="download.html"><svg data-dl-icon></svg><span data-dl-label>Download for Mac</span></a>
+        <a class="btn lg" href="pricing.html">See pricing</a>
+      </div>
+      <div class="reassure reveal d2"><span>Free for verified students</span><span>No card needed</span></div>
+    </div>
+  </section>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

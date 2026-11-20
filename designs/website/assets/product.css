@@ -1,0 +1,127 @@
+/* ==========================================================================
+   The Artifice app, rebuilt for the website (cal.com's approach: the real UI,
+   not screenshots). Measurements follow the redesigned app (app/ui, 0.1.8).
+   Everything sits inside .app so it never leaks into the site.
+   ========================================================================== */
+
+.app { display: grid; grid-template-columns: 224px 1fr; height: 560px; font: 13px/1.45 var(--sans); color: var(--ink); background: var(--bg); text-align: left; }
+.app svg.i { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.app-side { background: var(--sunken); border-right: 1px solid var(--line); display: flex; flex-direction: column; padding: 14px 10px 12px; min-width: 0; }
+.app-proj { display: flex; align-items: center; gap: 10px; padding: 4px 6px 12px; }
+.app-proj .av { width: 28px; height: 28px; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); display: grid; place-items: center; font-weight: 600; font-size: 12px; }
+.app-proj .nm { font-weight: 600; font-size: 13.5px; line-height: 1.2; }
+.app-proj .st { font-size: 11.5px; color: var(--ink-3); display: flex; align-items: center; gap: 5px; }
+.app-proj .st::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ready); }
+.app-proj .chev { margin-left: auto; color: var(--ink-3); }
+.app-search { display: flex; align-items: center; gap: 9px; padding: 6px 8px; color: var(--ink-3); font-size: 13px; margin-bottom: 10px; }
+.app-search kbd { margin-left: auto; font-size: 10.5px; padding: 2px 5px; border-width: 1px; }
+.app-nav { display: grid; gap: 2px; }
+.app-nav div { display: flex; align-items: center; gap: 10px; padding: 7px 8px; border-radius: 7px; color: var(--ink-2); font-size: 13.5px; }
+.app-nav div.on { background: var(--selected); color: var(--ink); font-weight: 500; }
+.app-nav div.on svg { color: var(--ink); }
+.app-side .bottom { margin-top: auto; }
+.app-ver { display: flex; align-items: center; gap: 8px; padding: 12px 8px 0; font-size: 11.5px; color: var(--ink-3); border-top: 1px solid var(--line); margin-top: 10px; }
+.app-ver img { width: 14px; height: 14px; border-radius: 4px; }
+.app-ver u { text-underline-offset: 2px; }
+
+.app-main { overflow: hidden; position: relative; }
+.app-page { padding: 36px 48px 32px 76px; max-width: 660px; animation: app-in .5s var(--ease) both; }
+@keyframes app-in { from { opacity: 0; transform: translateY(6px); } }
+.app-title { font-size: 22px; line-height: 28px; font-weight: 600; letter-spacing: -0.012em; }
+.app-meta { margin-top: 4px; color: var(--ink-3); font-size: 12.5px; }
+.app-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 22px; }
+.app-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 16px 14px; }
+.app-card h4 { font-size: 12.5px; font-weight: 600; margin: 0 0 10px; }
+.app-big { font-size: 19px; line-height: 24px; font-weight: 600; letter-spacing: -0.01em; }
+.app-saved { color: var(--gold); font-size: 12.5px; margin-top: 2px; }
+.app-btn { display: inline-flex; align-items: center; height: 28px; padding: 0 11px; margin-top: 12px; border: 1px solid var(--line-2); border-radius: 8px; font-size: 12px; font-weight: 500; background: var(--surface); }
+.app-tool { display: flex; align-items: center; gap: 9px; padding: 5px 0; font-size: 12.5px; }
+.app-tool .ic { width: 18px; height: 18px; border-radius: 5px; display: grid; place-items: center; background: var(--sunken); border: 1px solid var(--line); color: var(--ink-2); }
+.app-tool .ic svg { width: 12px; height: 12px; }
+.app-tool .ic.claude { background: #D97757; border-color: transparent; color: #fff; }
+.app-tool .when { margin-left: auto; color: var(--ink-3); font-size: 11.5px; }
+.app-h { font-size: 13.5px; font-weight: 600; margin: 26px 0 8px; }
+.app-list > div { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid var(--line); }
+.app-list > div:last-child { border-bottom: 1px solid var(--line); }
+.app-list .t { font-size: 13px; }
+.app-list .s { font-size: 11.5px; color: var(--ink-3); margin-top: 1px; }
+.app-list .w { font-size: 11.5px; color: var(--ink-3); white-space: nowrap; }
+.app-list > div.new { animation: row-new 1.6s var(--ease) both; }
+@keyframes row-new { 0% { opacity: 0; transform: translateY(-6px); background: var(--selected); } 30% { opacity: 1; transform: none; } 100% { background: transparent; } }
+
+/* briefing view */
+.app-back { font-size: 12px; color: var(--ink-3); }
+.app-ask { margin-top: 12px; font-size: 11.5px; color: var(--ink-3); }
+.app-q { font-size: 20px; line-height: 27px; font-weight: 600; letter-spacing: -0.012em; margin-top: 2px; }
+.app-given { font-size: 13.5px; font-weight: 600; margin: 22px 0 6px; }
+.app-pass { display: grid; grid-template-columns: 18px 1fr; padding: 11px 0; border-bottom: 1px solid var(--line); }
+.app-pass .n { font-size: 11.5px; color: var(--ink-3); padding-top: 1px; }
+.app-pass .where { display: block; font-size: 11.5px; color: var(--ink-3); }
+.app-pass .txt { display: block; font-size: 13.5px; line-height: 20px; margin-top: 2px; }
+.app-pass .txt code { font-size: 12px; background: none; border: 0; padding: 0; }
+.app-pass.lit { animation: pass-in .45s var(--ease) both; }
+@keyframes pass-in { from { opacity: 0; transform: translateY(4px); } }
+.app-foot { margin-top: 16px; font-size: 12.5px; color: var(--gold); }
+.app-foot u { color: var(--ink-3); margin-left: 6px; }
+
+/* memory, library */
+.app-mem { padding: 12px 0; border-top: 1px solid var(--line); }
+.app-mem .txt { font-size: 14px; line-height: 21px; }
+.app-mem .src { font-size: 11.5px; color: var(--ink-3); margin-top: 3px; }
+.app-file { display: grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items: center; padding: 9px 0; border-top: 1px solid var(--line); font-size: 13px; }
+.app-file .fi { width: 18px; height: 22px; border-radius: 3px; border: 1px solid var(--line-2); background: var(--surface); position: relative; }
+.app-file .fi::after { content: ""; position: absolute; left: 3px; right: 3px; bottom: 4px; height: 3px; border-radius: 1px; background: var(--k, var(--ink-3)); opacity: .7; }
+.app-file .w { font-size: 11.5px; color: var(--ink-3); }
+.app-ask-box { display: flex; align-items: center; gap: 9px; padding: 10px 0; border-bottom: 1px solid var(--line-2); color: var(--ink-3); margin-top: 18px; font-size: 13.5px; }
+
+/* terminal (AI tool) */
+.term { background: #161615; color: #E9E7E1; border-radius: 14px; font: 12px/1.65 var(--mono); padding: 0; overflow: hidden; border: 1px solid #2a2a28; box-shadow: var(--shadow-l); }
+.term .bar { height: 34px; display: flex; align-items: center; gap: 8px; padding: 0 12px; background: #1F1F1D; border-bottom: 1px solid #2a2a28; color: #8a8882; font-size: 12px; }
+.term .bar .lights i { width: 10px; height: 10px; }
+.term .body { padding: 14px 16px; min-height: 196px; }
+.term .you { color: #fff; }
+.term .you::before { content: "> "; color: #8a8882; }
+.term .tool { color: #B8B5AD; }
+.term .tool b { color: #E9E7E1; font-weight: 500; }
+.term .dim { color: #77756f; }
+.term .ok { color: #9CCB9F; }
+.term .art { color: #E6B04A; }
+.term .line { opacity: 0; transform: translateY(3px); transition: opacity .25s var(--ease), transform .25s var(--ease); }
+.term .line.on { opacity: 1; transform: none; }
+:root[data-theme="dark"] .term, :root:not([data-theme="light"]) .term { }
+
+@media (max-width: 860px) {
+  .app { grid-template-columns: 1fr; height: auto; min-height: 460px; }
+  .app-side { display: none; }
+  .app-page { padding: 24px 20px; }
+  .app-cards { grid-template-columns: 1fr; }
+  .term { font-size: 11.5px; }
+}
+
+/* ---------- window chrome per system (2026-11-19) ---------- */
+/* macOS: traffic lights 12px, 8px apart, title centred. Windows 11: app icon and title on the left,
+   minimise / maximise / close on the right, 46px wide each, close turns red on hover. */
+.window-bar .wb-ico { display: none; width: 16px; height: 16px; border-radius: 4px; }
+.win-btns i svg { width: 10px; height: 10px; display: block; }
+.win-btns i { width: 46px; height: 100%; display: grid; place-items: center; color: var(--ink-2); }
+.win-btns i.x:hover { background: #C42B1C; color: #fff; }
+:root[data-os="windows"] .window-bar { height: 34px; gap: 10px; padding-left: 12px; background: var(--surface); }
+:root[data-os="windows"] .window-bar .wb-ico { display: block; }
+:root[data-os="windows"] .window-title { font: 12px "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif; color: var(--ink); }
+:root[data-os="windows"] .window { border-radius: 8px; }
+/* terminal: Terminal.app on a Mac, Windows Terminal on Windows */
+.term .bar.win-only { display: none; }
+.term .t-title { flex: 1; text-align: center; margin-right: 46px; color: #9a9890; }
+:root[data-os="windows"] .term { border-radius: 8px; }
+:root[data-os="windows"] .term .bar.mac-only { display: none; }
+:root[data-os="windows"] .term .bar.win-only { display: flex; height: 34px; padding: 0 0 0 8px; gap: 4px; align-items: flex-end; background: #202020; font: 12px "Segoe UI", system-ui, sans-serif; color: #fff; }
+.wt-tab { display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 10px; border-radius: 6px 6px 0 0; background: #161615; }
+.wt-tab svg { width: 14px; height: 14px; }
+.wt-x { margin-left: 10px; font-size: 10px; color: #8a8a8a; }
+.wt-plus { height: 28px; padding: 0 8px; display: grid; place-items: center; color: #c8c8c8; }
+:root[data-os="windows"] .term .win-btns { display: flex; margin-left: auto; height: 34px; align-self: stretch; }
+:root[data-os="windows"] .term .win-btns i { color: #fff; }
+/* a row the user has just clicked */
+.app-list > div.pick { background: var(--selected); border-radius: 6px; padding-left: 8px; padding-right: 8px; margin: 0 -8px; }
+.app-files { margin-top: 14px; }
+.app-files .app-file:last-child { border-bottom: 1px solid var(--line); }

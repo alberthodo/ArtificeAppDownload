@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy and data: what Artifice sends, and where | Artifice</title>
+<meta name="description" content="Artifice reads and briefs on your own computer. Here is everything it sends, where it goes, why, and how to turn it off: usage numbers, sign-in, the plan check, payments and updates.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/product.css">
+<style>
+  /* ---------- the promise ---------- */
+  .pd-head .h1 { max-width: 14ch; }
+  .pd-head .lead { max-width: 34em; }
+  .pd-head .actions { margin-top: 32px; }
+  .pd-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 80px; border-top: 1px solid var(--line); }
+  .pd-fact { padding: 28px 28px 4px 0; }
+  .pd-fact + .pd-fact { padding-left: 28px; border-left: 1px solid var(--line); }
+  .pd-fact .ic { width: 32px; height: 32px; border-radius: 9px; background: var(--sunken); display: grid; place-items: center; color: var(--ink-2); }
+  .pd-fact .ic svg { width: 16px; height: 16px; }
+  .pd-fact h2 { font-size: 17px; line-height: 1.35; letter-spacing: -0.005em; margin-top: 18px; }
+  .pd-fact p { font-size: 15px; line-height: 1.55; color: var(--ink-2); margin-top: 6px; text-wrap: pretty; }
+  .pd-fact .v { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 13.5px; font-weight: 500; color: var(--ready); }
+  .pd-fact .v svg { width: 14px; height: 14px; }
+  .pd-fact .v.q { color: var(--ink-3); }
+
+  /* ---------- the detail: contents on the left, sections on the right ---------- */
+  .pd-depth { margin-top: 136px; border-top: 1px solid var(--line); padding-top: 72px; }
+  .pd-depth > .label { display: block; margin-bottom: 48px; }
+  .pd-layout { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 80px; align-items: start; }
+  .pd-toc { position: sticky; top: 100px; display: grid; gap: 2px; font-size: 14.5px; }
+  .pd-toc a { display: block; padding: 6px 0 6px 14px; border-left: 1px solid var(--line); color: var(--ink-3); text-decoration: none; transition: color .16s, border-color .16s; }
+  .pd-toc a:hover { color: var(--ink); }
+  .pd-toc a[aria-current="true"] { color: var(--ink); border-left-color: var(--ink); }
+  .pd-toc .sep { margin-top: 14px; padding-top: 14px; border-left: 0; padding-left: 0; }
+  .pd-sec + .pd-sec { margin-top: 120px; }
+  .pd-sec > .h2 { max-width: 20ch; }
+  .pd-sec > .lead { margin-top: 18px; font-size: 18px; }
+  .pd-sec h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.005em; margin: 48px 0 14px; }
+  .pd-sec .body + .body { margin-top: 12px; }
+  .pd-block { margin-top: 40px; }
+
+  /* the table of everything that leaves */
+  .pd-table { margin-top: 40px; }
+  .pd-table td { color: var(--ink-2); line-height: 1.5; }
+  .pd-table td:first-child { color: var(--ink); width: 26%; }
+  .pd-table td:first-child small { display: block; font-weight: 400; color: var(--ink-3); font-size: 13.5px; margin-top: 3px; }
+  .pd-table td:nth-child(2) { width: 18%; }
+  .pd-table td:last-child { width: 22%; padding-right: 0; }
+  .pd-table .where { color: var(--ink); font-weight: 500; }
+  .pd-table .where small { display: block; font-weight: 400; color: var(--ink-3); font-size: 13.5px; margin-top: 2px; }
+  .pd-table .off { color: var(--ink); }
+  .pd-table .no { color: var(--ink-3); }
+  .pd-table tr.stays td { background: color-mix(in srgb, var(--sunken) 55%, transparent); }
+  .pd-table tr.stays td:first-child { padding-left: 14px; }
+  .pd-table tr.stays td:last-child { padding-right: 14px; }
+  .pd-table tr.group td { border-top: 0; padding: 40px 0 12px; font-size: 13px; font-weight: 500; color: var(--ink-3); background: none; }
+  .pd-table tr.group:first-child td { padding-top: 8px; }
+
+  /* sent / never sent */
+  .pd-two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 8px; }
+  .pd-two .card { padding: 26px 28px; }
+  .pd-two .card.sunken { background: var(--sunken); }
+  .pd-two .label { display: flex; align-items: center; gap: 8px; color: var(--ink); }
+  .pd-two .label .dot { background: var(--ready); }
+  .pd-two ul { margin: 14px 0 0; padding: 0; list-style: none; }
+  .pd-two li { font-size: 15px; line-height: 1.55; color: var(--ink-2); padding: 9px 0; border-top: 1px solid var(--line); }
+  .pd-two li:first-child { border-top: 0; }
+  .pd-two li b { color: var(--ink); font-weight: 500; }
+
+  /* file paths */
+  .pd-paths td:first-child { width: 34%; font-weight: 400; }
+  .pd-paths td:first-child code { font-size: 13px; white-space: nowrap; }
+  .pd-paths td { color: var(--ink-2); }
+  .pd-os { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  .pd-os .card { padding: 20px 22px; }
+  .pd-os .label { display: flex; align-items: center; gap: 8px; }
+  .pd-os .label svg { width: 15px; height: 15px; }
+  .pd-os code { display: block; margin-top: 10px; font-size: 13px; background: none; border: 0; padding: 0; overflow-wrap: anywhere; }
+
+  /* Settings › Privacy, rebuilt from the app */
+  .pd-app { margin-top: 48px; }
+  .pd-app .app { height: 440px; }
+  .pd-app .app-page { padding: 32px 44px 28px 56px; max-width: 620px; animation: none; }
+  .set-tabs { display: inline-flex; gap: 2px; margin-top: 16px; }
+  .set-tabs span { padding: 5px 10px; border-radius: 7px; font-size: 12.5px; color: var(--ink-2); }
+  .set-tabs span.on { background: var(--selected); color: var(--ink); font-weight: 500; }
+  .set-h { font-size: 13.5px; font-weight: 600; margin: 26px 0 0; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  .set-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .set-row .t { font-size: 13px; }
+  .set-row .s { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; line-height: 1.45; }
+  .set-btn { flex: none; display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border: 1px solid var(--line-2); border-radius: 7px; font: 500 12px var(--sans); background: var(--surface); color: var(--ink); }
+  .set-toggle { flex: none; display: inline-block; position: relative; width: 32px; height: 19px; border-radius: 999px; border: 0; padding: 0; background: var(--line-2); cursor: pointer; transition: background .18s var(--ease); }
+  .set-toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 15px; height: 15px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 2px rgba(0,0,0,.2); transition: transform .18s var(--ease); }
+  .set-toggle[aria-checked="true"], .set-toggle.on { background: var(--ink); }
+  .set-toggle[aria-checked="true"]::after, .set-toggle.on::after { transform: translateX(13px); background: var(--on-ink); }
+  .set-toggle:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .pd-cap { margin-top: 14px; font-size: 14px; color: var(--ink-3); }
+
+  /* ways to turn things off */
+  .pd-ways { margin-top: 40px; }
+  .pd-way { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; padding: 22px 0; border-top: 1px solid var(--line); }
+  .pd-way:last-child { border-bottom: 1px solid var(--line); }
+  .pd-way h3 { margin: 0; font-size: 16px; }
+  .pd-way p { font-size: 15.5px; line-height: 1.6; color: var(--ink-2); }
+  .pd-way p + p, .pd-way p + .code, .pd-way .code + p { margin-top: 12px; }
+  .pd-way .code pre { padding: 14px 16px; }
+
+  /* IT and security */
+  .pd-hosts td:first-child { font-weight: 400; width: 30%; }
+  .pd-hosts td:first-child code { font-size: 13px; }
+  .pd-hosts td:first-child b { font-weight: 500; }
+  .pd-sec-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; margin-top: 8px; }
+  .pd-sec-facts div { padding: 16px 0; border-top: 1px solid var(--line); }
+  .pd-sec-facts b { display: block; font-weight: 500; font-size: 15.5px; }
+  .pd-sec-facts span { display: block; font-size: 14.5px; line-height: 1.55; color: var(--ink-2); margin-top: 3px; }
+  .pd-keep td:first-child { width: 44%; }
+  .pd-steps { counter-reset: s; list-style: none; padding: 0; margin: 16px 0 0; }
+  .pd-steps li { counter-increment: s; display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15.5px; line-height: 1.6; color: var(--ink-2); }
+  .pd-steps li:last-child { border-bottom: 1px solid var(--line); }
+  .pd-steps li::before { content: counter(s); font-size: 13px; font-weight: 500; color: var(--ink-3); padding-top: 2px; }
+  .pd-steps b { color: var(--ink); font-weight: 500; }
+
+  /* this website */
+  .pd-site { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+  .pd-site div { border-top: 2px solid var(--ink); padding-top: 18px; }
+  .pd-site b { display: block; font-family: var(--display); font-size: 26px; letter-spacing: -0.02em; font-weight: 600; }
+  .pd-site span { display: block; margin-top: 6px; font-size: 15px; line-height: 1.55; color: var(--ink-2); }
+
+  .pd-policy { margin-top: 120px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; padding: 28px 32px; border-radius: var(--r-l); background: var(--sunken); }
+  .pd-policy p { color: var(--ink-2); max-width: 40em; }
+  .pd-policy p b { color: var(--ink); font-weight: 600; display: block; font-size: 17px; margin-bottom: 2px; }
+
+  @media (max-width: 1080px) {
+    .pd-facts { grid-template-columns: 1fr 1fr; }
+    .pd-fact:nth-child(3) { padding-left: 0; border-left: 0; }
+    .pd-fact:nth-child(n+3) { border-top: 1px solid var(--line); margin-top: 24px; }
+    .pd-layout { grid-template-columns: 1fr; gap: 0; }
+    .pd-toc { display: none; }
+    .pd-app .app { grid-template-columns: 200px 1fr; }
+    .pd-way { grid-template-columns: 180px minmax(0, 1fr); }
+  }
+  @media (max-width: 860px) {
+    .pd-facts { grid-template-columns: 1fr; margin-top: 56px; }
+    .pd-fact, .pd-fact + .pd-fact { padding: 22px 0 18px; border-left: 0; margin-top: 0; }
+    .pd-fact + .pd-fact { border-top: 1px solid var(--line); }
+    .pd-fact { display: grid; grid-template-columns: 32px 1fr; gap: 0 16px; }
+    .pd-fact .ic { grid-row: span 3; }
+    .pd-fact h2 { margin-top: 4px; }
+    .pd-depth { margin-top: 96px; padding-top: 56px; }
+    .pd-sec + .pd-sec { margin-top: 96px; }
+    .pd-two, .pd-os, .pd-sec-facts, .pd-site { grid-template-columns: 1fr; }
+    .pd-two { gap: 16px; }
+    .pd-way { grid-template-columns: 1fr; gap: 8px; }
+    .pd-app .app { height: auto; }
+    .pd-app .app-page { padding: 24px 20px; }
+    .pd-policy { padding: 24px; }
+
+    /* tables become stacked rows */
+    .pd-stack thead { display: none; }
+    .pd-stack, .pd-stack tbody, .pd-stack tr, .pd-stack td { display: block; width: 100% !important; }
+    .pd-stack tr { border-top: 1px solid var(--line); padding: 16px 0; }
+    .pd-stack tbody tr:last-child { border-bottom: 1px solid var(--line); }
+    .pd-stack td { border: 0 !important; padding: 3px 0 !important; }
+    .pd-stack td[data-k]::before { content: attr(data-k); display: block; font-size: 12.5px; font-weight: 500; color: var(--ink-3); margin-top: 8px; }
+    .pd-stack td:first-child { font-size: 16px; }
+    .pd-stack tr.stays { padding-left: 14px; padding-right: 14px; background: color-mix(in srgb, var(--sunken) 55%, transparent); }
+    .pd-stack tr.stays td { background: none; padding-left: 0 !important; }
+    .pd-stack tr.group { border-top: 0; padding: 32px 0 4px; }
+    .pd-stack tr.group td { padding: 0 !important; }
+    .pd-paths td:first-child code { white-space: normal; overflow-wrap: anywhere; }
+  }
+</style>
+</head>
+<body data-page="privacy">
+<main id="main">
+
+  <!-- ======================= THE PROMISE ======================= -->
+  <section class="page-head pd-head">
+    <div class="container">
+      <span class="label reveal">Privacy and data</span>
+      <h1 class="h1 reveal d1">Your computer does the reading.</h1>
+      <p class="lead reveal d2">Artifice reads your folders, builds its index and briefs your AI tools on your own computer, and keeps working offline once you're signed in. Your files and your AI's questions are never sent to us.</p>
+      <div class="actions reveal d3">
+        <a class="arrow" href="#leaves">Everything that leaves your computer</a>
+      </div>
+
+      <div class="pd-facts">
+        <div class="pd-fact reveal">
+          <span class="ic"><svg data-i="folder"></svg></span>
+          <h2>Your files stay here.</h2>
+          <p>Files, Artifice's index of them, your memories and playbooks are read and kept on this computer.</p>
+          <span class="v"><svg data-i="check"></svg>Never sent</span>
+        </div>
+        <div class="pd-fact reveal d1">
+          <span class="ic"><svg data-i="chat"></svg></span>
+          <h2>So do your AI's questions.</h2>
+          <p>The questions your AI asks and the briefings Artifice gives it stay on this computer.</p>
+          <span class="v"><svg data-i="check"></svg>Never sent, unless you share examples</span>
+        </div>
+        <div class="pd-fact reveal d2">
+          <span class="ic"><svg data-i="activity"></svg></span>
+          <h2>Usage numbers are counts.</h2>
+          <p>How Artifice is used and how well it briefs, sent to PostHog in the EU. Never content.</p>
+          <span class="v q">Off in Settings › Privacy</span>
+        </div>
+        <div class="pd-fact reveal d3">
+          <span class="ic"><svg data-i="person"></svg></span>
+          <h2>Your account holds very little.</h2>
+          <p>Your email address, the name you choose and your plan. Delete it in Account at any time.</p>
+          <span class="v q">Account › Delete account</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= THE DETAIL ======================= -->
+  <section class="pd-depth">
+    <div class="container">
+      <span class="label">The detail, for anyone who wants it</span>
+      <div class="pd-layout">
+        <nav class="pd-toc" aria-label="On this page">
+          <a href="#leaves">What leaves your computer</a>
+          <a href="#usage">Inside the usage numbers</a>
+          <a href="#where">Where your index lives</a>
+          <a href="#off">Turning things off</a>
+          <a href="#it">For IT and security teams</a>
+          <a href="#site">This website</a>
+          <a class="sep" href="legal.html#privacy">Privacy policy</a>
+        </nav>
+
+        <div>
+          <!-- ---------- what leaves ---------- -->
+          <section class="pd-sec" id="leaves" aria-labelledby="leaves-h">
+            <h2 class="h2 reveal" id="leaves-h">Everything that leaves your computer.</h2>
+            <p class="lead reveal">Each thing Artifice sends, who receives it, why, and whether you can stop it. If it isn't in this table, Artifice doesn't send it.</p>
+
+            <table class="table pd-table pd-stack reveal">
+              <thead><tr><th scope="col">What</th><th scope="col">Where it goes</th><th scope="col">Why</th><th scope="col">Can you turn it off?</th></tr></thead>
+              <tbody>
+                <tr class="group"><td colspan="4">Stays on your computer</td></tr>
+                <tr class="stays">
+                  <td>Your files and what's in them<small>And Artifice's index: summaries, outlines, search</small></td>
+                  <td class="where" data-k="Where it goes">Nowhere</td>
+                  <td data-k="Why">Reading and briefing happen on your computer.</td>
+                  <td data-k="Can you turn it off?" class="never">Never sent</td>
+                </tr>
+                <tr class="stays">
+                  <td>Your AI's questions and the briefings<small>The text Artifice hands your AI tools</small></td>
+                  <td class="where" data-k="Where it goes">Nowhere</td>
+                  <td data-k="Why">Briefings go from Artifice to the AI tool on the same computer.</td>
+                  <td data-k="Can you turn it off?" class="never">Never sent, unless you turn on examples</td>
+                </tr>
+                <tr class="stays">
+                  <td>Memory and Playbooks<small>And your savings history in Activity</small></td>
+                  <td class="where" data-k="Where it goes">Nowhere</td>
+                  <td data-k="Why">They're kept with your project and in Artifice's folder.</td>
+                  <td data-k="Can you turn it off?" class="never">Never sent</td>
+                </tr>
+
+                <tr class="group"><td colspan="4">Sent, and you can turn it off</td></tr>
+                <tr>
+                  <td>Usage numbers<small>Counts, timings and categories. <a href="#usage">What's in them</a></small></td>
+                  <td class="where" data-k="Where it goes">PostHog<small>European Union (Germany)</small></td>
+                  <td data-k="Why">To see what works, measure how well briefings help, and fix problems. Kept up to 24 months.</td>
+                  <td data-k="Can you turn it off?" class="off">Yes. Settings › Privacy, or <code>artifice privacy off</code></td>
+                </tr>
+                <tr>
+                  <td>Crash and error reports<small>Where in Artifice's code it happened, never the message</small></td>
+                  <td class="where" data-k="Where it goes">PostHog<small>European Union (Germany)</small></td>
+                  <td data-k="Why">To fix bugs. Kept up to 24 months.</td>
+                  <td data-k="Can you turn it off?" class="off">Yes, with usage numbers</td>
+                </tr>
+                <tr>
+                  <td>Examples<small>Off unless you turn them on</small></td>
+                  <td class="where" data-k="Where it goes">PostHog<small>European Union (Germany)</small></td>
+                  <td data-k="Why">To see where Artifice briefs badly, with real cases: the question with secrets and personal details removed, which files and lines the briefing held, and what your AI opened next. Never what's in your files or the briefing's text. Kept 90 days.</td>
+                  <td data-k="Can you turn it off?" class="off">Off by default. Leave any project out</td>
+                </tr>
+                <tr>
+                  <td>Text for summaries<small>Only if you choose a cloud model for summaries</small></td>
+                  <td class="where" data-k="Where it goes">The provider you pick<small>With your own key</small></td>
+                  <td data-k="Why">To write summaries with that model. Summaries are made on your computer by default.</td>
+                  <td data-k="Can you turn it off?" class="off">Off unless you choose it</td>
+                </tr>
+
+                <tr class="group"><td colspan="4">Needed for your account and plan</td></tr>
+                <tr>
+                  <td>Sign-in<small>Email address, name, how you signed in</small></td>
+                  <td class="where" data-k="Where it goes">Supabase<small>Canada. Google or Microsoft if you sign in with them</small></td>
+                  <td data-k="Why">To give you one account on each of your computers. Artifice never sees your password.</td>
+                  <td data-k="Can you turn it off?" class="no">No. An account is how Artifice works</td>
+                </tr>
+                <tr>
+                  <td>Sign-in emails<small>Your email address and when we sent a link</small></td>
+                  <td class="where" data-k="Where it goes">Resend<small>United States</small></td>
+                  <td data-k="Why">To send you a sign-in link, if you sign in by email. Kept up to 30 days in its logs.</td>
+                  <td data-k="Can you turn it off?" class="no">Use Google or Microsoft instead</td>
+                </tr>
+                <tr>
+                  <td>The plan check<small>Your plan, and this computer's name</small></td>
+                  <td class="where" data-k="Where it goes">Supabase<small>Canada</small></td>
+                  <td data-k="Why">To confirm your trial or plan and count your computers (up to 3). Runs when the app opens and about every 12 hours. A paid plan keeps working 14 days offline.</td>
+                  <td data-k="Can you turn it off?" class="no">No</td>
+                </tr>
+                <tr>
+                  <td>Payments<small>Card details and billing address</small></td>
+                  <td class="where" data-k="Where it goes">Stripe<small>From the payment page, straight to Stripe</small></td>
+                  <td data-k="Why">To charge for Pro and work out tax. Artifice never sees your card number; we keep your plan, its dates and Stripe's reference for you.</td>
+                  <td data-k="Can you turn it off?" class="no">Only if you buy Pro</td>
+                </tr>
+                <tr>
+                  <td>Student check<small>Your school email address</small></td>
+                  <td class="where" data-k="Where it goes">Supabase and Resend<small>Resend sends the 6-digit code</small></td>
+                  <td data-k="Why">To confirm you're a student, once a year. After the check we keep only your school's domain.</td>
+                  <td data-k="Can you turn it off?" class="no">Only if you ask for the student plan</td>
+                </tr>
+                <tr>
+                  <td>Updates<small>A standard download request</small></td>
+                  <td class="where" data-k="Where it goes">GitHub<small>United States</small></td>
+                  <td data-k="Why">To download new, signed versions of Artifice.</td>
+                  <td data-k="Can you turn it off?" class="no">No, updates install automatically</td>
+                </tr>
+
+                <tr class="group"><td colspan="4">Your choice of AI tools</td></tr>
+                <tr>
+                  <td>What your AI tools send<small>Claude Code, Cursor, Codex and others</small></td>
+                  <td class="where" data-k="Where it goes">Each tool's own provider<small>Under that tool's terms</small></td>
+                  <td data-k="Why">Artifice hands a briefing to the tool on your computer. What the tool sends to its provider is set by the tool, not by Artifice.</td>
+                  <td data-k="Can you turn it off?" class="off">Disconnect any tool in AI tools</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="small reveal" style="margin-top:20px">We don't sell personal data, don't use it for advertising, and don't use it, examples included, to train AI models.</p>
+          </section>
+
+          <!-- ---------- usage numbers ---------- -->
+          <section class="pd-sec" id="usage" aria-labelledby="usage-h">
+            <h2 class="h2 reveal" id="usage-h">What the usage numbers contain.</h2>
+            <p class="lead reveal">They're on by default, said so the first time the app opens, and easy to turn off. In the app, Settings › Privacy lists every kind of event Artifice can send, and <code>artifice privacy</code> prints the same list in a terminal.</p>
+
+            <div class="pd-two pd-block">
+              <div class="card flat reveal">
+                <span class="label">Sent to PostHog, in the EU</span>
+                <ul>
+                  <li><b>Features and pages used</b>, when, and how long pages take to appear.</li>
+                  <li><b>How well each briefing worked:</b> how many parts it had, whether your AI then searched again or opened files itself, whether the task went well, and your thumbs up or down.</li>
+                  <li><b>How Artifice is running:</b> how long things take, which AI tools are connected and their versions, and when something fails, by kind and place in Artifice's code.</li>
+                  <li><b>Counts and token figures in ranges</b>, and the mix of file types in a project, such as 60% code.</li>
+                  <li><b>Your setup:</b> the AI model you chose, Artifice's version, your operating system and version, processor, memory and number of cores.</li>
+                  <li><b>A random ID</b> for this installation.</li>
+                </ul>
+              </div>
+              <div class="card sunken reveal d1">
+                <span class="label"><span class="dot"></span>Never sent</span>
+                <ul>
+                  <li>What's in your files, and Artifice's summaries of them.</li>
+                  <li>File and folder names and paths.</li>
+                  <li>Your AI's questions, prompts and task text.</li>
+                  <li>The text of briefings, memories and playbooks.</li>
+                  <li>Error messages, since they can contain file names.</li>
+                  <li>API keys.</li>
+                </ul>
+                <p class="small" style="margin-top:14px">File names and questions are sent only in examples, which you turn on yourself, and only after secrets and personal details are removed.</p>
+              </div>
+            </div>
+
+            <h3 class="reveal">Linked to your account once you sign in</h3>
+            <p class="body reveal">When you sign in, these numbers are linked to your account: its ID, email address, how you signed in and your plan, including those sent from that computer before. When you sign out, the computer starts again with a new random ID. When you delete your account, the numbers linked to it are deleted too.</p>
+
+            <h3 class="reveal">What examples remove</h3>
+            <p class="body reveal">Before an example leaves, Artifice removes keys, tokens and passwords, long random strings, email addresses, phone, card and ID numbers, IP addresses and your own folder name. You can see your latest briefing exactly as it would be sent before turning examples on. The removal is careful but not perfect, so don't turn examples on for projects whose file names or questions you can't share.</p>
+          </section>
+
+          <!-- ---------- where the index lives ---------- -->
+          <section class="pd-sec" id="where" aria-labelledby="where-h">
+            <h2 class="h2 reveal" id="where-h">Where your index lives.</h2>
+            <p class="lead reveal">Two places, both on your computer: a hidden folder inside each project, and Artifice's own folder for everything that spans projects.</p>
+
+            <h3 class="reveal">Inside each project</h3>
+            <table class="table pd-paths pd-stack reveal">
+              <thead><tr><th scope="col">Path</th><th scope="col">What it holds</th></tr></thead>
+              <tbody>
+                <tr><td><code>.artifice/library.db</code></td><td data-k="What it holds">The project's index and its Memory, in a SQLite database.</td></tr>
+                <tr><td><code>.artifice/config.json</code></td><td data-k="What it holds">The project's settings.</td></tr>
+                <tr><td><code>.artifice/.gitignore</code></td><td data-k="What it holds">Keeps the whole folder out of Git, so the index is never committed.</td></tr>
+                <tr><td><code>.artificeignore</code></td><td data-k="What it holds">Yours, if you want it: patterns for files Artifice shouldn't read.</td></tr>
+              </tbody>
+            </table>
+            <p class="small reveal" style="margin-top:14px">Deleting the <code>.artifice</code> folder removes Artifice from that project. Your savings history is kept separately.</p>
+
+            <h3 class="reveal">Artifice's own folder</h3>
+            <div class="pd-os reveal">
+              <div class="card flat"><span class="label"><svg data-i="apple"></svg>Mac</span><code>~/Library/Application Support/artifice/</code></div>
+              <div class="card flat"><span class="label"><svg data-i="windows"></svg>Windows</span><code>%APPDATA%\artifice\</code></div>
+            </div>
+            <table class="table pd-paths pd-stack reveal" style="margin-top:28px">
+              <thead><tr><th scope="col">Inside it</th><th scope="col">What it holds</th></tr></thead>
+              <tbody>
+                <tr><td><code>ledger.db</code></td><td data-k="What it holds">Savings for all your projects, so they survive removing one.</td></tr>
+                <tr><td><code>registry.json</code></td><td data-k="What it holds">The list of your projects and where they are.</td></tr>
+                <tr><td><code>settings.json</code></td><td data-k="What it holds">Settings for this computer, and the random installation ID.</td></tr>
+                <tr><td><code>account.json</code></td><td data-k="What it holds">Who is signed in: ID, email, name, how and when. Readable only by you.</td></tr>
+                <tr><td><code>plan.json</code></td><td data-k="What it holds">Your plan, signed by us so it can be checked offline and can't be edited.</td></tr>
+                <tr><td><code>analytics/queue.jsonl</code></td><td data-k="What it holds">Usage numbers waiting to be sent. Open it to see exactly what goes.</td></tr>
+                <tr><td><code>logs/mcp.log</code></td><td data-k="What it holds">When AI tools connected and what failed, without questions or answers.</td></tr>
+                <tr><td><code>backups/</code></td><td data-k="What it holds">A copy of each AI tool's settings from before Artifice changed them.</td></tr>
+              </tbody>
+            </table>
+            <p class="small reveal" style="margin-top:14px">Sign-in tokens are kept in your system's credential store on Windows and on signed Mac builds, and otherwise in <code>account.json</code>. Set <code>ARTIFICE_HOME</code> to keep Artifice's folder somewhere else.</p>
+          </section>
+
+          <!-- ---------- turning things off ---------- -->
+          <section class="pd-sec" id="off" aria-labelledby="off-h">
+            <h2 class="h2 reveal" id="off-h">Turn it off in one place.</h2>
+            <p class="lead reveal">Usage numbers and examples each have a switch. Turning them off stops them at once, and Artifice works the same.</p>
+
+            <figure class="pd-app reveal" style="margin-left:0;margin-right:0">
+              <div class="window" aria-label="Artifice, Settings, Privacy">
+                <div class="window-bar"><span class="lights"><i></i><i></i><i></i></span><span class="window-title">Artifice</span><span class="win-btns"><i>—</i><i>▢</i><i>✕</i></span></div>
+                <div class="app">
+                  <aside class="app-side">
+                    <div class="app-proj"><span class="av">a</span><span><span class="nm">acme</span><span class="st">Ready</span></span><svg data-i="updown" class="i chev"></svg></div>
+                    <div class="app-search"><svg data-i="search"></svg>Search acme<kbd>⌘K</kbd></div>
+                    <nav class="app-nav">
+                      <div><svg data-i="home"></svg>Home</div>
+                      <div><svg data-i="library"></svg>Library</div>
+                      <div><svg data-i="memory"></svg>Memory</div>
+                      <div><svg data-i="playbooks"></svg>Playbooks</div>
+                      <div><svg data-i="activity"></svg>Activity</div>
+                    </nav>
+                    <div class="bottom">
+                      <nav class="app-nav"><div><svg data-i="tools"></svg>AI tools</div><div class="on"><svg data-i="settings"></svg>Settings</div></nav>
+                      <div class="app-ver"><img src="assets/mark.svg" alt="">Artifice 0.1.9 · <u>What's new</u></div>
+                    </div>
+                  </aside>
+                  <div class="app-main">
+                    <div class="app-page">
+                      <div class="app-title">Settings</div>
+                      <div class="set-tabs"><span class="on">General</span><span>This project</span></div>
+                      <div class="set-h">Notifications</div>
+                      <div class="set-row"><div><div class="t">Tell me the first time an AI uses a project</div></div><span class="set-toggle on" aria-hidden="true"></span></div>
+                      <div class="set-h">Privacy</div>
+                      <div class="set-row">
+                        <div><div class="t" id="sw1">Share usage numbers</div><div class="s">How often Artifice is used and how well it briefs. Never your files, folder names or questions.</div></div>
+                        <button type="button" class="set-toggle" role="switch" aria-checked="true" aria-labelledby="sw1"></button>
+                      </div>
+                      <div class="set-row">
+                        <div><div class="t" id="sw2">Help improve Artifice with examples</div><div class="s">Shares real briefings with secrets and personal details removed. Never what's in your files.</div></div>
+                        <button type="button" class="set-toggle" role="switch" aria-checked="false" aria-labelledby="sw2"></button>
+                      </div>
+                      <div class="set-row">
+                        <div><div class="t">What's shared, exactly</div><div class="s">What is and isn't shared, side by side, with your latest briefing as the example.</div></div>
+                        <span class="set-btn">Show</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <figcaption class="pd-cap">Settings › Privacy in Artifice 0.1.9.</figcaption>
+            </figure>
+
+            <div class="pd-ways">
+              <div class="pd-way reveal">
+                <h3>In the app</h3>
+                <p>Open Settings › Privacy and turn off <strong>Share usage numbers</strong>. <strong>Help improve Artifice with examples</strong> is off unless you turned it on.</p>
+              </div>
+              <div class="pd-way reveal">
+                <h3>In a terminal</h3>
+                <div>
+                  <div class="code">
+                    <button class="copy" type="button"><svg data-i="copy"></svg>Copy</button>
+<pre><span class="c"># see what's collected, then turn it off</span>
+<span class="p">$ </span>artifice privacy
+<span class="p">$ </span>artifice privacy off</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="pd-way reveal">
+                <h3>With an environment variable</h3>
+                <div>
+                  <p>Either of these turns usage numbers off for every Artifice process that sees it: the app, the command line, the MCP server and the hooks.</p>
+                  <div class="code">
+                    <button class="copy" type="button"><svg data-i="copy"></svg>Copy</button>
+<pre><span class="k">export</span> DO_NOT_TRACK=1
+<span class="c"># or</span>
+<span class="k">export</span> ARTIFICE_TELEMETRY=0</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="pd-way reveal">
+                <h3>For a whole organisation</h3>
+                <div>
+                  <p>IT can install a small policy file that turns usage numbers or examples off on every computer and locks the switch, so people can't turn it back on.</p>
+                  <div class="code">
+                    <div class="code-bar" role="tablist"><button aria-selected="true" data-tab="mac">Mac</button><button aria-selected="false" data-tab="win">Windows</button><button aria-selected="false" data-tab="linux">Linux</button></div>
+                    <button class="copy" type="button"><svg data-i="copy"></svg>Copy</button>
+<pre data-tab="mac"><span class="c"># /Library/Application Support/Artifice/policy.json</span>
+{ <span class="s">"telemetry"</span>: false, <span class="s">"share_examples"</span>: false }</pre>
+<pre data-tab="win" hidden><span class="c"># %ProgramData%\Artifice\policy.json</span>
+{ <span class="s">"telemetry"</span>: false, <span class="s">"share_examples"</span>: false }</pre>
+<pre data-tab="linux" hidden><span class="c"># /etc/artifice/policy.json</span>
+{ <span class="s">"telemetry"</span>: false, <span class="s">"share_examples"</span>: false }</pre>
+                  </div>
+                  <p class="small">Or point <code>ARTIFICE_POLICY_FILE</code> at a file of your own.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ---------- IT and security ---------- -->
+          <section class="pd-sec" id="it" aria-labelledby="it-h">
+            <h2 class="h2 reveal" id="it-h">For IT and security teams.</h2>
+            <p class="lead reveal">What Artifice connects to, how long each kind of data is kept, and how an account is deleted.</p>
+
+            <h3 class="reveal">What it connects to</h3>
+            <table class="table pd-hosts pd-stack reveal">
+              <thead><tr><th scope="col">Service</th><th scope="col">Used for</th><th scope="col">From</th></tr></thead>
+              <tbody>
+                <tr><td><code>eu.i.posthog.com</code></td><td data-k="Used for">Usage numbers, error reports and examples, if they're on</td><td data-k="From">The app, command line and MCP server</td></tr>
+                <tr><td><b>Artifice's account server</b>, on Supabase</td><td data-k="Used for">Sign-in, the account check and the plan check</td><td data-k="From">The app, command line and MCP server</td></tr>
+                <tr><td><b>GitHub</b></td><td data-k="Used for">Downloads and signed updates</td><td data-k="From">The app, and the download page</td></tr>
+                <tr><td><code>tryartifice.com</code></td><td data-k="Used for">The sign-in and payment pages</td><td data-k="From">Your browser, opened by the app</td></tr>
+                <tr><td><b>Stripe</b>, <b>Google</b>, <b>Microsoft</b></td><td data-k="Used for">Card fields on the payment page; sign-in if you choose Google or Microsoft</td><td data-k="From">Your browser only</td></tr>
+              </tbody>
+            </table>
+            <p class="small reveal" style="margin-top:14px">If you choose a cloud model for summaries, Artifice also calls that provider with your key. For a list to allow through a firewall, write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>.</p>
+
+            <h3 class="reveal">How it's protected</h3>
+            <div class="pd-sec-facts reveal">
+              <div><b>Encrypted in transit</b><span>Everything Artifice sends travels over HTTPS.</span></div>
+              <div><b>No passwords in Artifice</b><span>Sign-in runs in your browser with OAuth and PKCE, so Artifice never sees a password.</span></div>
+              <div><b>Tokens kept locally</b><span>In the system's credential store, or a file only your user account can read.</span></div>
+              <div><b>Works offline</b><span>Once signed in, Artifice keeps working without a connection. A paid plan is confirmed again within 14 days.</span></div>
+              <div><b>Sessions end when unused</b><span>A computer that hasn't used Artifice for 30 days signs in again. Sign out everywhere from Account.</span></div>
+              <div><b>Limited access on our side</b><span>Access to our providers is limited and protected with two-factor authentication.</span></div>
+            </div>
+
+            <h3 class="reveal">How long we keep it</h3>
+            <table class="table pd-keep pd-stack reveal">
+              <thead><tr><th scope="col">Data</th><th scope="col">Kept for</th></tr></thead>
+              <tbody>
+                <tr><td>Account: email, name, sign-in method, sign-in times</td><td data-k="Kept for">Until you delete your account, then removed within 30 days, including from backups</td></tr>
+                <tr><td>Usage numbers and error reports</td><td data-k="Kept for">Up to 24 months, or until you delete your account</td></tr>
+                <tr><td>Examples</td><td data-k="Kept for">90 days</td></tr>
+                <tr><td>Sign-in emails</td><td data-k="Kept for">Up to 30 days, in the sending service's logs</td></tr>
+                <tr><td>Emails you send us</td><td data-k="Kept for">Up to 3 years after our last exchange</td></tr>
+                <tr><td>Website and download requests</td><td data-k="Kept for">As long as our hosts keep request logs, typically days</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="reveal">Deleting your account</h3>
+            <ol class="pd-steps reveal">
+              <li><span>In Artifice, open <b>Account</b> and choose <b>Delete account…</b> at the end of the page.</span></li>
+              <li><span>Type your email address to confirm. Your account and the usage numbers linked to it are deleted, and a Pro subscription is cancelled.</span></li>
+              <li><span>Your projects, memories and playbooks on this computer stay. To remove them too, uninstall Artifice from Settings and tick the boxes to delete its data.</span></li>
+            </ol>
+            <p class="small reveal" style="margin-top:14px">For examples already sent, or anything you can't do in the app, write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a> with "Privacy request" as the subject. We reply within a month.</p>
+          </section>
+
+          <!-- ---------- this website ---------- -->
+          <section class="pd-sec" id="site" aria-labelledby="site-h">
+            <h2 class="h2 reveal" id="site-h">This website doesn't watch you.</h2>
+            <p class="lead reveal">tryartifice.com is hosted on Vercel, which keeps standard request logs. That's all.</p>
+            <div class="pd-site">
+              <div class="reveal"><b>No cookies</b><span>The site sets none. Your theme choice is kept in your own browser.</span></div>
+              <div class="reveal d1"><b>No analytics</b><span>No page counters, no tracking scripts, no advertising.</span></div>
+              <div class="reveal d2"><b>Two exceptions</b><span>Signing in sends you to Supabase and the provider you choose, and paying loads Stripe's card fields. They may set their own cookies for that step.</span></div>
+            </div>
+            <p class="small reveal" style="margin-top:24px">The download page asks GitHub for the latest version of Artifice.</p>
+          </section>
+
+          <div class="pd-policy reveal">
+            <p><b>The full Privacy policy</b>Legal bases, providers and where they are, international transfers, and your rights in the EU, UK and California.</p>
+            <a class="btn" href="legal.html#privacy">Read the Privacy policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div style="height:136px" aria-hidden="true"></div>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  // the switches in the Settings picture, and the contents that follow the reader
+  document.querySelectorAll('.pd-app [role="switch"]').forEach(s => s.addEventListener('click', () => s.setAttribute('aria-checked', String(s.getAttribute('aria-checked') !== 'true'))));
+  (function () {
+    const links = [...document.querySelectorAll('.pd-toc a[href^="#"]')];
+    const secs = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    if (!('IntersectionObserver' in window) || !secs.length) return;
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      links.forEach(a => a.setAttribute('aria-current', String(a.getAttribute('href') === '#' + e.target.id)));
+    }), { rootMargin: '-30% 0px -60% 0px' });
+    secs.forEach(s => io.observe(s));
+  })();
+</script>
+</body>
+</html>

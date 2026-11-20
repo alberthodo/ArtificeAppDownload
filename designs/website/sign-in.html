@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in: your Artifice account | Artifice</title>
+<meta name="description" content="Sign in to Artifice with Google, Microsoft, an email link or your company's single sign-on. Your 14-day trial starts at your first sign-in, with no card.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* ---------- the bare sign-in page (opened from the app) ---------- */
+  .si { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 20px 32px; }
+  .si-card { width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-xl); box-shadow: var(--shadow-m); padding: 44px 40px 36px; text-align: center; }
+  .si-mark { width: 44px; height: 44px; border-radius: 12px; margin: 0 auto; }
+  .si-card h1 { font-family: var(--display); font-size: 26px; line-height: 1.2; letter-spacing: -0.018em; margin-top: 24px; }
+  .si-sub { margin-top: 8px; font-size: 15.5px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+  .si-sub b { color: var(--ink); font-weight: 600; overflow-wrap: anywhere; }
+  .si-col { display: grid; gap: 10px; margin-top: 28px; text-align: left; }
+  .si-idp { --h: 46px; width: 100%; justify-content: center; font-size: 15px; }
+  .si-idp svg { width: 18px; height: 18px; }
+  .si-or { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 13px; color: var(--ink-3); }
+  .si-or::before, .si-or::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+  .si-field { width: 100%; height: 46px; padding: 0 14px; border: 1px solid var(--line-2); border-radius: var(--r-m); background: var(--surface); color: var(--ink); font: 15px var(--sans); transition: border-color .16s var(--ease), box-shadow .16s var(--ease); }
+  .si-field::placeholder { color: var(--ink-3); }
+  .si-field:focus { outline: none; border-color: var(--ink-3); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ink) 10%, transparent); }
+  .si-field[aria-invalid="true"] { border-color: var(--err); }
+  .si-primary { --h: 46px; width: 100%; font-size: 15px; }
+  .si-plain { display: block; margin: 10px auto 0; background: none; border: 0; padding: 6px 4px; font: 500 14px var(--sans); color: var(--ink-2); cursor: pointer; text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 4px; }
+  .si-plain:hover { color: var(--ink); text-decoration-color: var(--ink-3); }
+  .si-err { font-size: 14px; color: var(--err); margin-top: 2px; }
+  .si-err[hidden] { display: none; }
+  .si-badge { width: 44px; height: 44px; border-radius: 50%; margin: 28px auto 0; display: grid; place-items: center; background: var(--sunken); color: var(--ink-2); }
+  .si-badge svg { width: 20px; height: 20px; }
+  .si-badge.ok { color: var(--ready); }
+  .si-going { display: inline-flex; align-items: center; gap: 10px; }
+  .si-ring { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line-2); border-top-color: var(--ink-2); animation: si-spin .9s linear infinite; flex: none; }
+  @keyframes si-spin { to { transform: rotate(360deg); } }
+  .si-fallback { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); text-align: center; }
+  .si-fallback .si-sub { margin-top: 0; font-size: 14.5px; }
+  .si-code { margin-top: 14px; padding: 12px 14px; border-radius: var(--r-m); background: var(--sunken); border: 1px solid var(--line); font: 13.5px/1.5 var(--mono); color: var(--ink); overflow-wrap: anywhere; user-select: all; }
+  .si-fallback .btn { margin-top: 10px; width: 100%; }
+  .si-fallback .tiny { margin-top: 10px; }
+  .si-note { max-width: 420px; margin-top: 24px; text-align: center; font-size: 14px; line-height: 1.55; color: var(--ink-3); }
+  .si-legal { margin-top: 10px; display: flex; justify-content: center; gap: 18px; font-size: 13.5px; }
+  .si-legal a { color: var(--ink-3); text-decoration: none; }
+  .si-legal a:hover { color: var(--ink); text-decoration: underline; }
+  [data-step][hidden] { display: none; }
+  [data-step] { animation: si-in .24s var(--ease) both; }
+  @keyframes si-in { from { opacity: 0; transform: translateY(4px); } }
+
+  @media (max-width: 860px) {
+    .si { justify-content: flex-start; padding-top: 12vh; }
+    .si-card { background: none; border: 0; box-shadow: none; padding: 0; }
+    .si-card h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body data-bare data-page="sign-in">
+<main id="main" class="si">
+  <div class="si-card" aria-live="polite">
+    <img class="si-mark" src="assets/mark.svg" alt="Artifice">
+
+    <!-- ============ choose a way to sign in (default) ============ -->
+    <div data-step="choose">
+      <h1>Sign in to Artifice</h1>
+      <p class="si-sub">New or returning, it's the same.</p>
+      <div class="si-col">
+        <button class="btn si-idp" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.5l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z"/><path fill="#FBBC05" d="M6.4 13.9a6 6 0 0 1 0-3.8V7.5H3.1a10 10 0 0 0 0 9z"/><path fill="#EA4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.5l3.3 2.6C7.2 7.8 9.4 6 12 6z"/></svg>
+          Continue with Google
+        </button>
+        <button class="btn si-idp" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#F25022" d="M3 3h8.5v8.5H3z"/><path fill="#7FBA00" d="M12.5 3H21v8.5h-8.5z"/><path fill="#00A4EF" d="M3 12.5h8.5V21H3z"/><path fill="#FFB900" d="M12.5 12.5H21V21h-8.5z"/></svg>
+          Continue with Microsoft
+        </button>
+        <div class="si-or">or</div>
+        <label class="vh" for="si-email">Your email</label>
+        <input class="si-field" id="si-email" type="email" placeholder="Your email" autocomplete="email" aria-describedby="si-err">
+        <button class="btn primary si-primary" type="button" data-send>Email me a sign-in link</button>
+        <p class="si-err" id="si-err" hidden>That email address doesn't look right.</p>
+      </div>
+      <button class="si-plain" type="button" data-go="sso">Use your company's single sign-on</button>
+    </div>
+
+    <!-- ============ single sign-on ============ -->
+    <div data-step="sso" hidden>
+      <h1>Single sign-on</h1>
+      <p class="si-sub">For companies that sign in with Okta, Microsoft Entra or similar.</p>
+      <div class="si-col">
+        <label class="vh" for="si-work">Your work email</label>
+        <input class="si-field" id="si-work" type="email" placeholder="Your work email" autocomplete="email">
+        <button class="btn primary si-primary" type="button">Continue</button>
+      </div>
+      <button class="si-plain" type="button" data-go="choose">Other ways to sign in</button>
+    </div>
+
+    <!-- ============ check your email ============ -->
+    <div data-step="sent" hidden>
+      <div class="si-badge"><svg data-i="mail"></svg></div>
+      <h1 style="margin-top:20px">Check your email</h1>
+      <p class="si-sub">We sent a sign-in link to <b data-email>maya@acme.com</b>. Open it on this computer. It works for 10 minutes.</p>
+      <button class="si-plain" type="button" data-go="choose" style="margin-top:24px">Use a different email</button>
+    </div>
+
+    <!-- ============ signed in ============ -->
+    <div data-step="done" hidden>
+      <div class="si-badge ok"><svg data-i="check"></svg></div>
+      <h1 style="margin-top:20px">You're signed in</h1>
+      <p class="si-sub"><span class="si-going"><span class="si-ring" aria-hidden="true"></span>Going back to Artifice. You can close this tab.</span></p>
+      <div class="si-col">
+        <a class="btn primary si-primary" href="artifice://">Return to Artifice</a>
+      </div>
+      <div class="si-fallback">
+        <p class="si-sub">Artifice didn't open? Copy this code and paste it into Artifice.</p>
+        <div class="si-code" id="si-code">8f3c1e72-4b9a-4d06-a5e1-29c7d0b6f418</div>
+        <button class="btn" type="button" data-copy-code><svg data-i="copy"></svg><span>Copy code</span></button>
+        <p class="tiny">It works once, for a few minutes.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="si-note" data-trial>Your 14-day trial starts the first time you sign in. No card needed.</p>
+  <nav class="si-legal" aria-label="Legal"><a href="legal.html">Terms</a><a href="legal.html#privacy">Privacy</a></nav>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  // One page, four steps: ?state=sent, ?state=done or ?state=sso; the default is choosing a way in.
+  (function () {
+    const steps = [...document.querySelectorAll('[data-step]')];
+    const trial = document.querySelector('[data-trial]');
+    const show = name => {
+      steps.forEach(s => { s.hidden = s.dataset.step !== name; });
+      trial.hidden = name === 'done';
+      const f = document.querySelector(`[data-step="${name}"] input`);
+      if (f && name !== 'choose') f.focus();
+    };
+    const start = new URLSearchParams(location.search).get('state');
+    show(['sent', 'done', 'sso'].includes(start) ? start : 'choose');
+
+    document.addEventListener('click', e => {
+      const go = e.target.closest('[data-go]');
+      if (go) { show(go.dataset.go); return; }
+      if (e.target.closest('[data-send]')) {
+        const box = document.getElementById('si-email'), err = document.getElementById('si-err');
+        const v = box.value.trim(), ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+        box.setAttribute('aria-invalid', String(!ok)); err.hidden = ok;
+        if (!ok) { box.focus(); return; }
+        document.querySelector('[data-email]').textContent = v;
+        show('sent');
+      }
+      const c = e.target.closest('[data-copy-code]');
+      if (c) {
+        const text = document.getElementById('si-code').textContent;
+        (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.resolve()).catch(() => {}).finally(() => {
+          c.querySelector('span').textContent = 'Copied';
+          setTimeout(() => { c.querySelector('span').textContent = 'Copy code'; }, 1500);
+        });
+      }
+    });
+    document.getElementById('si-email').addEventListener('keydown', e => { if (e.key === 'Enter') document.querySelector('[data-send]').click(); });
+  })();
+</script>
+</body>
+</html>

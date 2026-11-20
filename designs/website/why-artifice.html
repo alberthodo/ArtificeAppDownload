@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Artifice: better answers from your AI, for less | Artifice</title>
+<meta name="description" content="Why use Artifice: your AI tools stop paying to search, answer from your own documents (8.2 vs 6.6 out of 10), remember across tools and show exactly what they were given. Your files stay on your computer.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/product.css">
+<style>
+  /* ---------- page head and jump links ---------- */
+  .hw-head .h1 { max-width: 15ch; }
+  .hw-head .lead { max-width: 38em; }
+  .jump { display: flex; flex-wrap: wrap; gap: 4px 22px; margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 14.5px; }
+  .jump a { color: var(--ink-2); text-decoration: none; }
+  .jump a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 4px; }
+
+  /* ---------- walkthrough: steps on the left, the product on the right ---------- */
+  .walk { display: grid; grid-template-columns: 4fr 7fr; gap: 64px; align-items: start; }
+  .steps { border-bottom: 1px solid var(--line); }
+  .steps [role="tab"] { display: grid; grid-template-columns: 36px 1fr; gap: 0 8px; width: 100%; text-align: left; background: none; border: 0; border-top: 1px solid var(--line); padding: 20px 0; font: inherit; color: var(--ink-3); cursor: pointer; border-radius: 0; }
+  .steps [role="tab"]:focus-visible { outline-offset: -2px; border-radius: 6px; }
+  .steps .n { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 500 13px/1 var(--sans); font-variant-numeric: tabular-nums; border: 1px solid var(--line-2); color: var(--ink-3); transition: background .16s var(--ease), color .16s var(--ease), border-color .16s var(--ease); }
+  .steps .t { font-size: 17px; line-height: 26px; font-weight: 600; letter-spacing: -0.005em; transition: color .16s var(--ease); }
+  .steps .d { grid-column: 2; display: none; margin-top: 6px; font-size: 15.5px; line-height: 1.6; color: var(--ink-2); text-wrap: pretty; }
+  .steps [role="tab"]:hover .t { color: var(--ink-2); }
+  .steps [aria-selected="true"] .t { color: var(--ink); }
+  .steps [aria-selected="true"] .n { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+  .steps [aria-selected="true"] .d { display: block; }
+  .steps-hint { margin-top: 16px; }
+
+  .walk-stage { position: relative; padding-bottom: 56px; }
+  .walk-stage .window { margin-left: 16%; }
+  .walk-stage .term { position: absolute; left: 0; bottom: 0; width: 40%; z-index: 2; }
+  .walk-stage .term .body { min-height: 0; }
+  .walk-stage .term .you::after { content: ""; display: inline-block; width: 7px; height: 13px; margin-left: 3px; vertical-align: -2px; background: #E9E7E1; opacity: .7; }
+  .walk-stage .term .you.sent::after { display: none; }
+  .walk .app { grid-template-columns: 188px 1fr; height: 540px; }
+  .walk .app-page { padding: 30px 28px 24px 32px; max-width: none; }
+  .walk .app-file .s { font-size: 11.5px; color: var(--ink-3); margin-top: 1px; }
+  .walk .app-h:first-of-type { margin-top: 22px; }
+  .app-opened { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; padding: 10px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 13px; }
+  .app-opened .fi { width: 18px; height: 22px; border-radius: 3px; border: 1px solid var(--line-2); background: var(--surface); }
+  .app-opened .s { font-size: 11.5px; color: var(--ink-3); margin-top: 1px; }
+  .app-weeks { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 20px; }
+  .app-weeks i { flex: 1; max-width: 34px; border-radius: 3px 3px 0 0; background: var(--line-2); }
+  .app-weeks i:last-child { background: var(--ink-3); }
+  .app-weeks-cap { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--ink-3); max-width: 280px; }
+  .app-day { font-size: 12px; color: var(--ink-3); margin: 22px 0 6px; }
+  .app-list .who { font-size: 11.5px; color: var(--ink-3); white-space: nowrap; text-align: right; }
+  .app-list .quiet .t { color: var(--ink-3); }
+
+  /* ---------- a single app page, without the sidebar ---------- */
+  .app.solo { grid-template-columns: 1fr; height: auto; min-height: 0; }
+  .app.solo .app-page { padding: 28px 32px 28px; max-width: none; animation: none; }
+  .mock-frame .window { box-shadow: var(--shadow-m); }
+
+  /* ---------- reading a folder ---------- */
+  .keep { display: grid; gap: 0; margin-top: 32px; }
+  .keep div { display: grid; grid-template-columns: 28px 1fr; gap: 12px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .keep div:last-child { border-bottom: 1px solid var(--line); }
+  .keep svg { width: 18px; height: 18px; color: var(--ink-2); margin-top: 3px; }
+  .keep b { font-weight: 600; display: block; }
+  .keep span { font-size: 15.5px; color: var(--ink-2); line-height: 1.55; }
+  .fmt-table td:nth-child(2) { color: var(--ink-2); }
+  .fmt-table td:last-child { padding-right: 0; white-space: nowrap; }
+  .fmt-table code { font-size: 12.5px; }
+  .skipped { margin-top: 28px; }
+
+  /* ---------- briefings ---------- */
+  .contains { counter-reset: c; display: grid; gap: 0; }
+  .contains li { list-style: none; display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 18px 0; border-top: 1px solid var(--line); }
+  .contains li:last-child { border-bottom: 1px solid var(--line); }
+  .contains li::before { counter-increment: c; content: counter(c); font-size: 13px; color: var(--ink-3); padding-top: 3px; font-variant-numeric: tabular-nums; }
+  .contains b { display: block; font-weight: 600; }
+  .contains span { font-size: 15.5px; color: var(--ink-2); line-height: 1.55; }
+  .contains { padding: 0; margin: 0; }
+  .nos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 72px; }
+  .nos h3 { font-size: 17px; }
+  .nos p { margin-top: 6px; font-size: 15.5px; color: var(--ink-2); line-height: 1.6; }
+  .receives { margin-top: 72px; }
+  .receives .code pre { max-height: 420px; }
+  .app-rate { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-3); }
+  .app-rate span { margin-right: 4px; }
+  .rate-b { width: 30px; height: 28px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--surface); display: grid; place-items: center; color: var(--ink-2); }
+  .rate-b svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .rate-b.on { background: var(--selected); color: var(--ink); border-color: var(--line-2); }
+  .brief-saved { margin-top: 14px; font-size: 12.5px; color: var(--gold); }
+  .brief-saved u { color: var(--ink-3); margin-left: 6px; text-underline-offset: 2px; }
+
+  /* ---------- memory and playbooks ---------- */
+  .feat { display: grid; grid-template-columns: 5fr 7fr; gap: 72px; align-items: center; }
+  .feat.flip { grid-template-columns: 7fr 5fr; }
+  .feat.flip > :first-child { order: 2; }
+  .feat .h2 { margin-top: 14px; }
+  .feat .lead { margin-top: 20px; }
+  .feat .check-list { margin-top: 28px; }
+  .app-add { padding: 10px 0 12px; border-bottom: 1px solid var(--line-2); color: var(--ink-3); font-size: 13.5px; margin-top: 18px; }
+  .app-topic { font-size: 13.5px; font-weight: 600; margin: 22px 0 4px; }
+  .app-mem .src u { text-underline-offset: 2px; }
+  .app-mem .kind { color: var(--ink-2); }
+  .app-look { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 2px 0 12px; padding: 8px 10px 8px 12px; border-radius: 9px; background: var(--attn-band); font-size: 12.5px; }
+  .app-look::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--attn); flex: none; }
+  .app-look .grow { flex: 1; min-width: 120px; }
+  .app-look .lnk { color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; }
+  .app-look .app-btn { margin: 0; height: 26px; }
+  .app-look .app-btn.ink { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+  .pb-ask { margin-top: 18px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  .pb-ask .lbl { font-size: 11.5px; color: var(--ink-3); }
+  .pb-ask .row { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+  .pb-ask .say { flex: 1; font-size: 14px; line-height: 21px; }
+  .pb-ask .blank { border-bottom: 1.5px solid var(--ink-3); padding: 0 2px; }
+  .pb-ask .app-btn { margin: 0; }
+  .pb-step { display: grid; grid-template-columns: 20px 1fr auto; gap: 8px; align-items: baseline; padding: 9px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
+  .pb-step b { font-weight: 500; font-size: 12px; color: var(--ink-3); }
+  .pb-step .get { font-size: 11.5px; color: var(--ink-3); text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
+  .pb-step.open { background: var(--sunken); margin: 0 -10px; padding: 9px 10px; border-radius: 8px; border-top-color: transparent; }
+  .pb-step.open + .pb-step { border-top-color: transparent; }
+  .pb-got { grid-column: 2 / -1; margin-top: 6px; display: grid; gap: 4px; }
+  .pb-got code { font-size: 11.5px; justify-self: start; background: var(--surface); }
+  .pb-runs { margin-top: 4px; }
+  .pb-runs > div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 12.5px; }
+  .pb-runs > div:last-child { border-bottom: 1px solid var(--line); }
+  .pb-runs .w { color: var(--ink-3); }
+  .dots { display: inline-flex; gap: 4px; align-items: center; }
+  .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-3); }
+  .dots i.o { background: transparent; box-shadow: inset 0 0 0 1.2px var(--line-2); }
+
+  /* ---------- AI tools ---------- */
+  .connect-steps { counter-reset: s; padding: 0; margin: 32px 0 0; }
+  .connect-steps li { list-style: none; display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 14px 0; border-top: 1px solid var(--line); font-size: 15.5px; line-height: 1.55; color: var(--ink-2); }
+  .connect-steps li:last-child { border-bottom: 1px solid var(--line); }
+  .connect-steps li::before { counter-increment: s; content: counter(s); font-size: 13px; color: var(--ink-3); padding-top: 2px; }
+  .connect-steps strong { color: var(--ink); font-weight: 600; }
+  .tool-table td:first-child { white-space: nowrap; }
+  .tool-table td:nth-child(2) { color: var(--ink-2); }
+  .tool-table code { font-size: 12px; white-space: nowrap; }
+  .tool-note { margin-top: 16px; }
+
+  /* ---------- developers ---------- */
+  .dev-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .dev-cols article { border-top: 1px solid var(--line); padding-top: 24px; }
+  .dev-cols .ic { width: 32px; height: 32px; border-radius: 9px; background: var(--sunken); display: grid; place-items: center; color: var(--ink-2); }
+  .dev-cols .ic svg { width: 16px; height: 16px; }
+  .dev-cols h3 { margin-top: 18px; }
+  .dev-cols h3 code { font-size: 15px; font-weight: 500; }
+  .dev-cols p { margin-top: 8px; font-size: 15.5px; line-height: 1.6; color: var(--ink-2); }
+  .dev-cols .names { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .dev-cols .names code { font-size: 12px; }
+  .hook-rows { margin-top: 14px; font-size: 14px; }
+  .hook-rows div { display: grid; grid-template-columns: 1fr; padding: 8px 0; border-top: 1px solid var(--line); color: var(--ink-2); }
+  .hook-rows div:last-child { border-bottom: 1px solid var(--line); }
+  .hook-rows code { font-size: 12px; justify-self: start; margin-bottom: 3px; }
+  .dev-code { display: grid; grid-template-columns: 5fr 7fr; gap: 72px; margin-top: 80px; align-items: start; }
+  .dev-code .h3 { margin-top: 0; }
+  .dev-code .body { margin-top: 10px; }
+  .dev-code .arrow { margin-top: 22px; }
+
+  /* ---------- privacy (short) ---------- */
+  .priv-s { display: grid; grid-template-columns: 5fr 6fr; gap: 72px; align-items: center; }
+  .priv-s .h2 { margin-top: 14px; }
+  .priv-s .lead { margin-top: 20px; }
+  .priv-s .arrow { margin-top: 26px; }
+  .fact { display: grid; grid-template-columns: 40px 1fr auto; gap: 16px; align-items: center; padding: 18px 0; border-top: 1px solid var(--line); }
+  .fact:last-child { border-bottom: 1px solid var(--line); }
+  .fact .ic { width: 32px; height: 32px; border-radius: 9px; background: var(--sunken); display: grid; place-items: center; color: var(--ink-2); }
+  .fact .ic svg { width: 16px; height: 16px; }
+  .fact .t { font-weight: 500; }
+  .fact .s { font-size: 14px; color: var(--ink-3); }
+  .fact .v { font-size: 14px; font-weight: 500; color: var(--ready); text-align: right; }
+  .fact .v.q { color: var(--ink-2); font-weight: 400; }
+
+  @media (max-width: 1080px) {
+    .walk { grid-template-columns: 1fr; gap: 40px; }
+    .steps { display: grid; grid-template-columns: 1fr; }
+    .walk-stage .window { margin-left: 20%; }
+    .walk-stage .term { width: 36%; }
+    .feat, .feat.flip, .priv-s, .dev-code { grid-template-columns: 1fr; gap: 48px; }
+    .feat.flip > :first-child { order: 0; }
+    .nos { gap: 28px; }
+  }
+  @media (max-width: 860px) {
+    .walk { display: flex; flex-direction: column; }
+    .walk-stage { order: -1; padding-bottom: 0; }
+    .walk-stage .window { margin-left: 0; }
+    .walk-stage .term { position: relative; width: 100%; margin-top: 12px; }
+    .walk .app { grid-template-columns: 1fr; height: auto; min-height: 440px; }
+    .walk .app-page { padding: 22px 20px; }
+    .app.solo .app-page { padding: 22px 20px; }
+    .nos, .dev-cols { grid-template-columns: 1fr; gap: 28px; }
+    .nos, .receives { margin-top: 56px; }
+    .dev-code { margin-top: 56px; }
+    .fmt-table thead { display: none; }
+    .fmt-table tr { display: grid; grid-template-columns: 1fr; padding: 14px 0; border-top: 1px solid var(--line); }
+    .fmt-table tbody tr:last-child { border-bottom: 1px solid var(--line); }
+    .fmt-table td, .fmt-table tbody tr:last-child td { border: 0; padding: 2px 0; }
+    .fmt-table td:last-child { white-space: normal; padding-top: 8px; }
+    .tool-table thead { display: none; }
+    .tool-table tr { display: grid; grid-template-columns: 1fr; padding: 12px 0; border-top: 1px solid var(--line); }
+    .tool-table tbody tr:last-child { border-bottom: 1px solid var(--line); }
+    .tool-table td, .tool-table tbody tr:last-child td { border: 0; padding: 2px 0; }
+    .tool-table code { white-space: normal; word-break: break-all; }
+    .fact { grid-template-columns: 40px 1fr; }
+    .fact .v { grid-column: 2; text-align: left; margin-top: -10px; }
+    .pb-step { grid-template-columns: 20px 1fr; }
+    .pb-step .get { grid-column: 2; }
+  }
+
+  /* ---------- why: reasons, numbers, comparisons ---------- */
+  .nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .numc { border-top: 2px solid var(--ink); padding-top: 22px; }
+  .numc.zero { border-top-color: var(--line-2); }
+  .numc .v { font-family: var(--display); font-size: 56px; line-height: 1; letter-spacing: -0.04em; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .numc .v small { font-size: 24px; letter-spacing: -0.02em; margin-left: 2px; }
+  .numc.zero .v { color: var(--ink-3); }
+  .numc h3 { font-size: 17px; margin-top: 16px; }
+  .numc p { margin-top: 6px; font-size: 15px; color: var(--ink-2); line-height: 1.6; }
+  .numc .src { margin-top: 12px; font-size: 13px; color: var(--ink-3); }
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .vs .label { display: block; margin-bottom: 12px; }
+  .vs .term { height: 100%; display: flex; flex-direction: column; }
+  .vs .term .body { flex: 1; min-height: 300px; }
+  .vs-col { display: flex; flex-direction: column; }
+  .vs-col .term { flex: 1; }
+  .vs-foot { margin-top: 12px; font-size: 14px; color: var(--ink-3); }
+  .vs-foot b { color: var(--ink); font-weight: 600; }
+  .vs-foot .gold { font-weight: 500; }
+  .term .tool b { display: inline-block; min-width: 56px; }
+  .scene-cap { margin-top: 20px; }
+  .reason-more { margin-top: 32px; }
+
+  /* ---------- three places ---------- */
+  .places { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .place .scene { height: 300px; }
+  .place .scene .term, .place .scene .window { height: 100%; }
+  .place .scene .term .body { min-height: 0; }
+  .place .scene .window { display: flex; flex-direction: column; box-shadow: var(--shadow-m); }
+  .place .scene .app.solo { flex: 1; overflow: hidden; }
+  .place .scene .app.solo .app-page { padding: 20px 20px; }
+  .place .n { font-size: 13px; color: var(--ink-3); margin-top: 24px; display: block; }
+  .place h3 { margin-top: 6px; }
+  .place p { margin-top: 8px; font-size: 15.5px; line-height: 1.6; color: var(--ink-2); }
+  .place .tag { margin-top: 14px; }
+  .term .cmd::before { content: "$ "; color: #8a8882; }
+  .term .cmd { color: #fff; }
+
+  @media (max-width: 1080px) {
+    .places { grid-template-columns: 1fr; gap: 48px; }
+    .place { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+    .place .n { margin-top: 0; }
+  }
+  @media (max-width: 860px) {
+    .nums, .vs { grid-template-columns: 1fr; }
+    .numc .v { font-size: 48px; }
+    .vs .term .body { min-height: 0; }
+    .place { grid-template-columns: 1fr; gap: 20px; }
+    .place .scene { height: 280px; }
+  }
+</style>
+</head>
+<body data-page="why">
+<main id="main">
+
+  <!-- ======================= PAGE HEAD ======================= -->
+  <section class="page-head hw-head">
+    <div class="container">
+      <span class="label reveal">Why Artifice</span>
+      <h1 class="h1 reveal d1">Better answers from your AI, for less.</h1>
+      <p class="lead reveal d2">Without Artifice, Claude Code, Cursor and other AI tools search your folder file by file on every question, and every file they open is paid for. Artifice hands them the passages that answer it, from your own documents and code, on your own computer.</p>
+      <nav class="jump reveal d3" aria-label="On this page">
+        <a href="#cost">Lower cost</a><a href="#quality">Better answers</a><a href="#files">Every file</a><a href="#places">Where you use it</a><a href="#walkthrough">Nothing new to learn</a><a href="#briefings">See what it got</a><a href="#memory">Memory</a><a href="#playbooks">Playbooks</a><a href="#tools">Every AI tool</a><a href="#developers">For developers</a><a href="#privacy">Privacy</a>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ======================= REASON: COST ======================= -->
+  <section class="section" id="cost" style="padding-top:112px">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">Cost</span>
+        <h2 class="h2">Your AI stops paying to search.</h2>
+        <p class="lead">To answer a question, an AI tool searches, opens a file, searches again, and pays in tokens for everything it reads. Handed the right passages first, Claude Code answered questions about code in 4.2 steps instead of 6.4, for 28% less.</p>
+      </div>
+      <div class="vs">
+        <div class="vs-col reveal">
+          <span class="label">Without Artifice</span>
+          <div class="term" aria-label="Claude Code searching file by file">
+            <div class="bar"><span class="lights"><i></i><i></i><i></i></span>claude · ~/acme</div>
+            <div class="body">
+              <div class="dim">Claude Code · Sonnet 5.5</div>
+              <div class="you">Where do we round invoice totals?</div>
+              <div class="tool"><b>Search</b> "round" in **/*.ts</div>
+              <div class="tool"><b>Read</b> src/invoice.ts</div>
+              <div class="tool"><b>Read</b> src/utils/math.ts</div>
+              <div class="tool"><b>Search</b> "total"</div>
+              <div class="tool"><b>Read</b> src/cart/summary.ts</div>
+              <div class="tool"><b>Read</b> src/legacy/money.js</div>
+              <div class="tool"><b>Search</b> "toFixed"</div>
+              <div class="tool"><b>Read</b> src/billing.ts</div>
+              <div class="tool"><b>Read</b> tests/billing.test.ts</div>
+              <div class="ok">Totals are rounded half up to the cent in roundTotal(), src/billing.ts.</div>
+            </div>
+          </div>
+          <p class="vs-foot">Every file it opens is paid for, and carried through the rest of the conversation.</p>
+        </div>
+        <div class="vs-col reveal d1">
+          <span class="label">With Artifice</span>
+          <div class="term" aria-label="Claude Code briefed by Artifice">
+            <div class="bar"><span class="lights"><i></i><i></i><i></i></span>claude · ~/acme</div>
+            <div class="body">
+              <div class="dim">Claude Code · Sonnet 5.5 · artifice connected</div>
+              <div class="you">Where do we round invoice totals?</div>
+              <div class="art">● artifice · briefed with 4 passages from 3 files</div>
+              <div class="tool"><b>Read</b> src/billing.ts (lines 40–58)</div>
+              <div class="ok">Totals are rounded half up to the cent, once, after tax: roundTotal() in src/billing.ts, line 46. The rule is set by ROUNDING_MODE and tested in billing.test.ts.</div>
+            </div>
+          </div>
+          <p class="vs-foot">It starts from the passages, and opens more only if it needs to.</p>
+        </div>
+      </div>
+      <div class="nums">
+        <div class="numc reveal"><div class="v gold">−28<small>%</small></div><h3>Questions about code</h3><p>Lower cost in Claude Code, with answers just as good: 9.15 against 9.13 out of 10.</p><div class="src">144 questions, 5 projects · Oct 2026</div></div>
+        <div class="numc reveal d1"><div class="v gold">−13<small>%</small></div><h3>Folders of documents</h3><p>Lower cost, in 3.6 steps instead of 5.5, with clearly better answers.</p><div class="src">58 questions, 45 files · Nov 2026</div></div>
+        <div class="numc zero reveal d2"><div class="v">0<small>%</small></div><h3>Fixing code</h3><p>No saving, and no extra cost. When your AI is changing code, Artifice adds nothing.</p><div class="src">50 tasks, 3 runs each · Oct 2026</div></div>
+      </div>
+      <p class="reveal reason-more"><a class="arrow" href="how-we-count.html">How we count</a></p>
+    </div>
+  </section>
+
+  <!-- ======================= REASON: QUALITY ======================= -->
+  <section class="section" id="quality">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">Quality</span>
+        <h2 class="h2">Answers come from your documents, not guesses.</h2>
+        <p class="lead">On a folder of company documents, Claude Code's answers scored 8.2 out of 10 with Artifice and 6.6 without. Its briefing holds the page of the policy or the rows of the sheet that answer the question, each labelled with where it came from.</p>
+      </div>
+      <div class="vs">
+        <div class="vs-col reveal">
+          <span class="label">Without Artifice</span>
+          <div class="term" aria-label="Claude Code answering from the files it found">
+            <div class="bar"><span class="lights"><i></i><i></i><i></i></span>claude · ~/acme</div>
+            <div class="body">
+              <div class="dim">Claude Code · Sonnet 5.5</div>
+              <div class="you">What's our travel policy for hotels in Geneva?</div>
+              <div class="tool"><b>Search</b> "Geneva" in **/*</div>
+              <div class="tool"><b>Read</b> notes/offsite-2025.md</div>
+              <div class="tool"><b>Search</b> "hotel"</div>
+              <div class="tool"><b>Read</b> docs/onboarding.md</div>
+              <div class="ok">I couldn't find a hotel limit for Geneva. A 2025 offsite note mentions a hotel at about 220 CHF a night, which may be a guide.</div>
+            </div>
+          </div>
+        </div>
+        <div class="vs-col reveal d1">
+          <span class="label">With Artifice</span>
+          <div class="term" aria-label="Claude Code answering from a briefing">
+            <div class="bar"><span class="lights"><i></i><i></i><i></i></span>claude · ~/acme</div>
+            <div class="body">
+              <div class="dim">Claude Code · Sonnet 5.5 · artifice connected</div>
+              <div class="you">What's our travel policy for hotels in Geneva?</div>
+              <div class="art">● artifice · briefed with 3 passages from 3 files</div>
+              <div class="tool">&nbsp;&nbsp;travel-policy.docx · Hotels</div>
+              <div class="tool">&nbsp;&nbsp;expenses-2025.xlsx · Limits, rows 2–41</div>
+              <div class="tool">&nbsp;&nbsp;handbook.epub · Travel</div>
+              <div class="ok">Hotels in Geneva are capped at 260 CHF a night, breakfast included (travel-policy.docx, Hotels). Book through Expensely at least 14 days ahead (handbook.epub, Travel).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="small scene-cap reveal">An example on the demo project. The scores come from the document benchmark: 58 questions, each answer graded blind against a checked answer. <a href="how-we-count.html#documents">How it was measured</a></p>
+    </div>
+  </section>
+
+  <!-- ======================= READING A FOLDER ======================= -->
+  <section class="section" id="files">
+    <div class="container">
+      <div class="split">
+        <div class="reveal">
+          <span class="label">Every file</span>
+          <h2 class="h2" style="margin-top:14px">Your AI can use files it can't open.</h2>
+          <p class="lead" style="margin-top:20px">Most AI tools can't read Word, Excel, PowerPoint or Visio files on their own. Artifice reads them, and scanned PDFs on a Mac, so your AI can answer from the documents your company actually keeps.</p>
+          <div class="keep">
+            <div><svg data-i="refresh"></svg><p><b>Always the version you just saved</b><span>Artifice reads a change about 0.7 seconds after you save, and checks for changes again before every briefing.</span></p></div>
+            <div><svg data-i="check"></svg><p><b>No upkeep</b><span>Add a folder once. Only the parts that changed are read again, so a big project stays quick.</span></p></div>
+            <div><svg data-i="folder"></svg><p><b>Tidying up loses nothing</b><span>A file that moved keeps its links, what Artifice learned about it, and the memories that point to it.</span></p></div>
+            <div><svg data-i="lock"></svg><p><b>Your files are never changed</b><span>Artifice only reads. Each document is read in its own process; macros never run and links are never followed.</span></p></div>
+          </div>
+        </div>
+        <div class="reveal d1">
+          <table class="table fmt-table">
+            <caption class="vh">File formats Artifice reads, what it keeps, and how a passage is labelled</caption>
+            <thead><tr><th scope="col">Format</th><th scope="col">What it keeps</th><th scope="col">A passage is labelled</th></tr></thead>
+            <tbody>
+              <tr><td>Word, OpenDocument, RTF, EPUB</td><td>Headings, paragraphs, lists, tables, footnotes, comments</td><td><code>travel-policy.docx · Hotels</code></td></tr>
+              <tr><td>PDF</td><td>Text page by page, with values typed into forms. Scans by text recognition, on a Mac</td><td><code>Q3 report.pdf · Page 12</code></td></tr>
+              <tr><td>Excel, CSV, OpenDocument sheets</td><td>Each sheet, in groups of 40 rows with the header repeated</td><td><code>budget-2026.xlsx · Opex, rows 41–80</code></td></tr>
+              <tr><td>PowerPoint, OpenDocument slides</td><td>Each slide's title, text and tables, with speaker notes</td><td><code>board-deck.pptx · Slide 7</code></td></tr>
+              <tr><td>Email and Outlook messages</td><td>Subject, sender, recipients, date, the message, attachment names</td><td><code>offsite.msg · Geneva hotels</code></td></tr>
+              <tr><td>Visio, draw.io, Excalidraw</td><td>Labels, and what connects to what</td><td><code>system.vsdx · Order service → Payment API</code></td></tr>
+              <tr><td>Screenshots and photos</td><td>Text in reading order, by your Mac's own text recognition</td><td><code>whiteboard.heic</code></td></tr>
+              <tr><td>Code</td><td>Functions, classes and types in Python, JavaScript, TypeScript, Go and Rust; config and data in chunks</td><td><code>billing.ts · roundTotal()</code></td></tr>
+              <tr><td>Markdown and text</td><td>Sections by heading</td><td><code>docs/billing.md · Rounding</code></td></tr>
+            </tbody>
+          </table>
+          <div class="note skipped"><svg data-i="info"></svg><p><strong>What it skips.</strong> Dependency and build folders, anything in <code>.gitignore</code>, secrets such as <code>.env</code> files and keys, text files over 2 MB and documents over 200 MB. Password-protected files are listed in Library with the reason, and you can skip any folder in the project's settings.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================= THREE PLACES ======================= -->
+  <section class="section" id="places">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">Where you use it</span>
+        <h2 class="h2">It works inside the AI tools you already use.</h2>
+        <p class="lead">Most people meet Artifice inside Claude Code, Claude, Cursor or Codex, and rarely open anything else. The app is there when you want to look, and the command line when you want to script it.</p>
+      </div>
+      <div class="places">
+        <article class="place reveal">
+          <div class="scene">
+            <div class="term" aria-label="Claude Code, briefed by Artifice">
+              <div class="bar"><span class="lights"><i></i><i></i><i></i></span>claude · ~/acme</div>
+              <div class="body">
+                <div class="dim">Claude Code · artifice connected</div>
+                <div class="you">What's the Opex budget for Q4?</div>
+                <div class="art">● artifice · briefed with 2 passages from 1 file</div>
+                <div class="tool">&nbsp;&nbsp;budget-2026.xlsx · Opex, rows 41–80</div>
+                <div class="ok">Q4 Opex is budgeted at 1.42M EUR (budget-2026.xlsx, Opex, row 52).</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <span class="n">1 · Where most people meet it</span>
+            <h3 class="h3">In your AI tool</h3>
+            <p>Ask the way you always do. Artifice briefs your AI before it starts searching, in Claude Code, Claude, Cursor, Codex, Gemini CLI, Antigravity, Windsurf and VS Code.</p>
+          </div>
+        </article>
+        <article class="place reveal d1">
+          <div class="scene">
+            <div class="window" aria-label="The Artifice app">
+              <div class="window-bar"><span class="lights"><i></i><i></i><i></i></span><span class="window-title">Artifice</span><span class="win-btns"><i>—</i><i>▢</i><i>✕</i></span></div>
+              <div class="app solo">
+                <div class="app-page">
+                  <div class="app-title">acme</div>
+                  <div class="app-meta">Ready · 214 files · <span class="gold">about 128k tokens saved this week</span></div>
+                  <div class="app-h">Recently</div>
+                  <div class="app-list">
+                    <div><span><div class="t">Claude Code asked “What's the Opex budget for Q4?”</div><div class="s">2 passages from 1 file</div></span><span class="w">just now</span></div>
+                    <div><span><div class="t">Claude remembered “Hotels in Geneva are capped at 260 CHF a night.”</div></span><span class="w">Monday</span></div>
+                    <div><span><div class="t">4 files changed: budget-2026.xlsx and 3 others</div></span><span class="w">yesterday</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <span class="n">2 · When you want to look</span>
+            <h3 class="h3">In the Artifice app</h3>
+            <p>See what your AI was given and what it saved, read your files in Library, and keep Memory and Playbooks. Add folders and connect tools in a click.</p>
+          </div>
+        </article>
+        <article class="place reveal d2">
+          <div class="scene">
+            <div class="term" aria-label="The artifice command line">
+              <div class="bar"><span class="lights"><i></i><i></i><i></i></span>zsh · ~/code</div>
+              <div class="body">
+                <div class="cmd">artifice init ~/code/acme</div>
+                <div class="cmd">artifice connect claude-code</div>
+                <div class="dim">Start a new Claude Code session to use it.</div>
+                <div class="cmd">artifice ask "where do we round totals?"</div>
+                <div class="tool">### src/billing.ts › roundTotal (lines 40–58)</div>
+                <div class="cmd">artifice remember "Deploys go out on Tuesdays"</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <span class="n">3 · For developers and scripts</span>
+            <h3 class="h3">On the command line</h3>
+            <p><code>artifice init</code>, <code>ask</code>, <code>connect</code> and <code>remember</code>, plus an MCP server for any AI app. Everything the app does is a command.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= WALKTHROUGH ======================= -->
+  <section class="section" id="walkthrough">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">Nothing new to learn</span>
+        <h2 class="h2">You keep asking your AI. Nothing else changes.</h2>
+        <p class="lead">Maya works at Acme. Her folder, <code>acme</code>, holds the company's policies, budgets and code. She asks Claude Code a question the way she always has. Here is what happens, start to finish.</p>
+      </div>
+
+      <div class="walk">
+        <div class="reveal">
+          <div class="steps" role="tablist" aria-orientation="vertical" aria-label="Steps of one question">
+            <button type="button" role="tab" id="st-1" aria-selected="true" aria-controls="walk-stage" tabindex="0"><span class="n">1</span><span class="t">Maya adds a folder, once.</span><span class="d">Artifice reads every document, sheet, slide and source file in <code>acme</code>, on her computer, and reads them again as they change.</span></button>
+            <button type="button" role="tab" id="st-2" aria-selected="false" aria-controls="walk-stage" tabindex="-1"><span class="n">2</span><span class="t">She asks Claude Code, as she always does.</span><span class="d">Before Claude Code opens a single file, the question reaches Artifice through its prompt hook. Nothing to paste, nothing to set up per project.</span></button>
+            <button type="button" role="tab" id="st-3" aria-selected="false" aria-controls="walk-stage" tabindex="-1"><span class="n">3</span><span class="t">Artifice hands it the passages that answer.</span><span class="d">Three passages from three files, each with its place: a heading of the policy, rows of a sheet, a chapter of the handbook. On her computer, usually in under a second.</span></button>
+            <button type="button" role="tab" id="st-4" aria-selected="false" aria-controls="walk-stage" tabindex="-1"><span class="n">4</span><span class="t">Claude Code answers from them.</span><span class="d">It starts from the briefing and opens more only when it needs to. Here it reads one more sheet, then answers with where it found each part.</span></button>
+            <button type="button" role="tab" id="st-5" aria-selected="false" aria-controls="walk-stage" tabindex="-1"><span class="n">5</span><span class="t">She can check what it was given.</span><span class="d">Every briefing is kept: what her AI asked, the passages it got, what it opened afterwards, and about how many tokens that saved.</span></button>
+          </div>
+          <p class="tiny steps-hint">Choose a step, or use the arrow keys.</p>
+        </div>
+
+        <div class="walk-stage reveal d1" id="walk-stage" role="tabpanel" aria-labelledby="st-1" data-step="1">
+          <div class="window" aria-label="The Artifice app">
+            <div class="window-bar"><span class="lights"><i></i><i></i><i></i></span><span class="window-title">Artifice</span><span class="win-btns"><i>—</i><i>▢</i><i>✕</i></span></div>
+            <div class="app">
+              <aside class="app-side">
+                <div class="app-proj"><span class="av">a</span><span><span class="nm">acme</span><span class="st">Ready</span></span><svg data-i="updown" class="i chev"></svg></div>
+                <div class="app-search"><svg data-i="search"></svg>Search acme<kbd>⌘K</kbd></div>
+                <nav class="app-nav" aria-label="App places">
+                  <div data-nav="home"><svg data-i="home"></svg>Home</div>
+                  <div class="on" data-nav="library"><svg data-i="library"></svg>Library</div>
+                  <div><svg data-i="memory"></svg>Memory</div>
+                  <div><svg data-i="playbooks"></svg>Playbooks</div>
+                  <div data-nav="activity"><svg data-i="activity"></svg>Activity</div>
+                </nav>
+                <div class="bottom">
+                  <nav class="app-nav" aria-label="App settings"><div><svg data-i="tools"></svg>AI tools</div><div><svg data-i="settings"></svg>Settings</div></nav>
+                  <div class="app-ver"><img src="assets/mark.svg" alt="">Artifice 0.1.9 · <u>What's new</u></div>
+                </div>
+              </aside>
+              <div class="app-main">
+
+                <!-- 1 · Library -->
+                <div class="app-page" data-scene="1">
+                  <div class="app-title">Library</div>
+                  <div class="app-meta">The 214 files Artifice reads in acme · updated 3 minutes ago</div>
+                  <div class="app-ask-box"><svg data-i="search" class="i"></svg>Find a file, or ask a question about acme…</div>
+                  <div class="app-h">Policies</div>
+                  <div class="app-file"><span class="fi"></span><span><div>Travel Policy 2026</div><div class="s">travel-policy.docx · Word · 3 pages</div></span><span class="w">used in 14 briefings</span></div>
+                  <div class="app-file"><span class="fi"></span><span><div>Employee handbook</div><div class="s">handbook.epub · EPUB · 12 chapters</div></span><span class="w">used in 6 briefings</span></div>
+                  <div class="app-h">Finance</div>
+                  <div class="app-file"><span class="fi"></span><span><div>Budget 2026</div><div class="s">budget-2026.xlsx · Excel · 2 sheets</div></span><span class="w">used in 11 briefings</span></div>
+                  <div class="app-file"><span class="fi"></span><span><div>Expense limits 2025</div><div class="s">expenses-2025.xlsx · Excel · 3 sheets</div></span><span class="w">used in 9 briefings</span></div>
+                  <div class="app-h">Code</div>
+                  <div class="app-file"><span class="fi"></span><span><div>billing.ts</div><div class="s">src/billing.ts · TypeScript · 6 functions</div></span><span class="w">used in 8 briefings</span></div>
+                </div>
+
+                <!-- 2 · Home, while Claude Code asks -->
+                <div class="app-page" data-scene="2" hidden>
+                  <div class="app-title">acme</div>
+                  <div class="app-meta">Ready · 214 files · updated 3 minutes ago</div>
+                  <div class="app-cards">
+                    <div class="app-card"><h4>This week</h4><div class="app-big">Briefed 12 times</div><div class="app-saved">about 128k tokens saved</div><span class="app-btn">See activity</span></div>
+                    <div class="app-card"><h4>AI tools</h4>
+                      <div class="app-tool"><span class="ic claude"><svg data-i="spark"></svg></span>Claude<span class="when">used it yesterday</span></div>
+                      <div class="app-tool"><span class="ic"><svg data-i="terminal"></svg></span>Claude Code<span class="when">using it now</span></div>
+                      <span class="app-btn">Connect another</span></div>
+                  </div>
+                  <div class="app-h">Recently</div>
+                  <div class="app-list">
+                    <div><span><div class="t">Claude asked “What's the Opex budget for Q4?”</div><div class="s">2 passages from 1 file</div></span><span class="w">today 11:20</span></div>
+                    <div><span><div class="t">4 files changed: budget-2026.xlsx and 3 others</div></span><span class="w">yesterday</span></div>
+                    <div><span><div class="t">Claude Code remembered “Ledger amounts are stored in cents, never as floats.”</div></span><span class="w">Monday</span></div>
+                  </div>
+                </div>
+
+                <!-- 3 and 4 · the briefing -->
+                <div class="app-page" data-scene="3 4" hidden>
+                  <div class="app-back">← Activity</div>
+                  <div class="app-ask">Claude Code asked · just now</div>
+                  <div class="app-q">“What's our travel policy for hotels in Geneva?”</div>
+                  <div class="app-given">It was given 3 passages from 3 files</div>
+                  <div class="app-pass"><span class="n">1</span><span><div class="where">travel-policy.docx · Hotels</div><div class="txt">“Geneva: 260 CHF a night, including breakfast. Elsewhere in Europe: 180 EUR.”</div></span></div>
+                  <div class="app-pass"><span class="n">2</span><span><div class="where">expenses-2025.xlsx · Limits, rows 2–41</div><div class="txt">“Region | Daily meal limit | Hotel limit …”</div></span></div>
+                  <div class="app-pass"><span class="n">3</span><span><div class="where">handbook.epub · Travel</div><div class="txt">“Book through Expensely at least fourteen days ahead …”</div></span></div>
+                  <div data-scene="4" hidden>
+                    <div class="app-given" style="margin-top:20px">Then it opened</div>
+                    <div class="app-opened"><span class="fi"></span><span><div>expenses-2025.xlsx · Sheet: Hotels</div><div class="s">Not in the briefing. If this happens often, Artifice learns to include it.</div></span></div>
+                  </div>
+                </div>
+
+                <!-- 5 · Activity -->
+                <div class="app-page" data-scene="5" hidden>
+                  <div class="app-title">Your AI was briefed 21 times this month</div>
+                  <div class="app-meta"><span class="gold">about 223k tokens saved</span> · <u>How we count</u></div>
+                  <div class="app-weeks" aria-hidden="true"><i style="height:30%"></i><i style="height:45%"></i><i style="height:38%"></i><i style="height:60%"></i><i style="height:52%"></i><i style="height:70%"></i><i style="height:64%"></i><i style="height:88%"></i></div>
+                  <div class="app-weeks-cap"><span>8 weeks ago</span><span>This week</span></div>
+                  <div class="app-day">Today</div>
+                  <div class="app-list">
+                    <div><span><div class="t">What's our travel policy for hotels in Geneva?</div><div class="s">3 passages from 3 files</div></span><span class="who">Claude Code<br>just now</span></div>
+                    <div class="quiet"><span><div class="t">3 code changes · nothing added</div></span><span class="who">Claude Code<br>10:12</span></div>
+                    <div><span><div class="t">What's the Opex budget for Q4?</div><div class="s">2 passages from 1 file</div></span><span class="who">Claude<br>11:20</span></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="term" data-scene="2 3 4" aria-label="Claude Code in a terminal" hidden>
+            <div class="bar"><span class="lights"><i></i><i></i><i></i></span>claude · ~/acme</div>
+            <div class="body">
+              <div class="dim">Claude Code · Sonnet 5.5 · artifice connected</div>
+              <div class="you" data-scene="2" hidden>What's our travel policy for hotels in Geneva?</div>
+              <div class="you sent" data-scene="3 4" hidden>What's our travel policy for hotels in Geneva?</div>
+              <div class="art" data-scene="3 4" hidden>● artifice · briefed with 3 passages from 3 files</div>
+              <div class="tool" data-scene="4" hidden><b>artifice_read</b> expenses-2025.xlsx (Sheet: Hotels)</div>
+              <div class="ok" data-scene="4" hidden>Hotels in Geneva are capped at 260 CHF a night, breakfast included (travel-policy.docx, Hotels). Book through Expensely at least 14 days ahead (handbook.epub, Travel).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================= BRIEFINGS ======================= -->
+  <section class="section" id="briefings">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">Activity</span>
+        <h2 class="h2">You can see exactly what your AI was given.</h2>
+        <p class="lead">Every briefing is kept in the app: the question, each passage with its place, what your AI opened afterwards and what that saved. Nothing reaches your AI that you can't look at.</p>
+      </div>
+      <div class="split" style="align-items:center">
+        <div class="reveal">
+          <ol class="contains">
+            <li><p><b>Only what answers the question</b><span>At most five passages, most relevant first. Artifice searches by meaning as well as by words, so “hotel cap” finds “260 CHF a night”.</span></p></li>
+            <li><p><b>Places you can check</b><span>A page of a PDF, a slide, a sheet's rows, a heading, or a function and its lines, so your AI can say where the answer came from.</span></p></li>
+            <li><p><b>For code, the code itself</b><span>Whole functions, and for a class, a list of its members, so your AI doesn't need to open the file to answer.</span></p></li>
+            <li><p><b>Small, because every token costs</b><span>Every token a briefing adds is paid for. A question about code gets about 700 tokens.</span></p></li>
+          </ol>
+        </div>
+        <div class="mock-frame reveal d1">
+          <div class="window" aria-label="A briefing opened in Activity">
+            <div class="window-bar"><span class="lights"><i></i><i></i><i></i></span><span class="window-title">Activity</span><span class="win-btns"><i>—</i><i>▢</i><i>✕</i></span></div>
+            <div class="app solo">
+              <div class="app-page">
+                <div class="app-rate"><span>Did this help your AI?</span>
+                  <span class="rate-b on" role="img" aria-label="Yes, selected"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v10H4V10zM7 10l4-7c1.4 0 2.4 1.2 2.1 2.6L12.6 9H18a2 2 0 0 1 2 2.3l-1.2 6.8A2.2 2.2 0 0 1 16.6 20H7"/></svg></span>
+                  <span class="rate-b" role="img" aria-label="No"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14V4H4v10zM7 14l4 7c1.4 0 2.4-1.2 2.1-2.6L12.6 15H18a2 2 0 0 0 2-2.3l-1.2-6.8A2.2 2.2 0 0 0 16.6 4H7"/></svg></span>
+                </div>
+                <div class="brief-saved">Saved about 10,600 tokens <u>How we count</u></div>
+                <div class="app-ask" style="margin-top:20px">Claude Code asked · today 14:02</div>
+                <div class="app-q">“What's our travel policy for hotels in Geneva?”</div>
+                <div class="app-given">It was given 3 passages from 3 files</div>
+                <div class="app-pass"><span class="n">1</span><span><div class="where">travel-policy.docx · Hotels</div><div class="txt">“Geneva: 260 CHF a night, including breakfast. Elsewhere in Europe: 180 EUR.”</div></span></div>
+                <div class="app-pass"><span class="n">2</span><span><div class="where">expenses-2025.xlsx · Limits, rows 2–41</div><div class="txt">“Region | Daily meal limit | Hotel limit …”</div></span></div>
+                <div class="app-pass"><span class="n">3</span><span><div class="where">handbook.epub · Travel</div><div class="txt">“Book through Expensely at least fourteen days ahead …”</div></span></div>
+                <div class="app-given" style="margin-top:20px">Then it opened</div>
+                <div class="app-opened"><span class="fi"></span><span><div>expenses-2025.xlsx · Sheet: Hotels</div><div class="s">Not in the briefing. If this happens often, Artifice learns to include it.</div></span></div>
+              </div>
+            </div>
+          </div>
+          <p class="small" style="margin-top:16px">Each passage opens the document at that spot. A thumbs up or down tells Artifice what helped, so the next briefing is better.</p>
+        </div>
+      </div>
+
+      <div class="nos">
+        <div class="reveal"><h3>No cost when it can't help.</h3><p>When you ask your AI to fix or add something, Artifice adds nothing. A small model on your computer tells a question from a change in about 30 ms, with no AI call.</p></div>
+        <div class="reveal d1"><h3>Gaps you can fill.</h3><p>If nothing is close enough, your AI gets nothing extra and searches on its own. Activity lists those questions, so you can add the document or write the answer once.</p></div>
+        <div class="reveal d2"><h3>The whole document, when it matters.</h3><p>Most AI tools can't open Word, Excel or Visio files. When your AI needs a whole document, Artifice gives it the full text.</p></div>
+      </div>
+
+      <div class="split receives">
+        <div class="reveal">
+          <h3 class="h3">The exact text your AI receives</h3>
+          <p class="body" style="margin-top:10px">A briefing is plain text in your AI's conversation. In Claude Code it arrives with the prompt, in an <code>&lt;artifice-context&gt;</code> block. Other tools ask for it through Artifice's MCP server.</p>
+        </div>
+        <div class="reveal d1">
+          <div class="code">
+            <div class="code-bar" role="tablist" aria-label="Example briefings"><button type="button" role="tab" aria-selected="true" data-tab="doc">A question about documents</button><button type="button" role="tab" aria-selected="false" data-tab="code">A question about code</button></div>
+<pre data-tab="doc">&lt;artifice-context pack="p_8c41e0a2d7f3" project="acme" task_type="answer" reuse="fresh"&gt;
+<span class="c">Artifice … has already searched every file in the project for this
+question, using an index synced with the files on disk as of now …
+These are the documents' text, placed by page, slide or sheet.</span>
+
+<span class="k">### travel-policy.docx › Hotels [full]</span>
+Geneva: 260 CHF a night, including breakfast.
+Elsewhere in Europe: 180 EUR.
+
+<span class="k">### expenses-2025.xlsx › Sheet: Limits, rows 2–41 [full]</span>
+Region | Daily meal limit | Hotel limit
+Switzerland | 95 CHF | 260 CHF
+…
+
+<span class="k">### handbook.epub › Travel [full]</span>
+Book through Expensely at least fourteen days ahead …
+&lt;/artifice-context&gt;</pre>
+<pre data-tab="code" hidden>&lt;artifice-context pack="p_2f90b6c1e4a8" project="acme" task_type="answer" reuse="fresh"&gt;
+<span class="c">Artifice … has already searched every file in the project for this
+question … and selected the code below: each section with its path and
+line range, as full text or an outline.</span>
+
+<span class="k">### src/billing.ts › roundTotal (lines 40–58) [full]</span>
+export function roundTotal(total: number): number {
+  <span class="c">// half up, to the cent, once, after tax</span>
+  return Math.round(total * 100 + Number.EPSILON) / 100;
+}
+
+<span class="k">### docs/billing.md › Rounding (lines 12–19) [full]</span>
+Totals are rounded half up to the cent after tax, never per line.
+
+<span class="k">### src/billing.ts › ROUNDING_MODE (line 8) [full]</span>
+export const ROUNDING_MODE = <span class="s">"half-up"</span>;
+&lt;/artifice-context&gt;</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================= MEMORY ======================= -->
+  <section class="section" id="memory">
+    <div class="container feat">
+      <div class="reveal">
+        <span class="label">Memory</span>
+        <h2 class="h2">It already knows the project tomorrow.</h2>
+        <p class="lead">What your AI learns today, like a hotel cap or a decision about the ledger, is kept with the project and given to every AI tool you connect. Tell Claude once, and Cursor knows it too.</p>
+        <ul class="check-list">
+          <li><svg data-i="check"></svg>A fact, a decision (“we use…”, “always…”, “never…”) or a question, which a “?” makes.</li>
+          <li><svg data-i="check"></svg>Each memory shows who saved it, when, and the passage it came from.</li>
+          <li><svg data-i="check"></svg>Never quietly out of date: when its file changes, Artifice asks you to check it.</li>
+          <li><svg data-i="check"></svg>Yours to read and export as Markdown, even if your plan ends.</li>
+        </ul>
+      </div>
+      <div class="mock-frame reveal d1">
+        <div class="window" aria-label="Memory in the Artifice app">
+          <div class="window-bar"><span class="lights"><i></i><i></i><i></i></span><span class="window-title">Memory</span><span class="win-btns"><i>—</i><i>▢</i><i>✕</i></span></div>
+          <div class="app solo">
+            <div class="app-page">
+              <div class="app-title">Memory</div>
+              <div class="app-meta">11 memories · 1 needs a look</div>
+              <div class="app-add">What should your AI always know about acme?</div>
+              <div class="app-topic">Travel</div>
+              <div class="app-mem"><div class="txt">Hotels in Geneva are capped at 260 CHF a night.</div><div class="src">Claude · Monday · <u>from travel-policy.docx</u></div></div>
+              <div class="app-look"><span class="grow">travel-policy.docx changed on Tuesday.</span><span class="lnk">See the change</span><span class="app-btn ink">Still true</span><span class="app-btn">Remove</span></div>
+              <div class="app-mem"><div class="txt">Trips over 3,000 euros need the finance director's approval before booking.</div><div class="src">Claude · Monday · <u>from travel-policy.docx</u></div></div>
+              <div class="app-topic">Engineering</div>
+              <div class="app-mem"><div class="txt">Ledger amounts are stored in cents, never as floats.</div><div class="src"><span class="kind">Decision</span> · Claude Code · 9 days ago · <u>from src/ledger.rs</u></div></div>
+              <div class="app-mem"><div class="txt">Deploys go out on Tuesdays and Thursdays only.</div><div class="src"><span class="kind">Decision</span> · You · Oct 8</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================= PLAYBOOKS ======================= -->
+  <section class="section" id="playbooks">
+    <div class="container feat flip">
+      <div class="reveal">
+        <span class="label">Playbooks</span>
+        <h2 class="h2">Repeat work comes out the same way.</h2>
+        <p class="lead">The monthly review, the client report, the release checklist: write the steps once and any AI tool follows them. Artifice prepares what your AI needs for each step, and keeps it up to date as your files change.</p>
+        <ul class="check-list">
+          <li><svg data-i="check"></svg>Ask any connected AI tool: “Run the Budget review playbook for November.”</li>
+          <li><svg data-i="check"></svg>Blanks for what changes each time, like the month or the client.</li>
+          <li><svg data-i="check"></svg>See what your AI gets on each step before it runs.</li>
+          <li><svg data-i="check"></svg>Every run is kept: which AI ran it, when, and how far it got.</li>
+          <li><svg data-i="check"></svg>Start from one of six templates, or from a blank page.</li>
+        </ul>
+      </div>
+      <div class="mock-frame reveal d1">
+        <div class="window" aria-label="A playbook in the Artifice app">
+          <div class="window-bar"><span class="lights"><i></i><i></i><i></i></span><span class="window-title">Playbooks</span><span class="win-btns"><i>—</i><i>▢</i><i>✕</i></span></div>
+          <div class="app solo">
+            <div class="app-page">
+              <div class="app-back">‹ Playbooks</div>
+              <div class="app-title" style="margin-top:8px">Budget review</div>
+              <div class="app-meta">A one-page review of the month for the board · Last run Oct 31 · Claude</div>
+              <div class="pb-ask">
+                <div class="lbl">Ask your AI</div>
+                <div class="row"><span class="say">Run the Budget review playbook for <span class="blank">November</span>.</span><span class="app-btn">Copy</span></div>
+              </div>
+              <div class="app-h">Steps</div>
+              <div class="pb-step"><b>1</b><span>Read the budget sheet for the month</span><span class="get">What your AI gets</span></div>
+              <div class="pb-step open"><b>2</b><span>Compare each department with its plan</span><span class="get">What your AI gets</span>
+                <span class="pb-got"><code>budget-2026.xlsx · Opex, rows 41–80</code><code>board-deck.pptx · Slide 4: Plan 2026</code></span></div>
+              <div class="pb-step"><b>3</b><span>Flag anything more than 10% over</span><span class="get">What your AI gets</span></div>
+              <div class="pb-step"><b>4</b><span>Write a one-page summary for the board</span><span class="get">What your AI gets</span></div>
+              <div class="app-h">Runs</div>
+              <div class="pb-runs">
+                <div><span>Claude <span class="w">· Oct 31</span></span><span class="dots" role="img" aria-label="All 4 steps done"><i></i><i></i><i></i><i></i></span></div>
+                <div><span>Claude Code <span class="w">· Sep 30</span></span><span class="dots" role="img" aria-label="Stopped after step 2"><i></i><i></i><i class="o"></i><i class="o"></i></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================= AI TOOLS ======================= -->
+  <section class="section" id="tools">
+    <div class="container split">
+      <div class="reveal">
+        <span class="label">AI tools</span>
+        <h2 class="h2" style="margin-top:14px">One setup for every AI tool you use.</h2>
+        <p class="lead" style="margin-top:20px">Connect each tool once, in one click, and it works in every project you add. Nothing is written into your project, and there's nothing to paste into a prompt.</p>
+        <ol class="connect-steps">
+          <li><span><strong>It finds your AI tools.</strong> AI tools in Artifice lists the ones on this computer, each with Connect.</span></li>
+          <li><span><strong>It backs up, then adds one entry.</strong> The tool's settings file is copied to Artifice's backups folder first. For Claude Code, Connect also adds the hooks.</span></li>
+          <li><span><strong>It tells you what's next,</strong> like “Start a new Claude Code session to use it.”</span></li>
+          <li><span><strong>It follows where your AI works.</strong> In a project you've added, your AI gets briefings. In any other folder, it gets nothing.</span></li>
+        </ol>
+        <p class="small" style="margin-top:18px">Disconnect removes only Artifice's entries. If you set Artifice up yourself, with <code>claude mcp add</code> or by hand, it still shows as connected.</p>
+      </div>
+      <div class="reveal d1">
+        <table class="table tool-table">
+          <caption class="vh">AI tools Artifice connects to, and the user-wide settings file Connect writes on a Mac</caption>
+          <thead><tr><th scope="col">AI tool</th><th scope="col">How it asks</th><th scope="col">Settings Connect writes, on a Mac</th></tr></thead>
+          <tbody>
+            <tr><td>Claude Code</td><td>Prompt hook and MCP</td><td><code>~/.claude.json</code>, <code>~/.claude/settings.json</code></td></tr>
+            <tr><td>Claude</td><td>MCP</td><td><code>Claude/claude_desktop_config.json</code></td></tr>
+            <tr><td>Cursor</td><td>MCP</td><td><code>~/.cursor/mcp.json</code></td></tr>
+            <tr><td>Codex</td><td>MCP</td><td><code>~/.codex/config.toml</code></td></tr>
+            <tr><td>Gemini CLI</td><td>MCP</td><td><code>~/.gemini/settings.json</code></td></tr>
+            <tr><td>Antigravity</td><td>MCP</td><td><code>~/.gemini/config/mcp_config.json</code></td></tr>
+            <tr><td>Windsurf</td><td>MCP</td><td><code>~/.config/devin/mcp_config.json</code></td></tr>
+            <tr><td>VS Code</td><td>MCP, in Copilot agent mode</td><td><code>Code/User/mcp.json</code></td></tr>
+            <tr><td>Any MCP app</td><td>MCP</td><td><code>artifice connect generic</code> prints the entry</td></tr>
+          </tbody>
+        </table>
+        <p class="small tool-note">The Claude and VS Code files sit in your Application Support folder. On Windows the same files live under your user folder and <code>%APPDATA%</code>.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================= DEVELOPERS ======================= -->
+  <section class="section" id="developers">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">For developers</span>
+        <h2 class="h2">Developers can script every part of it.</h2>
+        <p class="lead">Everything the app does is a command, any MCP app can connect, and Claude Code gets hooks so it is briefed even when it never calls a tool.</p>
+      </div>
+      <div class="dev-cols">
+        <article class="reveal">
+          <span class="ic"><svg data-i="cpu"></svg></span>
+          <h3 class="h4">MCP server · <code>artifice mcp</code></h3>
+          <p>Runs over stdio, with twelve tools. Claude Code gets five of them and two sentences of instructions, and none is always loaded, because tool definitions ride along on every turn.</p>
+          <div class="names"><code>artifice_context</code><code>artifice_search</code><code>artifice_expand</code><code>artifice_read</code><code>artifice_remember</code><code>artifice_job_run</code></div>
+        </article>
+        <article class="reveal d1">
+          <span class="ic"><svg data-i="terminal"></svg></span>
+          <h3 class="h4">Hooks for Claude Code · <code>artifice hook</code></h3>
+          <p>A hook never blocks Claude Code: it always exits 0.</p>
+          <div class="hook-rows">
+            <div><code>UserPromptSubmit</code>A question gets a briefing with the prompt. A change gets nothing.</div>
+            <div><code>PostToolUse · Read, Grep</code>Watched, so Artifice learns what to include next time.</div>
+            <div><code>SessionStart</code>A digest of what changed, only if you turn it on.</div>
+          </div>
+        </article>
+        <article class="reveal d2">
+          <span class="ic"><svg data-i="code"></svg></span>
+          <h3 class="h4">Command line · <code>artifice</code></h3>
+          <p>Add folders, connect tools, ask, remember, run playbooks and see savings. <code>artifice doctor</code> prints a report with no file contents or questions in it, safe to paste into a bug report.</p>
+        </article>
+      </div>
+
+      <div class="dev-code">
+        <div class="reveal">
+          <h3 class="h3">The commands you'll use most</h3>
+          <p class="body">The same engine runs the app, the CLI and the MCP server, so anything you do in one shows in the others.</p>
+          <a class="arrow" href="docs.html">Read the docs</a>
+        </div>
+        <div class="reveal d1">
+          <div class="code">
+            <div class="code-bar" role="tablist" aria-label="Commands"><button type="button" role="tab" aria-selected="true" data-tab="setup">Set up</button><button type="button" role="tab" aria-selected="false" data-tab="ask">Ask</button><button type="button" role="tab" aria-selected="false" data-tab="mem">Memory</button><button type="button" role="tab" aria-selected="false" data-tab="pb">Playbooks</button><button type="button" role="tab" aria-selected="false" data-tab="mcp">Other MCP apps</button></div>
+            <button class="copy" type="button"><svg data-i="copy"></svg>Copy</button>
+<pre data-tab="setup"><span class="c"># add a folder, once</span>
+<span class="p">$ </span>artifice init ~/code/acme
+
+<span class="c"># connect your AI tool, once for all projects</span>
+<span class="p">$ </span>artifice connect claude-code
+
+<span class="c"># what's connected, and how</span>
+<span class="p">$ </span>artifice connect</pre>
+<pre data-tab="ask" hidden><span class="c"># print the briefing your AI would get</span>
+<span class="p">$ </span>artifice ask <span class="s">"where do we round invoice totals?"</span>
+
+<span class="c"># ranked one-line pointers to passages</span>
+<span class="p">$ </span>artifice search <span class="s">"rounding"</span>
+
+<span class="c"># savings across all your projects</span>
+<span class="p">$ </span>artifice savings</pre>
+<pre data-tab="mem" hidden><span class="c"># save a decision, with where it came from</span>
+<span class="p">$ </span>artifice remember <span class="s">"Ledger amounts are stored in cents"</span> --kind decision --source src/ledger.rs
+
+<span class="c"># every note, and what needs a look</span>
+<span class="p">$ </span>artifice notes
+
+<span class="c"># write Memory out as Markdown</span>
+<span class="p">$ </span>artifice export</pre>
+<pre data-tab="pb" hidden><span class="c"># add a playbook from a Markdown file</span>
+<span class="p">$ </span>artifice job add budget-review.md
+
+<span class="c"># run it, filling in the blank</span>
+<span class="p">$ </span>artifice job run budget-review --input month=November
+
+<span class="c"># every playbook, with its steps and runs</span>
+<span class="p">$ </span>artifice job list</pre>
+<pre data-tab="mcp" hidden><span class="c"># prints a server definition for any MCP app</span>
+<span class="p">$ </span>artifice connect generic
+
+{ <span class="s">"artifice"</span>: { <span class="s">"command"</span>: <span class="s">"/abs/path/to/artifice"</span>, <span class="s">"args"</span>: [<span class="s">"mcp"</span>] } }</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================= PRIVACY ======================= -->
+  <section class="section" id="privacy">
+    <div class="container priv-s">
+      <div class="reveal">
+        <span class="label">Privacy</span>
+        <h2 class="h2">Your files stay on your computer.</h2>
+        <p class="lead">Artifice reads, indexes and briefs on this computer, and keeps working offline once you're signed in. Your account holds only your email and name.</p>
+        <a class="arrow" href="privacy-and-data.html">Everything Artifice sends, and where</a>
+      </div>
+      <div class="reveal d1">
+        <div class="fact"><span class="ic"><svg data-i="folder"></svg></span><span><span class="t">Your files</span><br><span class="s">Read and indexed on this computer</span></span><span class="v">Never sent</span></div>
+        <div class="fact"><span class="ic"><svg data-i="chat"></svg></span><span><span class="t">Your AI's questions and briefings</span><br><span class="s">Unless you choose to share examples</span></span><span class="v">Never sent</span></div>
+        <div class="fact"><span class="ic"><svg data-i="activity"></svg></span><span><span class="t">Usage numbers</span><br><span class="s">Counts, never content. In the EU</span></span><span class="v q">Off in Settings</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================= FINAL ======================= -->
+  <section class="final">
+    <div class="container">
+      <h2 class="h1 reveal">Try it on a folder you know well.</h2>
+      <p class="lead reveal d1">Download Artifice, choose a folder, connect your AI tool, and ask it something you already know the answer to.</p>
+      <div class="actions reveal d2">
+        <a class="btn primary lg" href="download.html"><svg data-dl-icon></svg><span data-dl-label>Download for Mac</span></a>
+        <a class="btn lg" href="pricing.html">See pricing</a>
+      </div>
+      <div class="reassure reveal d2"><span>14 days free, no card</span><span>Free for students</span></div>
+    </div>
+  </section>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+// Why Artifice: the walkthrough. Each step shows its scene; nothing plays on its own.
+(function () {
+  const tabs = [...document.querySelectorAll('.steps [role="tab"]')];
+  const stage = document.getElementById('walk-stage');
+  if (!tabs.length || !stage) return;
+  const parts = [...stage.querySelectorAll('[data-scene]')];
+  const NAV = { 1: 'library', 2: 'home', 3: 'activity', 4: 'activity', 5: 'activity' };
+  function show(i, focus) {
+    const n = String(i + 1);
+    tabs.forEach((t, k) => { const on = k === i; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; });
+    parts.forEach(p => { p.hidden = !p.dataset.scene.split(' ').includes(n); });
+    stage.querySelectorAll('.app-nav [data-nav]').forEach(d => d.classList.toggle('on', d.dataset.nav === NAV[n]));
+    stage.setAttribute('aria-labelledby', tabs[i].id);
+    stage.dataset.step = n;
+    if (focus) tabs[i].focus();
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => show(i));
+    t.addEventListener('keydown', e => {
+      const last = tabs.length - 1;
+      const j = { ArrowDown: i === last ? 0 : i + 1, ArrowRight: i === last ? 0 : i + 1, ArrowUp: i === 0 ? last : i - 1, ArrowLeft: i === 0 ? last : i - 1, Home: 0, End: last }[e.key];
+      if (j === undefined) return;
+      e.preventDefault(); show(j, true);
+    });
+  });
+  show(0);
+})();
+</script>
+</body>
+</html>

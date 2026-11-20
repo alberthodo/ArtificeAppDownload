@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms and Privacy policy: the agreement and your data | Artifice</title>
+<meta name="description" content="Artifice's Terms and Privacy policy: the 14-day trial, Pro plans, cancelling and refunds, student and access-code plans, what stays on your computer, what we collect and who we share it with.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* ---------- legal: head, version line, document switch ---------- */
+  .legal-head .h1 { max-width: 14em; }
+  .legal-ver { margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; font-size: 14px; color: var(--ink-3); }
+  .legal-ver .version { font-size: 12px; }
+  .legal-ver span { display: inline-flex; align-items: center; gap: 8px; }
+  .legal-tabs { margin-top: 36px; display: inline-flex; padding: 3px; border-radius: 11px; background: var(--sunken); border: 1px solid var(--line); }
+  .legal-tabs a { font: 500 14px/1 var(--sans); color: var(--ink-2); text-decoration: none; padding: 10px 16px; border-radius: 8px; transition: color .16s, background .16s; }
+  .legal-tabs a:hover { color: var(--ink); }
+  .legal-tabs a[aria-current="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-s); }
+  .print-only { display: none; }
+
+  /* ---------- reading layout with a sticky section list ---------- */
+  .legal { display: grid; grid-template-columns: 236px minmax(0, 1fr); gap: 80px; align-items: start; padding-top: 72px; padding-bottom: 136px; }
+  .legal-side { position: sticky; top: 92px; max-height: calc(100vh - 112px); overflow-y: auto; font-size: 14px; padding-bottom: 24px; scrollbar-width: thin; }
+  .legal-side .grp + .grp { margin-top: 18px; }
+  .legal-side .grp-h { display: flex; justify-content: space-between; align-items: center; text-decoration: none; font-weight: 600; color: var(--ink); padding: 4px 0; }
+  .legal-side .grp-h small { font-weight: 400; color: var(--ink-3); font-size: 12.5px; }
+  .legal-side ol { list-style: none; margin: 8px 0 0; padding: 0; border-left: 1px solid var(--line); }
+  .legal-side ol a { display: grid; grid-template-columns: 22px 1fr; padding: 4px 0 4px 14px; margin-left: -1px; border-left: 1.5px solid transparent; color: var(--ink-3); text-decoration: none; line-height: 1.4; }
+  .legal-side ol a i { font-style: normal; font-variant-numeric: tabular-nums; color: var(--ink-3); opacity: .8; }
+  .legal-side ol a:hover { color: var(--ink); }
+  .legal-side ol a.on { color: var(--ink); border-left-color: var(--ink); }
+  html:not(.no-js) .legal-side .grp:not(.cur) ol { display: none; }
+  .legal-side .print { margin-top: 24px; display: inline-flex; align-items: center; gap: 7px; border: 0; background: none; padding: 0; font: 14px var(--sans); color: var(--ink-3); cursor: pointer; }
+  .legal-side .print:hover { color: var(--ink); }
+  .legal-side .print svg { width: 15px; height: 15px; }
+
+  /* ---------- the documents ---------- */
+  .legal-doc { max-width: var(--read); }
+  .legal-doc + .legal-doc { margin-top: 128px; padding-top: 88px; border-top: 1px solid var(--line); }
+  .legal-doc > .h2 { max-width: none; }
+  .legal-doc .doc-sub { margin-top: 12px; font-size: 15px; color: var(--ink-3); }
+  .short { margin-top: 36px; padding: 26px 28px; border-radius: var(--r-l); background: var(--sunken); }
+  .short .label { color: var(--ink); font-weight: 600; font-size: 15px; }
+  .short ul { margin: 14px 0 0; padding: 0; list-style: none; }
+  .short li { position: relative; padding-left: 22px; font-size: 16px; line-height: 1.6; color: var(--ink); }
+  .short li + li { margin-top: 8px; }
+  .short li::before { content: ""; position: absolute; left: 2px; top: .68em; width: 6px; height: 6px; border-radius: 50%; background: var(--ink-3); }
+  .short .small { margin-top: 16px; }
+  .toc-inline { display: none; }
+  .legal-doc.prose > section { margin-top: 0; }
+  .legal-doc section > * + * { margin-top: 1.1em; }
+  .legal-doc.prose h3 { font-family: var(--display); font-size: 24px; line-height: 1.25; letter-spacing: -0.014em; margin-top: 72px; scroll-margin-top: 92px; }
+  .legal-doc.prose h3 .n { color: var(--ink-3); font-weight: 500; margin-right: 6px; font-variant-numeric: tabular-nums; }
+  .legal-doc.prose h4 { font-size: 17.5px; line-height: 1.4; margin-top: 2em; scroll-margin-top: 92px; }
+  .legal-doc.prose h4 .n { color: var(--ink-3); font-weight: 500; margin-right: 4px; }
+  .legal-doc.prose h3 + * { margin-top: 14px; }
+  .legal-doc.prose h4 + * { margin-top: 8px; }
+  .legal-short { font-size: 17.5px; line-height: 1.6; }
+  .legal-short strong { font-weight: 600; color: var(--ink); }
+  .legal-doc.prose p, .legal-doc.prose li { color: var(--ink-2); }
+  .legal-doc.prose .legal-short, .legal-doc.prose strong { color: var(--ink); }
+  .legal-doc .tbl { overflow-x: auto; }
+  .legal-doc .table { font-size: 14.5px; line-height: 1.55; }
+  .legal-doc .table td, .legal-doc .table th { padding-right: 16px; color: var(--ink-2); }
+  .legal-doc .table td:last-child, .legal-doc .table th:last-child { padding-right: 0; }
+  .legal-doc .table td:first-child { color: var(--ink); font-weight: 400; }
+  .legal-doc .table td:first-child b { font-weight: 600; }
+  .legal-doc .table thead th { color: var(--ink-3); }
+  .legal-doc .table.history td:first-child { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
+  .legal-doc .table.history td:nth-child(2) { white-space: nowrap; }
+  .legal-doc .table.providers td:first-child { font-weight: 600; white-space: nowrap; }
+  .legal-doc .hist h3 { margin-top: 88px; }
+
+  @media (max-width: 1080px) {
+    .legal { grid-template-columns: 200px minmax(0, 1fr); gap: 48px; }
+  }
+  @media (max-width: 860px) {
+    .legal { grid-template-columns: minmax(0, 1fr); padding-top: 48px; padding-bottom: 96px; }
+    .legal-side { display: none; }
+    .legal-tabs { display: flex; width: 100%; }
+    .legal-tabs a { flex: 1; text-align: center; }
+    .toc-inline { display: block; margin-top: 24px; border: 1px solid var(--line); border-radius: var(--r-m); background: var(--surface); }
+    .toc-inline summary { list-style: none; cursor: pointer; padding: 13px 16px; font-size: 15px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; color: var(--ink); }
+    .toc-inline summary::-webkit-details-marker { display: none; }
+    .toc-inline summary::after { content: ""; width: 8px; height: 8px; border-right: 1.5px solid var(--ink-3); border-bottom: 1.5px solid var(--ink-3); transform: rotate(45deg) translate(-2px, -2px); transition: transform .16s var(--ease); }
+    .toc-inline[open] summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+    .toc-inline ol { margin: 0; padding: 0 16px 14px 40px; font-size: 15px; line-height: 1.5; }
+    .toc-inline li + li { margin-top: 6px; }
+    .toc-inline a { color: var(--ink-2); text-decoration: none; }
+    .short { padding: 22px 20px; }
+    .legal-doc + .legal-doc { margin-top: 88px; padding-top: 64px; }
+    .legal-doc.prose { font-size: 16.5px; }
+    .legal-doc.prose h3 { font-size: 21px; margin-top: 56px; }
+    .legal-short { font-size: 16.5px; }
+    /* tables become stacked rows on phones */
+    .stack thead { display: none; }
+    .stack tr { display: block; padding: 14px 0; border-top: 1px solid var(--line); }
+    .stack tbody tr:last-child { border-bottom: 1px solid var(--line); }
+    .legal-doc .stack td { display: block; border: 0; padding: 3px 0; }
+    .stack tbody tr:last-child td { border-bottom: 0; }
+    .stack td[data-label]::before { content: attr(data-label); display: block; font-size: 12.5px; font-weight: 500; color: var(--ink-3); margin-top: 6px; }
+    .stack td:first-child::before { display: none; }
+  }
+
+  /* ---------- print: both documents, clean, in ink on white ---------- */
+  @media print {
+    :root:not(#print), :root:not(#print)[data-theme] { --bg: #fff; --surface: #fff; --sunken: #f3f3f1; --ink: #000; --ink-2: #1f1f1f; --ink-3: #4a4a4a; --line: #c9c9c5; --line-2: #b5b5b0; color-scheme: light; }
+    @page { margin: 18mm 16mm; }
+    body { background: #fff; font-size: 11pt; }
+    .skip, .nav, .sheet, .footer, .search-sheet, .legal-tabs, .legal-side, .toc-inline, .page-head .lead { display: none !important; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .print-only { display: block; font-size: 9pt; color: var(--ink-3); margin-bottom: 8mm; }
+    .page-head { padding-top: 0; }
+    .page-head .h1 { font-size: 24pt; }
+    .legal { display: block; padding: 8mm 0 0; }
+    .legal-doc { max-width: none; }
+    .legal-doc + .legal-doc { break-before: page; margin-top: 0; padding-top: 0; border-top: 0; }
+    .legal-doc > .h2 { font-size: 20pt; }
+    .legal-doc.prose { font-size: 10.5pt; line-height: 1.55; }
+    .legal-doc.prose h3 { font-size: 14pt; margin-top: 9mm; }
+    .legal-doc.prose h4 { font-size: 11.5pt; }
+    .legal-doc.prose h3, .legal-doc.prose h4 { break-after: avoid; }
+    .legal-short, .short, tr { break-inside: avoid; }
+    .short { border: 1px solid var(--line); background: none; }
+    .legal-doc .table { font-size: 9pt; }
+    .legal-doc .tbl { overflow: visible; }
+    .prose a { text-decoration: none; }
+    .prose a[href^="#"]::after { content: ""; }
+  }
+</style>
+</head>
+<body data-page="legal">
+<main id="main">
+
+  <!-- ======================= HEAD ======================= -->
+  <section class="page-head legal-head">
+    <div class="container">
+      <p class="print-only">tryartifice.com/legal · Terms version 3.0 and Privacy policy version 3.0 · Effective November 18, 2026</p>
+      <span class="label reveal">Legal</span>
+      <h1 class="h1 reveal d1">Terms and Privacy policy</h1>
+      <p class="lead reveal d2">The agreement for using Artifice, and how we handle your personal data. Every section opens with a one-line summary in bold. The full text under it is what applies.</p>
+      <div class="legal-ver reveal d2">
+        <span>Terms <b class="version">3.0</b></span>
+        <span>Privacy policy <b class="version">3.0</b></span>
+        <span>Effective November 18, 2026</span>
+      </div>
+      <nav class="legal-tabs reveal d3" aria-label="Documents">
+        <a href="#terms" aria-current="true" data-tab="terms">Terms</a>
+        <a href="#privacy" data-tab="privacy">Privacy policy</a>
+      </nav>
+    </div>
+  </section>
+
+  <div class="container legal">
+
+    <!-- ======================= STICKY SECTION LIST ======================= -->
+    <aside class="legal-side" aria-label="Sections">
+      <div class="grp cur" data-grp="terms">
+        <a class="grp-h" href="#terms">Terms <small>19 sections</small></a>
+        <ol>
+          <li><a href="#agreement"><i>1</i>This agreement</a></li>
+          <li><a href="#eligibility"><i>2</i>Who can use Artifice</a></li>
+          <li><a href="#account"><i>3</i>Your account</a></li>
+          <li><a href="#licence"><i>4</i>Your licence</a></li>
+          <li><a href="#rules"><i>5</i>What you may not do</a></li>
+          <li><a href="#your-content"><i>6</i>Your files and content</a></li>
+          <li><a href="#third-party"><i>7</i>AI tools and other services</a></li>
+          <li><a href="#feedback"><i>8</i>Feedback</a></li>
+          <li><a href="#updates"><i>9</i>Updates and new features</a></li>
+          <li><a href="#plans"><i>10</i>Plans and payment</a></li>
+          <li><a href="#ending"><i>11</i>Ending this agreement</a></li>
+          <li><a href="#ours"><i>12</i>Our rights</a></li>
+          <li><a href="#disclaimers"><i>13</i>Disclaimers</a></li>
+          <li><a href="#liability"><i>14</i>Limits on our liability</a></li>
+          <li><a href="#export"><i>15</i>Export and sanctions</a></li>
+          <li><a href="#disputes"><i>16</i>Law and disputes</a></li>
+          <li><a href="#terms-changes"><i>17</i>Changes to these terms</a></li>
+          <li><a href="#general"><i>18</i>General</a></li>
+          <li><a href="#terms-contact"><i>19</i>Contact</a></li>
+          <li><a href="#terms-history"><i></i>Version history</a></li>
+        </ol>
+      </div>
+      <div class="grp" data-grp="privacy">
+        <a class="grp-h" href="#privacy">Privacy policy <small>15 sections</small></a>
+        <ol>
+          <li><a href="#who"><i>1</i>Who we are</a></li>
+          <li><a href="#local"><i>2</i>What stays on your computer</a></li>
+          <li><a href="#collect"><i>3</i>What we collect</a></li>
+          <li><a href="#usage"><i>4</i>Usage numbers</a></li>
+          <li><a href="#examples"><i>5</i>Examples</a></li>
+          <li><a href="#payments"><i>6</i>Plans and payments</a></li>
+          <li><a href="#ai"><i>7</i>AI tools and models</a></li>
+          <li><a href="#providers"><i>8</i>Who we share it with</a></li>
+          <li><a href="#transfers"><i>9</i>International transfers</a></li>
+          <li><a href="#rights"><i>10</i>Your rights</a></li>
+          <li><a href="#children"><i>11</i>Children</a></li>
+          <li><a href="#security"><i>12</i>Security</a></li>
+          <li><a href="#cookies"><i>13</i>Cookies and this website</a></li>
+          <li><a href="#privacy-changes"><i>14</i>Changes to this policy</a></li>
+          <li><a href="#privacy-contact"><i>15</i>Contact</a></li>
+          <li><a href="#privacy-history"><i></i>Version history</a></li>
+        </ol>
+      </div>
+      <button class="print" type="button" data-print><svg data-i="doc"></svg>Print or save as PDF</button>
+    </aside>
+
+    <div class="legal-docs">
+
+      <!-- =================================================================== TERMS -->
+      <article class="legal-doc prose" id="terms" aria-labelledby="terms-h">
+        <h2 class="h2" id="terms-h">Terms</h2>
+        <p class="doc-sub">Version 3.0 · Effective November 18, 2026</p>
+
+        <div class="short">
+          <p class="label">The short version</p>
+          <ul>
+            <li>You can install Artifice on up to 3 of your own computers and use it for personal or work projects.</li>
+            <li>It's free for 14 days, with no card. Then Pro is US$5.99 a month or US$59 a year. It renews until you cancel, and you keep it until the end of the period you paid for.</li>
+            <li>In the EU and UK, you can cancel within 14 days of first paying and get all your money back.</li>
+            <li>Verified students use Artifice free, for non-commercial work. Access codes give free time or a discount.</li>
+            <li>When a plan ends, your AI stops getting briefings. Your projects, Memory and Playbooks stay readable, and you can export them.</li>
+            <li>Your files stay yours and on your computer. We get no rights to them.</li>
+            <li>Artifice is provided as it is, and our liability is limited, but your rights as a consumer by law stay intact.</li>
+            <li>We'll tell you at least 30 days before an important change to these terms or to your plan's price.</li>
+          </ul>
+          <p class="small">The short version helps you read the rest. The full text below is what applies.</p>
+        </div>
+
+        <details class="toc-inline">
+          <summary>Contents</summary>
+          <ol>
+            <li><a href="#agreement">This agreement</a></li>
+            <li><a href="#eligibility">Who can use Artifice</a></li>
+            <li><a href="#account">Your account</a></li>
+            <li><a href="#licence">Your licence to use Artifice</a></li>
+            <li><a href="#rules">What you may not do</a></li>
+            <li><a href="#your-content">Your files and content</a></li>
+            <li><a href="#third-party">AI tools and other services</a></li>
+            <li><a href="#feedback">Feedback</a></li>
+            <li><a href="#updates">Updates and new features</a></li>
+            <li><a href="#plans">Plans and payment</a></li>
+            <li><a href="#ending">Ending this agreement</a></li>
+            <li><a href="#ours">Our rights</a></li>
+            <li><a href="#disclaimers">Disclaimers</a></li>
+            <li><a href="#liability">Limits on our liability</a></li>
+            <li><a href="#export">Export and sanctions</a></li>
+            <li><a href="#disputes">Law and disputes</a></li>
+            <li><a href="#terms-changes">Changes to these terms</a></li>
+            <li><a href="#general">General</a></li>
+            <li><a href="#terms-contact">Contact</a></li>
+          </ol>
+        </details>
+
+        <section>
+          <h3 id="agreement"><span class="n">1.</span>This agreement</h3>
+          <p class="legal-short"><strong>These terms apply when you use Artifice. If you use it for an organisation, they apply to it too.</strong></p>
+          <p>These terms are an agreement between you and Artifice ("we", "us") for the Artifice desktop app, its command line, your Artifice account, your plan and this website (together, "Artifice"). By downloading, installing or using Artifice, or creating an account, you accept them. If you use Artifice for an organisation, you confirm you may accept them on its behalf, and "you" includes it. Our <a href="#privacy">Privacy policy</a> explains how we handle personal data.</p>
+        </section>
+
+        <section>
+          <h3 id="eligibility"><span class="n">2.</span>Who can use Artifice</h3>
+          <p class="legal-short"><strong>You need to be at least 16.</strong></p>
+          <p>You must be at least 16, and old enough to agree to these terms where you live. You may not use Artifice if the law forbids it, including sanctions and export laws (<a href="#export">section 15</a>).</p>
+        </section>
+
+        <section>
+          <h3 id="account"><span class="n">3.</span>Your account</h3>
+          <p class="legal-short"><strong>Your account is for you alone. Keep your sign-in safe; you're responsible for what's done with your account.</strong></p>
+          <p>Artifice asks you to sign in. Give us an email address you control, keep access to it and to your sign-in provider secure, and tell us at <a href="mailto:support@tryartifice.com">support@tryartifice.com</a> if you think someone else is using your account. An account, and the plan on it, is for one person. You're responsible for what happens under your account. You can delete it at any time in Artifice (Account › Delete account).</p>
+        </section>
+
+        <section>
+          <h3 id="licence"><span class="n">4.</span>Your licence to use Artifice</h3>
+          <p class="legal-short"><strong>Install and use Artifice on up to 3 of your own computers, for personal or work projects, as your plan allows.</strong></p>
+          <p>As long as you follow these terms and have an active trial or plan, we give you a personal, non-exclusive, non-transferable, revocable licence to install Artifice on computers you own or control, up to the number your plan allows (<a href="#plan-computers">section 10.8</a>), and to use it for personal projects or your organisation's internal work. A student plan allows non-commercial use only (<a href="#plan-students">section 10.6</a>). Artifice is licensed, not sold; we keep all rights we don't expressly grant. Open-source components included in Artifice are under their own licences, which take precedence for those components.</p>
+        </section>
+
+        <section>
+          <h3 id="rules"><span class="n">5.</span>What you may not do</h3>
+          <p class="legal-short"><strong>Don't copy, resell or break Artifice, get around its plans, or use it to break the law.</strong></p>
+          <p>You may not, and may not help anyone else to:</p>
+          <ul>
+            <li>copy, modify, sell, rent, sublicense or redistribute Artifice, or offer it as a service to others;</li>
+            <li>reverse engineer, decompile or disassemble it, except where the law allows this despite these terms;</li>
+            <li>remove or bypass sign-in, plan and licence checks or other protections;</li>
+            <li>get around the trial, the limit on computers or the student check, for example by opening several accounts or sharing one;</li>
+            <li>sell or transfer your account, your plan or an access code, except as the code itself allows;</li>
+            <li>interfere with or overload our services, or access them other than through Artifice;</li>
+            <li>use Artifice to break the law, infringe others' rights, or break the terms of the AI tools you connect it to;</li>
+            <li>use Artifice to build a competing product, or to benchmark it for publication without our written agreement.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="your-content"><span class="n">6.</span>Your files and content</h3>
+          <p class="legal-short"><strong>Your files stay yours, and on your computer.</strong></p>
+          <p>Your files, and anything Artifice makes from them on your computer (its index, your memories and playbooks), belong to you. Artifice doesn't upload them, and we get no rights to them. You're responsible for the folders you add, for having the right to use them, and for what your AI tools do with the briefings Artifice gives them. If you turn on examples, you give us the limited permission described in our <a href="#examples">Privacy policy</a>.</p>
+        </section>
+
+        <section>
+          <h3 id="third-party"><span class="n">7.</span>AI tools and other services</h3>
+          <p class="legal-short"><strong>Your AI tools and other services are separate, with their own terms.</strong></p>
+          <p>Artifice works with AI tools and services we don't control, such as Claude Code, Cursor, Codex, AI model providers you choose, Google or Microsoft for sign-in, and Stripe for payments. Your use of them is governed by their terms, and we aren't responsible for them, their availability, or what they do or produce. AI tools can make mistakes: check their work before relying on it.</p>
+        </section>
+
+        <section>
+          <h3 id="feedback"><span class="n">8.</span>Feedback</h3>
+          <p class="legal-short"><strong>If you send ideas, we may use them.</strong></p>
+          <p>If you send us suggestions, ratings or other feedback, we may use them for any purpose without owing you anything. This doesn't give us rights to your files.</p>
+        </section>
+
+        <section>
+          <h3 id="updates"><span class="n">9.</span>Updates and new features</h3>
+          <p class="legal-short"><strong>Artifice updates itself. Features marked as early may change or be removed.</strong></p>
+          <p>Artifice installs updates automatically, which may add, change or remove features. Features we mark as beta, preview or early are offered as they are, may change or end at any time, and may be less reliable.</p>
+        </section>
+
+        <section>
+          <h3 id="plans"><span class="n">10.</span>Plans and payment</h3>
+          <p class="legal-short"><strong>After a 14-day free trial, Artifice needs a plan: Pro, paid monthly or yearly, or a free student or access-code plan. You can cancel Pro at any time.</strong></p>
+
+          <h4 id="plan-trial"><span class="n">10.1</span>The free trial</h4>
+          <p>Your first sign-in starts a 14-day trial with everything Pro includes. No payment card is needed, and nothing is charged when the trial ends. Each person gets one trial.</p>
+
+          <h4 id="plan-pro"><span class="n">10.2</span>Pro</h4>
+          <p>Pro costs US$5.99 a month, or US$59 a year. You buy it in your browser, from Artifice or our <a href="pricing.html">Pricing</a> page. Payments are taken by our payment provider, Stripe, on its own pages: you give your card details to Stripe, never to Artifice. Where the law requires prices to include VAT or sales tax, they do, and the total is always shown before you pay.</p>
+
+          <h4 id="plan-renewal"><span class="n">10.3</span>Renewal and payment</h4>
+          <p>Pro renews automatically at the end of each month or year, and the payment method you gave is charged at the start of each new period, until you cancel. You get a receipt for each payment. In Account › Manage billing you can change your card, switch between monthly and yearly, and see your invoices.</p>
+          <p>If a payment doesn't go through, Pro keeps working for 7 days while you update your card. After that, your plan ends as described in <a href="#plan-ends">section 10.9</a>.</p>
+
+          <h4 id="plan-cancel"><span class="n">10.4</span>Cancelling</h4>
+          <p>You can cancel Pro at any time in Account › Manage billing. It then keeps working until the end of the month or year you've paid for, and isn't renewed. Deleting your account also cancels it.</p>
+
+          <h4 id="plan-refunds"><span class="n">10.5</span>Refunds, and your right to cancel</h4>
+          <p>If you're a consumer in the European Union or the United Kingdom, you have the right to cancel Pro within 14 days of first paying for it, without giving a reason, and get a full refund. To use this right, cancel in Account › Manage billing and write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>, or send us any other clear statement, within those 14 days. We refund you within 14 days of hearing from you, to the payment method you used.</p>
+          <p>Apart from this, and anything else the law of your country gives you, payments aren't refundable, and we don't refund the unused part of a month or year when you cancel. If you were charged by mistake, for example twice or after cancelling, write to us and we'll refund it.</p>
+
+          <h4 id="plan-students"><span class="n">10.6</span>Students</h4>
+          <p>If you're a student, Artifice is free with a school email address we can verify. We check again every year. When you're no longer a student, or the yearly check isn't completed, the student plan ends (<a href="#plan-ends">section 10.9</a>) and you can choose Pro.</p>
+          <p>A student plan is for your own studies and other non-commercial use only. It may not be used for paid work, for an employer, or for a business. For that, you need Pro.</p>
+
+          <h4 id="plan-codes"><span class="n">10.7</span>Access codes</h4>
+          <p>We give access codes to some people, such as testers, partners, classes and events. A code gives free time or a discount on Pro, for the length it states. A code may have a last date to redeem it and a limit on how many people can use it. Codes are for the person who redeems them unless the code says otherwise, have no cash value, and may not be sold.</p>
+          <p>When a code's time ends, the plan it gave ends (<a href="#plan-ends">section 10.9</a>) unless you choose Pro. We may withdraw a code that hasn't been redeemed, and end what a code gave if it was sold, shared against its terms, or obtained by mistake or in breach of these terms.</p>
+
+          <h4 id="plan-computers"><span class="n">10.8</span>Computers</h4>
+          <p>Every plan, and the trial, is for one person, on up to 3 computers signed in to the same account. To use Artifice on another computer, remove one in Account first.</p>
+          <p>Artifice checks your plan when you sign in, and from time to time after that. A paid plan keeps working for up to 14 days without an internet connection; after that, Artifice needs to connect once to confirm your plan.</p>
+
+          <h4 id="plan-ends"><span class="n">10.9</span>When a plan ends</h4>
+          <p>When your trial or plan ends and you don't have another, Artifice stops briefing your AI tools and stops reading changes to your files. The app still opens. Your projects, Memory, Playbooks and Activity stay readable, and you can always export your Memory and Playbooks. Your own files are never affected. Choosing a plan turns briefings back on, and Artifice catches up with any changes.</p>
+
+          <h4 id="plan-changes"><span class="n">10.10</span>Changes to plans and prices</h4>
+          <p>We may change our plans and prices. If a change affects a plan you have, such as a higher price, we'll tell you in Artifice or by email at least 30 days before it applies to you. A new price applies from your first renewal after that notice, and you can cancel before then. Nothing in this section limits any right you have by law.</p>
+        </section>
+
+        <section>
+          <h3 id="ending"><span class="n">11.</span>Ending this agreement</h3>
+          <p class="legal-short"><strong>You can stop at any time. We may suspend accounts that break these terms.</strong></p>
+          <p>You can stop using Artifice at any time, and delete your account in the app. We may suspend or end your access if you seriously or repeatedly break these terms, if the law requires it, or to protect Artifice, our users or others; where reasonable, we'll tell you first and give you a chance to fix the problem. If we end your access because you seriously broke these terms, we don't refund what you've paid, unless the law requires it.</p>
+          <p>If we stop offering Artifice altogether, we'll tell you at least 30 days in advance and refund the unused part of any period you've paid for. Sections that by their nature should last, such as ownership, disclaimers, liability and disputes, continue after this agreement ends.</p>
+        </section>
+
+        <section>
+          <h3 id="ours"><span class="n">12.</span>Our rights</h3>
+          <p class="legal-short"><strong>Artifice and its name belong to us.</strong></p>
+          <p>Artifice, including its software, design, name and logo, is ours or our licensors' and is protected by law. Nothing in these terms gives you rights to them beyond the licence in <a href="#licence">section 4</a>.</p>
+        </section>
+
+        <section>
+          <h3 id="disclaimers"><span class="n">13.</span>Disclaimers</h3>
+          <p class="legal-short"><strong>Artifice is provided as it is. It can be wrong or unavailable.</strong></p>
+          <p>To the extent the law allows, Artifice is provided "as is" and "as available", without warranties of any kind, express or implied, including merchantability, fitness for a particular purpose, accuracy and non-infringement. We don't promise that Artifice will be uninterrupted or error-free, that its briefings will be complete or correct, or that it will save any particular amount. Keep backups of your files.</p>
+        </section>
+
+        <section>
+          <h3 id="liability"><span class="n">14.</span>Limits on our liability</h3>
+          <p class="legal-short"><strong>Our total liability is capped. Your rights as a consumer by law aren't affected.</strong></p>
+          <p>To the extent the law allows, we aren't liable for indirect, incidental, special, consequential or punitive damages, or for lost profits, revenue, data or goodwill, or for losses caused by AI tools or other services you use with Artifice. Our total liability for all claims about Artifice is limited to the greater of the amount you paid us for Artifice in the 12 months before the claim and US$100.</p>
+          <p>Nothing in these terms limits liability that can't be limited by law, such as for death or personal injury caused by negligence, or for fraud. If you're a consumer, you keep all the rights the law of your country gives you, and these limits apply only as far as that law allows.</p>
+          <p>If you use Artifice for an organisation, it will defend and compensate us against third-party claims arising from its use of Artifice in breach of these terms or the law.</p>
+        </section>
+
+        <section>
+          <h3 id="export"><span class="n">15.</span>Export and sanctions</h3>
+          <p class="legal-short"><strong>Don't use Artifice where the law forbids it.</strong></p>
+          <p>You may not use, export or re-export Artifice in breach of export control or sanctions laws, or if you are a person those laws restrict.</p>
+        </section>
+
+        <section>
+          <h3 id="disputes"><span class="n">16.</span>Law and disputes</h3>
+          <p class="legal-short"><strong>Talk to us first. Consumers keep the protection of their own country's law and courts.</strong></p>
+          <p>If you have a problem, write to <a href="mailto:info@tryartifice.com">info@tryartifice.com</a> first; most things can be solved that way, and we'll try to within 30 days. These terms are governed by the laws of the place where we are established, and its courts may decide disputes about them. If you're a consumer, you also keep the protection of the mandatory laws of the country where you live, and may bring a claim in its courts. Nothing here prevents either of us from using a small claims court where available.</p>
+        </section>
+
+        <section>
+          <h3 id="terms-changes"><span class="n">17.</span>Changes to these terms</h3>
+          <p class="legal-short"><strong>We'll tell you before an important change.</strong></p>
+          <p>We may update these terms, for example for new features, new plans or legal reasons. We'll post the new version here with a new version number. For a change that matters to you, we'll tell you in Artifice or by email at least 30 days before it applies; if you don't agree, cancel your plan and stop using Artifice before then. Continuing to use Artifice after a change applies means you accept it. Changes to prices follow <a href="#plan-changes">section 10.10</a>.</p>
+        </section>
+
+        <section>
+          <h3 id="general"><span class="n">18.</span>General</h3>
+          <p class="legal-short"><strong>This is the whole agreement, and the rest stands if one part can't.</strong></p>
+          <p>These terms, with the Privacy policy and the price and plan details shown when you buy, are the whole agreement between us about Artifice. If part of them can't be enforced, the rest still applies. If we don't enforce a right, we haven't given it up. You may not transfer these terms without our consent; we may transfer them as part of a merger, acquisition or sale of Artifice, and will tell you. Neither of us is responsible for delays caused by events beyond reasonable control.</p>
+        </section>
+
+        <section>
+          <h3 id="terms-contact"><span class="n">19.</span>Contact</h3>
+          <p class="legal-short"><strong>Write to us; a person reads it.</strong></p>
+          <p>Questions about these terms: <a href="mailto:info@tryartifice.com">info@tryartifice.com</a>. Help with Artifice, your plan or a refund: <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>.</p>
+        </section>
+
+        <section class="hist">
+          <h3 id="terms-history">Version history</h3>
+          <div class="tbl">
+            <table class="table history">
+              <thead><tr><th>Version</th><th>Effective</th><th>What changed</th></tr></thead>
+              <tbody>
+                <tr><td>3.0</td><td>November 18, 2026</td><td>Paid plans: the 14-day trial, Pro, renewal, cancelling, refunds and the 14-day right to cancel, student and access-code plans, the limit of 3 computers, and what happens when a plan ends.</td></tr>
+                <tr><td>2.0</td><td>November 5, 2026</td><td>Rewritten in full: accounts, licence, AI tools, plans, ending the agreement, liability, disputes and changes.</td></tr>
+                <tr><td>1.0</td><td>2026</td><td>First version.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </article>
+
+      <!-- =================================================================== PRIVACY -->
+      <article class="legal-doc prose" id="privacy" aria-labelledby="privacy-h">
+        <h2 class="h2" id="privacy-h">Privacy policy</h2>
+        <p class="doc-sub">Version 3.0 · Effective November 18, 2026</p>
+
+        <div class="short">
+          <p class="label">The short version</p>
+          <ul>
+            <li>Artifice runs on your computer. Your files, its index of them, your memories and your AI's questions stay there.</li>
+            <li>We keep your account details: your email address and the name you choose, plus your plan and the computers you use.</li>
+            <li>If you pay, Stripe takes the payment. We never see your full card number.</li>
+            <li>Artifice sends usage numbers, including how well its briefings work, to improve it. They never include your files or questions, are linked to your account once you sign in, and you can turn them off at any time.</li>
+            <li>Examples of real briefings are shared only if you turn them on, with secrets and personal details removed, and never what's in your files.</li>
+            <li>We don't sell your data, use it for advertising, or train AI on it.</li>
+            <li>Deleting your account deletes it and the usage numbers linked to it, and cancels any plan you pay for.</li>
+          </ul>
+          <p class="small">The short version helps you read the rest. The full text below is what applies.</p>
+        </div>
+
+        <details class="toc-inline">
+          <summary>Contents</summary>
+          <ol>
+            <li><a href="#who">Who we are</a></li>
+            <li><a href="#local">What stays on your computer</a></li>
+            <li><a href="#collect">What we collect, why, and for how long</a></li>
+            <li><a href="#usage">Usage numbers</a></li>
+            <li><a href="#examples">Examples</a></li>
+            <li><a href="#payments">Plans and payments</a></li>
+            <li><a href="#ai">AI tools and models</a></li>
+            <li><a href="#providers">Who we share it with</a></li>
+            <li><a href="#transfers">International transfers</a></li>
+            <li><a href="#rights">Your rights</a></li>
+            <li><a href="#children">Children</a></li>
+            <li><a href="#security">Security</a></li>
+            <li><a href="#cookies">Cookies and this website</a></li>
+            <li><a href="#privacy-changes">Changes to this policy</a></li>
+            <li><a href="#privacy-contact">Contact</a></li>
+          </ol>
+        </details>
+
+        <section>
+          <h3 id="who"><span class="n">1.</span>Who we are</h3>
+          <p class="legal-short"><strong>Artifice is made by a small independent team. We decide how the data described here is used.</strong></p>
+          <p>This policy covers the Artifice desktop app, its command line, your Artifice account and plan, and this website (tryartifice.com). Artifice ("we", "us") is the controller of the personal data described here.</p>
+          <p>Questions about privacy, or a request about your data: <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>. Anything else: <a href="mailto:info@tryartifice.com">info@tryartifice.com</a>.</p>
+        </section>
+
+        <section>
+          <h3 id="local"><span class="n">2.</span>What stays on your computer</h3>
+          <p class="legal-short"><strong>Your files, Artifice's index of them, your memories and your AI's questions never leave your computer, unless you turn on examples.</strong></p>
+          <p>Artifice is built to work on your computer. It reads the folders you add, builds its index of them there, and briefs your AI tools there. None of these is ever sent to us:</p>
+          <ul>
+            <li>your files, and what's in them;</li>
+            <li>Artifice's index of them: its summaries, outlines and search index;</li>
+            <li>your memories and playbooks;</li>
+            <li>the text of the briefings Artifice gives your AI tools;</li>
+            <li>error messages, which can contain file names.</li>
+          </ul>
+          <p>Your questions and file names are only ever sent if you turn on examples (<a href="#examples">section 5</a>). Deleting Artifice's data on your computer is up to you: <a href="docs-article.html" data-doc="guides/uninstall">uninstalling</a> can remove it, and deleting your account doesn't touch it.</p>
+        </section>
+
+        <section>
+          <h3 id="collect"><span class="n">3.</span>What we collect, why, and for how long</h3>
+          <p class="legal-short"><strong>Your account and plan, usage numbers that help us improve Artifice, and, only if you choose, examples.</strong></p>
+          <div class="tbl">
+            <table class="table stack">
+              <thead><tr><th>What</th><th>Why</th><th>Legal basis (EU and UK)</th><th>Kept for</th></tr></thead>
+              <tbody>
+                <tr><td><b>Account:</b> email address, the name you choose, how you sign in (Google, Microsoft, email link or single sign-on), an account ID, sign-in times</td><td data-label="Why">To give you an account that works on each of your computers</td><td data-label="Legal basis">Contract</td><td data-label="Kept for">Until you delete your account, then removed within 30 days, including from backups</td></tr>
+                <tr><td><b>Plan:</b> which plan you have (trial, Pro, student or code), when it started and ends, and its status</td><td data-label="Why">To give you the plan you chose, on each of your computers</td><td data-label="Legal basis">Contract</td><td data-label="Kept for">Until you delete your account, then removed within 30 days</td></tr>
+                <tr><td><b>Computers:</b> a random ID and the name of each computer you sign in on, and when it was first and last seen</td><td data-label="Why">To apply the limit of 3 computers, and let you see and remove them</td><td data-label="Legal basis">Contract</td><td data-label="Kept for">Until you remove the computer or delete your account</td></tr>
+                <tr><td><b>Payments</b> (<a href="#payments">section 6</a>): your Stripe customer and subscription IDs, billing period, payment status and invoices. Never your full card number</td><td data-label="Why">To take payment, send receipts, handle tax and refunds</td><td data-label="Legal basis">Contract; legal obligation, for tax records</td><td data-label="Kept for">Invoices and payment records for as long as tax and accounting law requires; the rest until you delete your account</td></tr>
+                <tr><td><b>Student check:</b> the school email address you give us</td><td data-label="Why">To confirm you're a student, once a year</td><td data-label="Legal basis">Contract</td><td data-label="Kept for">The address is deleted once the check is done; we keep only its domain and the date</td></tr>
+                <tr><td><b>Access codes:</b> which code you redeemed, and when</td><td data-label="Why">To give you what the code offers, and see which codes bring people to Artifice</td><td data-label="Legal basis">Contract; legitimate interests</td><td data-label="Kept for">Until you delete your account</td></tr>
+                <tr><td><b>Sign-in emails:</b> your email address and the time we sent a link</td><td data-label="Why">To send you sign-in links</td><td data-label="Legal basis">Contract</td><td data-label="Kept for">Up to 30 days in the sending service's logs</td></tr>
+                <tr><td><b>Usage numbers</b> (<a href="#usage">section 4</a>)</td><td data-label="Why">To see what works and what doesn't, measure how well briefings help, and fix problems</td><td data-label="Legal basis">Legitimate interests; you can turn them off at any time</td><td data-label="Kept for">Up to 24 months</td></tr>
+                <tr><td><b>Usage numbers linked to your account</b> once you sign in</td><td data-label="Why">To understand use over time and across your computers, and to support you</td><td data-label="Legal basis">Legitimate interests; you can turn them off at any time</td><td data-label="Kept for">Up to 24 months, or until you delete your account</td></tr>
+                <tr><td><b>Crash and error reports:</b> where in Artifice's code it happened, never the message</td><td data-label="Why">To fix bugs</td><td data-label="Legal basis">Legitimate interests</td><td data-label="Kept for">Up to 24 months</td></tr>
+                <tr><td><b>Examples</b>, only if you turn them on (<a href="#examples">section 5</a>)</td><td data-label="Why">To see where Artifice briefs badly, with real cases</td><td data-label="Legal basis">Consent, which you can withdraw at any time</td><td data-label="Kept for">90 days</td></tr>
+                <tr><td><b>Emails you send us</b></td><td data-label="Why">To answer you</td><td data-label="Legal basis">Legitimate interests, or contract</td><td data-label="Kept for">Up to 3 years after our last exchange</td></tr>
+                <tr><td><b>Website and downloads:</b> standard request details such as IP address and browser, kept by our hosts</td><td data-label="Why">To deliver the site, the app and its updates, and keep them secure</td><td data-label="Legal basis">Legitimate interests</td><td data-label="Kept for">As long as our hosts keep request logs, typically days</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>We don't sell personal data, don't share it for advertising, and don't use it to train AI models.</p>
+        </section>
+
+        <section>
+          <h3 id="usage"><span class="n">4.</span>Usage numbers</h3>
+          <p class="legal-short"><strong>Counts and categories about how Artifice is used and how well it works. On by default, easy to turn off, never your content.</strong></p>
+          <p>The app and command line send usage numbers to PostHog, in the European Union. They include:</p>
+          <ul>
+            <li>which features and pages are used, when, and how long pages take to appear;</li>
+            <li>how well each briefing worked: how many parts it had, whether your AI then searched again or opened files itself, whether the task went well, and your thumbs up or down if you gave one;</li>
+            <li>how Artifice is working: how long things take, which AI tools are connected and their versions, and when something fails or crashes (the kind of problem and where in Artifice's code, never the message);</li>
+            <li>counts and token figures in ranges, and the mix of file types in a project (for example, 60% code);</li>
+            <li>your plan and changes to it, such as a trial starting, a plan starting or ending, or a code being redeemed, shown by the code's label, never the code itself or your school's name;</li>
+            <li>the AI model you chose; Artifice's version; your operating system and its version, processor, memory and number of cores;</li>
+            <li>a random ID for your installation.</li>
+          </ul>
+          <p><strong>Linked to your account.</strong> When you sign in, these numbers are linked to your account (its ID, email address, how you signed in and your plan), including those sent from that computer before. When you sign out, the computer starts again with a new random ID. When you delete your account, the numbers linked to it are deleted too.</p>
+          <p><strong>Turning them off.</strong> Settings › Privacy › Share usage numbers, or run <code>artifice privacy off</code>. Setting <code>DO_NOT_TRACK=1</code> or <code>ARTIFICE_TELEMETRY=0</code> also turns them off. Organisations can turn them off on all their computers (<a href="privacy-and-data.html#off">how</a>). Settings › Privacy also lists every kind of event Artifice can send.</p>
+        </section>
+
+        <section>
+          <h3 id="examples"><span class="n">5.</span>Examples (off unless you turn them on)</h3>
+          <p class="legal-short"><strong>If you choose, real briefings are shared with secrets and personal details removed, so we can see where Artifice gets it wrong.</strong></p>
+          <p>With Settings › Privacy › <strong>Help improve Artifice with examples</strong> on, for each briefing Artifice sends:</p>
+          <ul>
+            <li>your AI's question, with secrets (keys, tokens, passwords), email addresses, phone, card and ID numbers, IP addresses and your own folder name removed;</li>
+            <li>which files and parts the briefing held: their paths, titles and line ranges, and how much of each;</li>
+            <li>what your AI searched for or opened afterwards, and how the task went.</li>
+          </ul>
+          <p>It never sends what's in your files or the text of the briefing. Before turning it on you can see your latest briefing exactly as it would be sent, and you can leave any project out. Removal of secrets is automatic and careful, but not perfect: don't turn examples on for projects whose file names or questions you can't share. Examples are kept for 90 days. Turning examples off stops them at once; to have ones already sent deleted, write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>.</p>
+        </section>
+
+        <section>
+          <h3 id="payments"><span class="n">6.</span>Plans and payments</h3>
+          <p class="legal-short"><strong>If you pay for Pro, Stripe takes the payment and we never see your card number. We keep your plan, its dates and the computers you use.</strong></p>
+          <p><strong>Payments.</strong> Pro is paid through Stripe, on Stripe's own pages. You give your card and billing details to Stripe, not to us, and we never see your full card number. Stripe tells us the result: your customer and subscription IDs, your plan and billing period, whether each payment went through, and your invoices. Stripe also works out tax and sends receipts. Stripe uses payment data under its own privacy policy as well, for example to prevent fraud and meet its legal duties.</p>
+          <p><strong>Your plan.</strong> To give you your plan on each of your computers, we keep which plan you have, when it started and ends, and its status. For each computer you sign in on, we keep a random ID, its name, and when it was first and last seen. Artifice keeps a signed copy of your plan on your computer, so it keeps working offline.</p>
+          <p><strong>Student checks.</strong> We send a code to the school email address you give us. Once the check is done, we delete the address and keep only its domain and the date, so we know when to check again.</p>
+          <p><strong>Access codes.</strong> We keep which code you redeemed and when. In usage numbers, a code appears only by its label, such as the event it came from.</p>
+        </section>
+
+        <section>
+          <h3 id="ai"><span class="n">7.</span>AI tools and models</h3>
+          <p class="legal-short"><strong>Artifice doesn't send your files to an AI. Your AI tools, and any cloud model you pick for summaries, have their own terms.</strong></p>
+          <p>Artifice gives briefings to the AI tools you connect (such as Claude Code, Cursor or Codex) on your computer. What those tools then send to their providers is governed by their own terms and privacy policies, not this one.</p>
+          <p>Summaries are made on your computer by default. If you choose a cloud AI model for summaries, the text being summarised is sent to that provider under their terms, using your own key.</p>
+          <p>We don't use your data, examples included, to train AI models, and we don't let anyone else do so.</p>
+        </section>
+
+        <section>
+          <h3 id="providers"><span class="n">8.</span>Who we share it with</h3>
+          <p class="legal-short"><strong>Only the providers that run Artifice for us, listed here with where they are.</strong></p>
+          <p>We use these providers ("subprocessors"). Each only processes data to provide its service to us, under a contract that protects it.</p>
+          <div class="tbl">
+            <table class="table providers stack">
+              <thead><tr><th>Provider</th><th>What for</th><th>Data</th><th>Where</th></tr></thead>
+              <tbody>
+                <tr><td>Supabase</td><td data-label="What for">Accounts, sign-in and plans</td><td data-label="Data">Account details, plan, computers, codes redeemed</td><td data-label="Where">Canada</td></tr>
+                <tr><td>Stripe</td><td data-label="What for">Payments, tax, receipts and the billing page</td><td data-label="Data">Email address, billing name and address, card details, plan and invoices</td><td data-label="Where">United States, and Ireland for customers in Europe</td></tr>
+                <tr><td>PostHog</td><td data-label="What for">Usage numbers, error tracking, examples</td><td data-label="Data">Usage numbers, account link, examples</td><td data-label="Where">European Union (Germany)</td></tr>
+                <tr><td>Resend</td><td data-label="What for">Sending sign-in and student-check emails</td><td data-label="Data">Email address</td><td data-label="Where">United States</td></tr>
+                <tr><td>Vercel</td><td data-label="What for">Hosting this website and the sign-in page</td><td data-label="Data">Request details</td><td data-label="Where">United States, served worldwide</td></tr>
+                <tr><td>GitHub</td><td data-label="What for">Hosting downloads and updates</td><td data-label="Data">Request details</td><td data-label="Where">United States</td></tr>
+                <tr><td>Zoho</td><td data-label="What for">Our email</td><td data-label="Data">Emails you send us</td><td data-label="Where">As set for our account</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>If you sign in with Google or Microsoft, they handle that sign-in under their own privacy policies and tell us your email address and name. We may also disclose data if the law requires it, to protect people's safety or our rights, or as part of a merger or sale of Artifice, in which case this policy continues to apply to it. We'll update this list before adding a provider.</p>
+        </section>
+
+        <section>
+          <h3 id="transfers"><span class="n">9.</span>International transfers</h3>
+          <p class="legal-short"><strong>Some providers are outside your country. Transfers are covered by the safeguards the law requires.</strong></p>
+          <p>Where personal data from the EU, UK or Switzerland goes to a country without an adequacy decision, such as the United States, we rely on the European Commission's Standard Contractual Clauses (with the UK addendum) or the provider's certification under the EU-US Data Privacy Framework. Canada has an adequacy decision for commercial organisations.</p>
+        </section>
+
+        <section>
+          <h3 id="rights"><span class="n">10.</span>Your rights</h3>
+          <p class="legal-short"><strong>Ask us for a copy of your data, to correct or delete it, or to stop using it. Most things you can do yourself in Artifice.</strong></p>
+          <p>Depending on where you live (including the EU, UK and California), you can:</p>
+          <ul>
+            <li>get a copy of your personal data, in a portable form;</li>
+            <li>correct it;</li>
+            <li>delete it: Account › Delete account in Artifice deletes your account, cancels any plan you pay for, and deletes your plan, codes, computers and the usage numbers linked to your account. Invoices are kept for as long as tax law requires;</li>
+            <li>object to or restrict how we use it: turning off usage numbers stops them at once;</li>
+            <li>withdraw consent, for examples, at any time;</li>
+            <li>not be treated differently for using these rights.</li>
+          </ul>
+          <p>For anything you can't do in Artifice, write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a> with "Privacy request" as the subject, from the email address on your account if you have one. We reply within one month, and may take up to two more months for complex requests, in which case we'll tell you. You can also complain to your data protection authority. Californians: we don't sell or share personal information for cross-context advertising, and you may use an authorised agent.</p>
+        </section>
+
+        <section>
+          <h3 id="children"><span class="n">11.</span>Children</h3>
+          <p class="legal-short"><strong>Artifice isn't for anyone under 16.</strong></p>
+          <p>Artifice isn't meant for children under 16, and we don't knowingly collect their data. If you believe a child has given us personal data, write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a> and we'll delete it.</p>
+        </section>
+
+        <section>
+          <h3 id="security"><span class="n">12.</span>Security</h3>
+          <p class="legal-short"><strong>We keep what we hold small, encrypted in transit, and access-controlled.</strong></p>
+          <p>Data sent to us travels encrypted (HTTPS). Sign-in uses the standard secure browser flow (OAuth with PKCE), so Artifice never sees your password, and your sign-in is kept on your computer where only your user account can read it. Card details go straight to Stripe and never pass through Artifice. Access to our providers is limited and protected with two-factor authentication. No system is perfectly secure; if a breach affects your personal data, we'll tell you and the authorities without undue delay, as the law requires.</p>
+        </section>
+
+        <section>
+          <h3 id="cookies"><span class="n">13.</span>Cookies and this website</h3>
+          <p class="legal-short"><strong>This website uses no cookies and no analytics.</strong></p>
+          <p>tryartifice.com sets no cookies and runs no analytics or advertising. The download page asks GitHub for the latest version of Artifice. The sign-in page sends you to Supabase and your chosen sign-in provider, which may set their own cookies for the sign-in itself. Checkout and the billing page are run by Stripe, which may set its own cookies there to take payment and prevent fraud.</p>
+        </section>
+
+        <section>
+          <h3 id="privacy-changes"><span class="n">14.</span>Changes to this policy</h3>
+          <p class="legal-short"><strong>We'll tell you before an important change, and keep earlier versions listed below.</strong></p>
+          <p>We'll post any change here with a new version number. For a change that matters, such as collecting a new kind of data, we'll tell you in Artifice or by email at least 30 days before it applies. Turning on something new that shares more always stays your choice.</p>
+        </section>
+
+        <section>
+          <h3 id="privacy-contact"><span class="n">15.</span>Contact</h3>
+          <p class="legal-short"><strong>Privacy questions go to support, anything else to info.</strong></p>
+          <p>Privacy questions and requests: <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>. Anything else: <a href="mailto:info@tryartifice.com">info@tryartifice.com</a>.</p>
+        </section>
+
+        <section class="hist">
+          <h3 id="privacy-history">Version history</h3>
+          <div class="tbl">
+            <table class="table history">
+              <thead><tr><th>Version</th><th>Effective</th><th>What changed</th></tr></thead>
+              <tbody>
+                <tr><td>3.0</td><td>November 18, 2026</td><td>Plans and payments: Stripe as a provider; the plan, computer, access-code and student-check data we keep, and for how long.</td></tr>
+                <tr><td>2.0</td><td>November 5, 2026</td><td>Rewritten in full: usage numbers now measure how well briefings work and are linked to your account after sign-in; optional examples; named providers; retention periods.</td></tr>
+                <tr><td>1.0</td><td>2026</td><td>First version.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </article>
+
+    </div>
+  </div>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  // Legal: show which document and section you're in; print button.
+  (function () {
+    const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+    const docs = ['terms', 'privacy'].map(id => document.getElementById(id));
+    const tabs = $$('.legal-tabs a'), grps = $$('.legal-side .grp');
+    const links = $$('.legal-side ol a');
+    const targets = links.map(a => document.getElementById(a.getAttribute('href').slice(1)));
+    const paint = () => {
+      const y = 160;
+      const doc = docs.reduce((cur, d) => (d.getBoundingClientRect().top < y ? d : cur), docs[0]).id;
+      tabs.forEach(t => t.setAttribute('aria-current', String(t.dataset.tab === doc)));
+      grps.forEach(g => g.classList.toggle('cur', g.dataset.grp === doc));
+      let on = null;
+      targets.forEach((t, i) => { if (t && t.getBoundingClientRect().top < y && t.closest('.legal-doc').id === doc) on = links[i]; });
+      links.forEach(a => a.classList.toggle('on', a === on));
+    };
+    addEventListener('scroll', paint, { passive: true }); addEventListener('hashchange', paint); paint();
+    $('[data-print]').addEventListener('click', () => print());
+  })();
+</script>
+</body>
+</html>

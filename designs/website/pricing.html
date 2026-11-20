@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pricing: 14 days free, then $5.99 a month | Artifice</title>
+<meta name="description" content="Artifice Pro is $5.99 a month or $59 a year, after a 14-day free trial with no card. Everything in the app, for one person, on up to 3 computers. Free for verified students and with a code.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/product.css">
+<style>
+  /* ---------- header and the monthly / yearly switch ---------- */
+  .pr-head { padding: 96px 0 0; text-align: center; }
+  .pr-head .h1 { max-width: 14em; margin: 0 auto; }
+  .pr-head .lead { margin: 20px auto 0; max-width: 34em; }
+  .pr-head .seg { margin-top: 36px; }
+  .no-js [data-period="yearly"] { display: none; }
+
+  /* ---------- Pro, and the two free ways in ---------- */
+  .plans { margin-top: 56px; display: grid; grid-template-columns: 7fr 5fr; gap: 24px; align-items: stretch; }
+  .pro { padding: 40px; border-radius: var(--r-xl); box-shadow: var(--shadow-m); display: flex; flex-direction: column; }
+  .pro-top { display: flex; align-items: center; gap: 12px; }
+  .pro-top .h3 { font-size: 22px; }
+  .price { margin-top: 24px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .price .amt { font-family: var(--display); font-size: 64px; line-height: 1; letter-spacing: -0.04em; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .price .per { font-size: 18px; color: var(--ink-2); }
+  .price-sub { margin-top: 10px; font-size: 15px; color: var(--ink-3); min-height: 1.6em; }
+  .pro .actions { margin-top: 28px; }
+  .pro .reassure { margin-top: 14px; }
+  .pro-inc { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .pro-inc .label { display: block; margin-bottom: 8px; }
+  .pro-inc .check-list { columns: 2; column-gap: 32px; }
+  .pro-inc .check-list li { break-inside: avoid; }
+  .pro-inc .check-list li span small { display: block; font-size: 13.5px; color: var(--ink-3); margin-top: 1px; }
+  .how-pay { margin-top: auto; padding-top: 28px; font-size: 14px; color: var(--ink-3); }
+  .how-pay b { font-weight: 500; color: var(--ink-2); }
+
+  .free-ways { display: grid; grid-template-rows: 1fr 1fr auto; gap: 24px; }
+  .way { padding: 32px; display: flex; flex-direction: column; }
+  .way .who { display: flex; align-items: center; gap: 10px; }
+  .way .who .ic { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--sunken); color: var(--ink-2); }
+  .way .who .ic svg { width: 15px; height: 15px; }
+  .way .h3 { margin-top: 18px; font-size: 21px; }
+  .way p { margin-top: 8px; font-size: 15.5px; color: var(--ink-2); line-height: 1.6; }
+  .way .arrow { margin-top: auto; padding-top: 20px; font-size: 15px; }
+  .way code { font-size: 13px; }
+  .teams { padding: 20px 4px 0; border-top: 1px solid var(--line); font-size: 15px; color: var(--ink-2); line-height: 1.6; }
+  .teams b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- when the trial ends ---------- */
+  .ends { display: grid; grid-template-columns: 5fr 7fr; gap: 72px; align-items: start; }
+  .ends .lead { margin-top: 20px; }
+  .ss { margin-top: 32px; border-top: 1px solid var(--line); }
+  .ss div { display: grid; grid-template-columns: 96px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; line-height: 1.55; }
+  .ss b { font-weight: 500; }
+  .ss b.stays { color: var(--ready); }
+  .ss span { color: var(--ink-2); }
+  .ends .small { margin-top: 20px; }
+
+  .demo-tabs { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .demo-tabs .small { margin: 0; }
+  .plan-demo .app { height: 420px; }
+  .plan-demo .app-page { padding: 32px 40px 28px 48px; max-width: 600px; animation: none; }
+  .acct-row { display: flex; align-items: center; gap: 10px; padding: 10px 8px 0; margin-top: 10px; border-top: 1px solid var(--line); }
+  .acct-row .in { width: 26px; height: 26px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); display: grid; place-items: center; font-size: 10.5px; font-weight: 600; flex: none; }
+  .acct-row .nm { font-size: 12.5px; font-weight: 500; line-height: 1.2; display: block; }
+  .acct-row .pl { font-size: 11.5px; color: var(--ink-3); display: block; }
+  .acct-row .pl.attn { color: var(--attn); }
+  .ac-you { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .ac-you .in { width: 36px; height: 36px; border-radius: 50%; background: var(--sunken); border: 1px solid var(--line); display: grid; place-items: center; font-size: 13px; font-weight: 600; }
+  .ac-you b { display: block; font-size: 14px; font-weight: 600; }
+  .ac-you span { font-size: 12px; color: var(--ink-3); }
+  .ac-h { font-size: 13.5px; font-weight: 600; margin: 22px 0 10px; }
+  .ac-line { display: flex; align-items: center; gap: 20px; }
+  .ac-line > div { flex: 1; min-width: 0; }
+  .ac-line .nm { font-size: 14px; font-weight: 600; }
+  .ac-line p { margin-top: 3px; font-size: 12.5px; color: var(--ink-3); line-height: 1.5; }
+  .ac-btn { display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 8px; font-size: 12.5px; font-weight: 500; background: var(--surface); white-space: nowrap; }
+  .ac-btn.primary { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+  .ac-links { margin-top: 10px; font-size: 12.5px; color: var(--ink-3); }
+  .ac-links u { text-underline-offset: 2px; color: var(--ink-2); }
+  .ac-dev { margin-top: 22px; }
+  .ac-dev > div { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 12.5px; }
+  .ac-dev > div:last-of-type { border-bottom: 1px solid var(--line); }
+  .ac-dev .q { color: var(--ink-3); font-size: 11.5px; }
+  .ac-dev .note-l { margin-top: 8px; font-size: 11.5px; color: var(--ink-3); }
+  .plan-band { display: flex; align-items: center; gap: 10px; padding: 9px 48px; background: var(--attn-band); font-size: 12.5px; color: var(--ink-2); }
+  .plan-band::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--attn); flex: none; }
+  .plan-demo .term { margin-top: 16px; }
+  .plan-demo .term .body { min-height: 0; }
+  [data-state][hidden] { display: none !important; }
+
+  /* ---------- FAQ ---------- */
+  .faq-wrap { display: grid; grid-template-columns: 4fr 8fr; gap: 72px; }
+  .faq-wrap .lead { margin-top: 16px; font-size: 18px; }
+
+  @media (max-width: 1080px) {
+    .plans { grid-template-columns: 1fr; }
+    .free-ways { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .teams { grid-column: 1 / -1; }
+    .ends, .faq-wrap { grid-template-columns: 1fr; gap: 48px; }
+  }
+  @media (max-width: 860px) {
+    .pr-head { padding-top: 48px; }
+    .pro { padding: 28px 24px; }
+    .price .amt { font-size: 52px; }
+    .pro-inc .check-list { columns: 1; }
+    .free-ways { grid-template-columns: 1fr; }
+    .way { padding: 28px 24px; }
+    .ss div { grid-template-columns: 1fr; gap: 2px; }
+    .plan-demo .app { height: auto; min-height: 0; }
+    .plan-demo .app-page { padding: 24px 20px; }
+    .plan-band { padding: 9px 20px; }
+    .ac-line { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .faq-wrap { gap: 32px; }
+  }
+</style>
+</head>
+<body data-page="pricing">
+<main id="main">
+
+  <!-- ======================= HEADER ======================= -->
+  <section class="pr-head">
+    <div class="container">
+      <span class="label reveal">Pricing</span>
+      <h1 class="h1 reveal" style="margin-top:16px">14 days free. Then $5.99 a month.</h1>
+      <p class="lead reveal d1">One plan with everything in Artifice, for one person on up to 3 computers. No card to start, and your files never leave your computer.</p>
+      <div class="seg reveal d2" role="group" aria-label="Billing period">
+        <button type="button" aria-pressed="true" data-set-period="monthly">Monthly</button>
+        <button type="button" aria-pressed="false" data-set-period="yearly">Yearly <span class="save">18% less</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= PLANS ======================= -->
+  <section>
+    <div class="container plans">
+      <article class="card pro reveal" aria-labelledby="pro-name">
+        <div class="pro-top"><h2 class="h3" id="pro-name">Pro</h2><span class="tag">14 days free</span></div>
+        <div class="price" aria-live="polite">
+          <span data-period="monthly"><span class="amt">$5.99</span> <span class="per">a month</span></span>
+          <span data-period="yearly" hidden><span class="amt">$59</span> <span class="per">a year</span></span>
+        </div>
+        <p class="price-sub">
+          <span data-period="monthly">Billed monthly. Or $59 a year, about 18% less.</span>
+          <span data-period="yearly" hidden>About $4.92 a month, billed once a year.</span>
+        </p>
+        <div class="actions">
+          <a class="btn primary lg" href="download.html"><svg data-dl-icon></svg><span>Download and start free</span></a>
+        </div>
+        <div class="reassure"><span><svg data-i="check"></svg>No card needed</span><span><svg data-i="check"></svg>Cancel anytime</span><span><svg data-i="check"></svg>Mac and Windows</span></div>
+
+        <div class="pro-inc">
+          <span class="label">Everything in Artifice, for one person</span>
+          <ul class="check-list">
+            <li><svg data-i="check"></svg><span>Every project, as many as you like<small>Codebases and folders of documents</small></span></li>
+            <li><svg data-i="check"></svg><span>Every AI tool<small>Claude Code, Claude, Cursor, Codex, Gemini CLI, Antigravity, Windsurf, VS Code, any MCP app</small></span></li>
+            <li><svg data-i="check"></svg><span>Reads your documents<small>Word, PDF, Excel, PowerPoint, emails and diagrams; scans and pictures on a Mac</small></span></li>
+            <li><svg data-i="check"></svg><span>Library, Memory, Playbooks and Activity<small>See every briefing and the tokens it saved</small></span></li>
+            <li><svg data-i="check"></svg><span>The command line and MCP server<small>The same commands the app uses</small></span></li>
+            <li><svg data-i="check"></svg><span>Up to 3 computers<small>Mac, Windows, or both</small></span></li>
+            <li><svg data-i="check"></svg><span>Updates as they come out<small>Artifice installs them itself</small></span></li>
+            <li><svg data-i="check"></svg><span>Email support<small>From the people who make it</small></span></li>
+          </ul>
+        </div>
+        <p class="how-pay">After your 14 days, choose Pro in the app, in <b>Account › Plan</b>. You pay in your browser with Stripe, and Artifice switches over by itself.</p>
+      </article>
+
+      <div class="free-ways">
+        <article class="card way reveal d1" aria-labelledby="students-h">
+          <div class="who"><span class="ic"><svg data-i="graduate"></svg></span><span class="label">Students</span></div>
+          <h2 class="h3" id="students-h">Free for students.</h2>
+          <p>Everything in Pro, at no cost, while you study. Check your school email in the app; we check again once a year. For coursework, research and personal projects.</p>
+          <a class="arrow" href="students.html">How it works for students</a>
+        </article>
+        <article class="card way reveal d2" aria-labelledby="code-h">
+          <div class="who"><span class="ic"><svg data-i="ticket"></svg></span><span class="label">Access codes</span></div>
+          <h2 class="h3" id="code-h">Have a code?</h2>
+          <p>Codes from the Artifice team, for testers, partners, events and classes, give free time on everything in Pro. Redeem one in <b style="font-weight:500;color:var(--ink)">Account › Plan › Have a code?</b></p>
+          <a class="arrow" href="redeem.html">Redeem a code</a>
+        </article>
+        <p class="teams reveal d3"><b>Working as a team?</b> Team plans are coming later. <a href="mailto:info@tryartifice.com?subject=Artifice%20for%20teams">Tell us what your team needs</a>, and we'll write when they're ready.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= WHEN THE TRIAL ENDS ======================= -->
+  <section class="section">
+    <div class="container ends">
+      <div class="reveal">
+        <span class="label">When the 14 days are up</span>
+        <h2 class="h2" style="margin-top:14px">Your work stays yours, plan or no plan.</h2>
+        <p class="lead">Artifice mentions your trial only in its last 3 days. If you don't choose a plan, it stops briefing your AI tools, and keeps everything else.</p>
+        <div class="ss">
+          <div><b>Stops</b><span>Briefings for your AI tools, and reading new changes in your folders.</span></div>
+          <div><b class="stays">Stays</b><span>The app, your projects, Library, Memory, Playbooks and Activity. You can read all of it and export it to Markdown.</span></div>
+          <div><b>Comes back</b><span>Choose a plan, a student check or a code, and everything carries on where it was.</span></div>
+        </div>
+        <p class="small">The same is true when a paid plan ends.</p>
+      </div>
+
+      <div class="plan-demo reveal d1">
+        <div class="demo-tabs">
+          <div class="seg" role="group" aria-label="Show the plan on">
+            <button type="button" aria-pressed="true" data-set-state="ending">Day 12</button>
+            <button type="button" aria-pressed="false" data-set-state="ended">Day 15</button>
+          </div>
+          <span class="small" data-state="ending">Two days left of the trial.</span>
+          <span class="small" data-state="ended" hidden>The trial has ended.</span>
+        </div>
+        <div class="window" aria-label="Account in the Artifice app">
+          <div class="window-bar"><span class="lights"><i></i><i></i><i></i></span><span class="window-title">Artifice</span><span class="win-btns"><i>—</i><i>▢</i><i>✕</i></span></div>
+          <div class="app">
+            <aside class="app-side">
+              <div class="app-proj"><span class="av">a</span><span><span class="nm">acme</span><span class="st">Ready</span></span><svg data-i="updown" class="i chev"></svg></div>
+              <div class="app-search"><svg data-i="search"></svg>Search acme<kbd>⌘K</kbd></div>
+              <nav class="app-nav">
+                <div><svg data-i="home"></svg>Home</div>
+                <div><svg data-i="library"></svg>Library</div>
+                <div><svg data-i="memory"></svg>Memory</div>
+                <div><svg data-i="playbooks"></svg>Playbooks</div>
+                <div><svg data-i="activity"></svg>Activity</div>
+              </nav>
+              <div class="bottom">
+                <nav class="app-nav"><div><svg data-i="tools"></svg>AI tools</div><div><svg data-i="settings"></svg>Settings</div></nav>
+                <div class="acct-row"><span class="in">ML</span><span><span class="nm">Maya Lee</span><span class="pl attn" data-state="ending">Trial · 2 days</span><span class="pl" data-state="ended" hidden>Trial ended</span></span></div>
+              </div>
+            </aside>
+            <div class="app-main">
+              <div class="plan-band" data-state="ended" hidden>Read-only: there's no plan, so Artifice isn't briefing your AI or reading changes.</div>
+              <div class="app-page">
+                <div class="app-title">Account</div>
+                <div class="ac-you"><span class="in">ML</span><span><b>Maya Lee</b><span>maya@acme.com · Signed in with Google</span></span></div>
+                <div class="ac-h">Plan</div>
+                <div class="ac-line" data-state="ending">
+                  <div><span class="nm">Trial</span><p>Your trial ends on November 20, 2026, in 2 days. Everything is on until then.</p></div>
+                  <span class="ac-btn">Choose a plan…</span>
+                </div>
+                <div class="ac-line" data-state="ended" hidden>
+                  <div><span class="nm">Trial ended</span><p>Artifice isn't briefing your AI tools. Your projects, memories and playbooks are all still here, and you can read and export them.</p></div>
+                  <span class="ac-btn primary">Choose a plan…</span>
+                </div>
+                <p class="ac-links"><u>Student?</u> · <u>Have a code?</u></p>
+                <div class="ac-dev">
+                  <div class="ac-h" style="margin:0 0 8px;border:0;padding:0">Your computers</div>
+                  <div><span>Maya's MacBook Air <span class="q">· This computer</span></span><span class="q">Mac</span></div>
+                  <div><span>Studio PC</span><span class="q">Windows · used yesterday</span></div>
+                  <p class="note-l">Artifice works on up to 3 computers for each person.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="term" data-state="ended" hidden aria-label="Claude Code in a terminal, after the trial ended">
+          <div class="bar"><span class="lights"><i></i><i></i><i></i></span>claude · ~/acme</div>
+          <div class="body">
+            <div class="you">where do we round invoice totals?</div>
+            <div class="tool" style="margin-top:6px"><b>artifice</b> · artifice_context</div>
+            <div class="dim">Artifice's trial has ended. Your memories and playbooks are still in the app. Choose a plan at tryartifice.com/pricing or in the app to turn briefings back on.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FAQ ======================= -->
+  <section class="section end" id="faq">
+    <div class="container faq-wrap">
+      <div class="reveal">
+        <span class="label">Questions</span>
+        <h2 class="h2" style="margin-top:14px">Before you decide.</h2>
+        <p class="lead">Anything else, write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>. A person answers.</p>
+      </div>
+      <div class="faq reveal d1">
+        <details open>
+          <summary>How does the free trial work?</summary>
+          <div class="a"><p>Download Artifice and sign in. The app then offers the free trial: 14 days with everything on, no card. Each account has one trial.</p><p>Artifice doesn't remind you about it until the last 3 days. Then a short line on Home says how many days are left.</p></div>
+        </details>
+        <details>
+          <summary>Do I need a card to try it?</summary>
+          <div class="a"><p>No. You only add a card if you choose Pro.</p></div>
+        </details>
+        <details>
+          <summary>How do I pay?</summary>
+          <div class="a"><p>In Artifice, go to <b>Account › Plan › Choose a plan…</b>. A secure Stripe page opens in your browser. When the payment goes through, Artifice switches to Pro by itself, and your receipt comes by email.</p></div>
+        </details>
+        <details>
+          <summary>Can I cancel anytime?</summary>
+          <div class="a"><p>Yes, in <b>Account › Plan › Cancel Pro…</b>. You won't be charged again, and Pro stays on until the end of what you've paid for. Changed your mind before then? <b>Keep Pro</b> and it renews as before.</p></div>
+        </details>
+        <details>
+          <summary>Can I get a refund?</summary>
+          <div class="a"><p>The 14 free days are there so you can be sure before you pay. If something went wrong with a payment, write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a> and we'll sort it out with you.</p><p>If you live in the EU or the UK, the law gives you a right to cancel within 14 days of buying, and our <a href="legal.html">Terms</a> don't limit it. Email support to use it.</p></div>
+        </details>
+        <details>
+          <summary>Can I switch between monthly and yearly?</summary>
+          <div class="a"><p>Yes, in <b>Account › Plan</b>. Switching to yearly charges $59 for a year, minus what's left of this month's payment. Switching to monthly turns what's left of your year into credit, used before your card is charged again.</p></div>
+        </details>
+        <details>
+          <summary>I'm a student. Do I pay?</summary>
+          <div class="a"><p>No. Check your school email in the app and Artifice is free, with everything in Pro, for study and personal projects. <a href="students.html">How it works for students</a>.</p></div>
+        </details>
+        <details>
+          <summary>How many computers can I use it on?</summary>
+          <div class="a"><p>Up to 3 for each person, Mac or Windows. They're listed in <b>Account › Your computers</b>; remove one there to use Artifice on another.</p></div>
+        </details>
+        <details>
+          <summary>Are taxes included?</summary>
+          <div class="a"><p>Prices are in US dollars. Where VAT or sales tax applies, Stripe works it out at checkout from where you are, and shows it before you pay.</p></div>
+        </details>
+        <details>
+          <summary>What happens when a plan ends?</summary>
+          <div class="a"><p>Artifice stops briefing your AI tools and stops reading changes in your folders. The app still opens, and your projects, memories and playbooks stay on your computer, where you can read and export them. Choose a plan and everything carries on where it was.</p><p>If a payment doesn't go through, Pro keeps working for 7 days while you update your card.</p></div>
+        </details>
+        <details>
+          <summary>Does it work offline?</summary>
+          <div class="a"><p>Yes. Artifice confirms your plan when you're online, and keeps working for up to 14 days without the internet.</p></div>
+        </details>
+        <details>
+          <summary>What does paying tell you about me?</summary>
+          <div class="a"><p>Your card details go to Stripe, not to us; the app shows only the card's brand and last four digits. We keep your plan, its dates and the names of your computers. Your files and your AI's questions are never sent to us, on any plan.</p><p><a href="privacy-and-data.html">Everything Artifice sends, and where</a>.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FINAL ======================= -->
+  <section class="final rule">
+    <div class="container">
+      <h2 class="h1 reveal">Try it on your own work for 14 days.</h2>
+      <p class="lead reveal d1">Download Artifice, pick a folder, and see what your AI was given.</p>
+      <div class="actions reveal d2">
+        <a class="btn primary lg" href="download.html"><svg data-dl-icon></svg><span data-dl-label>Download for Mac</span></a>
+        <a class="btn lg" href="students.html">Free for students</a>
+      </div>
+      <div class="reassure reveal d2"><span>No card needed</span><span>Cancel anytime</span></div>
+    </div>
+  </section>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  // This page only: monthly / yearly prices, and the trial demo (Day 12 / Day 15).
+  (function () {
+    var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+    function group(attr, show) {
+      $$('[data-set-' + attr + ']').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set-' + attr) === show)); });
+      $$('[data-' + attr + ']').forEach(function (el) { el.hidden = el.getAttribute('data-' + attr) !== show; });
+    }
+    document.addEventListener('click', function (e) {
+      var p = e.target.closest('[data-set-period]'); if (p) group('period', p.getAttribute('data-set-period'));
+      var s = e.target.closest('[data-set-state]'); if (s) group('state', s.getAttribute('data-set-state'));
+    });
+    if (/[?&]period=yearly/.test(location.search)) group('period', 'yearly');
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+# Artifice
+
+> Artifice is a desktop app for Mac and Windows that reads a folder on your computer (documents, PDFs, spreadsheets, slides and code) and briefs AI tools such as Claude Code, Claude, Cursor, Codex, Gemini CLI, Antigravity, Windsurf and VS Code with the right passages when they ask, so they don't search file by file. Files never leave the computer. 14 days free with no card, then Pro at $5.99 a month or $59 a year; free for verified students.
+
+Artifice is used in three places: inside your AI tool (it briefs the tool automatically through an MCP server, and through hooks in Claude Code), in the Artifice app (see every briefing, Library, Memory, Playbooks, Activity), and on the command line (`artifice init`, `artifice connect`, `artifice ask`, `artifice remember`).
+
+## Start here
+- [Why Artifice](https://tryartifice.com/why-artifice.html): the reasons, with measured results
+- [Download](https://tryartifice.com/download.html): Mac (Apple silicon, Intel) and Windows (x64, Arm)
+- [Pricing](https://tryartifice.com/pricing.html): trial, Pro, students, access codes
+
+## Docs
+- [Docs home](https://tryartifice.com/docs.html)
+- [Connecting AI tools](https://tryartifice.com/docs-article.html): connect once, for every project
+
+## Trust
+- [Privacy and data](https://tryartifice.com/privacy-and-data.html): exactly what leaves your computer
+- [How we count](https://tryartifice.com/how-we-count.html): how savings are measured, including where Artifice doesn't help
+- [Terms and Privacy policy](https://tryartifice.com/legal.html)
+
+## Updates
+- [Changelog](https://tryartifice.com/changelog.html) ([RSS](https://tryartifice.com/changelog.xml))
+- [Letters](https://tryartifice.com/letters.html): a monthly letter from the team
+
+Contact: support@tryartifice.com

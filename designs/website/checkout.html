@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout: pay for Artifice Pro | Artifice</title>
+<meta name="description" content="Pay for Artifice Pro: $5.99 a month or $59 a year, cancel anytime in Account › Plan. Payments are handled by Stripe; Artifice never sees your card number.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* ---------- the bare payment page (opened from the app) ---------- */
+  .ck-top { max-width: 1040px; margin: 0 auto; padding: 28px 32px 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .ck-top .logo { font-size: 17px; }
+  .ck-top .logo img { width: 24px; height: 24px; }
+  .ck-who { font-size: 14px; color: var(--ink-3); overflow-wrap: anywhere; text-align: right; }
+  .ck-who b { color: var(--ink-2); font-weight: 500; }
+  .ck { max-width: 1040px; margin: 0 auto; padding: 56px 32px 96px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 80px; align-items: start; }
+
+  /* order summary */
+  .ck-sum h1 { font-family: var(--display); font-size: 34px; line-height: 1.1; letter-spacing: -0.024em; }
+  .ck-sum .lede { margin-top: 12px; font-size: 16px; line-height: 1.6; color: var(--ink-2); max-width: 30em; text-wrap: pretty; }
+  .ck-periods { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ck-period { text-align: left; padding: 14px 16px; border-radius: var(--r-m); border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); font: 14px/1.4 var(--sans); cursor: pointer; transition: border-color .16s var(--ease), box-shadow .16s var(--ease); display: grid; gap: 2px; }
+  .ck-period:hover { border-color: var(--ink-3); }
+  .ck-period b { font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .ck-period b::after { content: ""; width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--line-2); flex: none; box-sizing: border-box; }
+  .ck-period span { color: var(--ink-2); }
+  .ck-period .save { font-size: 12.5px; color: var(--gold); }
+  .ck-period[aria-checked="true"] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+  .ck-period[aria-checked="true"] b::after { border: 5px solid var(--ink); }
+  .ck-price { margin-top: 32px; display: flex; align-items: baseline; gap: 10px; }
+  .ck-price .v { font-family: var(--display); font-size: 48px; line-height: 1; letter-spacing: -0.035em; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .ck-price .per { font-size: 16px; color: var(--ink-2); }
+  .ck-price-note { margin-top: 8px; font-size: 14px; color: var(--ink-3); }
+  .ck-lines { margin-top: 28px; border-top: 1px solid var(--line); font-size: 15px; }
+  .ck-lines div { display: flex; justify-content: space-between; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+  .ck-lines span:last-child { color: var(--ink-2); text-align: right; }
+  .ck-lines .total { font-weight: 600; font-size: 16px; }
+  .ck-lines .total span:last-child { color: var(--ink); }
+  .ck-renew { margin-top: 14px; font-size: 14px; line-height: 1.55; color: var(--ink-3); max-width: 34em; }
+  .ck-renew b { color: var(--ink-2); font-weight: 500; }
+  .ck-inc { margin-top: 40px; }
+  .ck-inc .label { display: block; margin-bottom: 6px; }
+  .ck-inc .check-list li { font-size: 15px; padding: 7px 0; }
+  .ck-inc .check-list li svg { width: 16px; height: 16px; margin-top: 3px; color: var(--ready); }
+
+  /* payment form, in the shape of Stripe's Payment Element */
+  .ck-pay { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-xl); box-shadow: var(--shadow-m); padding: 32px; }
+  .ck-pay h2 { font-size: 17px; letter-spacing: -0.005em; }
+  .ck-wallets { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ck-wallet { height: 46px; border-radius: var(--r-m); border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; gap: 4px; font: 600 16px/1 var(--display); letter-spacing: -0.01em; cursor: pointer; transition: border-color .16s var(--ease); }
+  .ck-wallet:hover { border-color: var(--ink-3); }
+  .ck-wallet svg { width: 18px; height: 18px; }
+  .ck-wallet .g { width: 17px; height: 17px; margin-right: 2px; }
+  .ck-or { display: flex; align-items: center; gap: 12px; margin: 22px 0 18px; font-size: 13px; color: var(--ink-3); }
+  .ck-or::before, .ck-or::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+  .ck-fields { display: grid; gap: 14px; }
+  .ck-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ck-f label { display: block; font-size: 13.5px; font-weight: 500; color: var(--ink-2); margin-bottom: 6px; }
+  .ck-in { position: relative; }
+  .ck-in input, .ck-in select { width: 100%; height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--ink); font: 15px var(--sans); box-shadow: var(--shadow-s); transition: border-color .16s var(--ease), box-shadow .16s var(--ease); -webkit-appearance: none; appearance: none; }
+  .ck-in input::placeholder { color: var(--ink-3); }
+  .ck-in input:focus, .ck-in select:focus { outline: none; border-color: var(--ink-3); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ink) 10%, transparent); }
+  .ck-in.card input { padding-right: 52px; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+  .ck-in.card svg { position: absolute; right: 12px; top: 50%; width: 22px; height: 22px; transform: translateY(-50%); color: var(--ink-3); pointer-events: none; }
+  .ck-in.sel select { padding-right: 36px; cursor: pointer; }
+  .ck-in.sel svg { position: absolute; right: 12px; top: 50%; width: 16px; height: 16px; transform: translateY(-50%); color: var(--ink-3); pointer-events: none; }
+  .ck-pay .btn.primary { width: 100%; margin-top: 24px; --h: 50px; font-size: 16px; border-radius: 12px; }
+  .ck-secure { display: grid; grid-template-columns: 16px 1fr; gap: 10px; margin-top: 16px; font-size: 13.5px; line-height: 1.5; color: var(--ink-3); }
+  .ck-secure svg { width: 15px; height: 15px; margin-top: 2px; }
+  .ck-legal { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13px; line-height: 1.5; color: var(--ink-3); }
+  .ck-legal a { color: var(--ink-2); }
+
+  /* success */
+  .ck-done { min-height: calc(100vh - 120px); display: grid; place-items: center; padding: 32px 20px 96px; }
+  .ck-done-card { width: 100%; max-width: 440px; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-xl); box-shadow: var(--shadow-m); padding: 44px 40px 36px; }
+  .ck-badge { width: 48px; height: 48px; border-radius: 50%; margin: 0 auto; display: grid; place-items: center; background: var(--sunken); color: var(--ready); }
+  .ck-badge svg { width: 22px; height: 22px; }
+  .ck-done-card h1 { font-family: var(--display); font-size: 28px; line-height: 1.15; letter-spacing: -0.02em; margin-top: 22px; }
+  .ck-done-card .sub { margin-top: 10px; font-size: 15.5px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+  .ck-done-card .btn { width: 100%; margin-top: 28px; --h: 48px; }
+  .ck-receipt { margin-top: 24px; border-top: 1px solid var(--line); text-align: left; font-size: 14.5px; }
+  .ck-receipt div { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+  .ck-receipt span:first-child { color: var(--ink-3); }
+  .ck-done-card .note { margin-top: 18px; font-size: 13.5px; line-height: 1.55; color: var(--ink-3); }
+  [data-view][hidden] { display: none; }
+
+  @media (max-width: 1080px) {
+    .ck { gap: 48px; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); }
+  }
+  @media (max-width: 860px) {
+    .ck-top { padding: 20px 20px 0; }
+    .ck { grid-template-columns: 1fr; gap: 40px; padding: 32px 20px 72px; }
+    .ck-sum h1 { font-size: 28px; }
+    .ck-price .v { font-size: 40px; }
+    .ck-inc { display: none; }
+    .ck-pay { padding: 24px 20px; border-radius: var(--r-l); }
+    .ck-done-card { background: none; border: 0; box-shadow: none; padding: 0; }
+  }
+  @media (max-width: 400px) {
+    .ck-who span { display: none; }
+    .ck-periods { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body data-bare data-page="checkout">
+<header class="ck-top">
+  <a class="logo" href="index.html"><img src="assets/mark.svg" alt="">Artifice</a>
+  <p class="ck-who"><span>For </span><b>maya@acme.com</b></p>
+</header>
+
+<main id="main">
+  <!-- ======================= PAY ======================= -->
+  <div class="ck" data-view="pay">
+    <section class="ck-sum" aria-labelledby="ck-h">
+      <h1 id="ck-h">Artifice Pro</h1>
+      <p class="lede">Everything in Artifice for one person: every project and AI tool, documents and scans, Memory, Playbooks and Activity.</p>
+
+      <div class="ck-periods" role="radiogroup" aria-label="How often to pay">
+        <button type="button" class="ck-period" role="radio" aria-checked="true" data-period="yearly"><b>Yearly</b><span>$59 a year</span><span class="save">About 18% less</span></button>
+        <button type="button" class="ck-period" role="radio" aria-checked="false" data-period="monthly"><b>Monthly</b><span>$5.99 a month</span><span class="save" style="visibility:hidden" aria-hidden="true">About 18% less</span></button>
+      </div>
+
+      <div class="ck-price"><span class="v" data-price>$59</span><span class="per" data-per>a year</span></div>
+      <p class="ck-price-note" data-note>That's $4.92 a month, billed once a year.</p>
+
+      <div class="ck-lines">
+        <div><span data-line>Artifice Pro, yearly</span><span data-sub>$59.00</span></div>
+        <div><span>Tax</span><span>Calculated at payment</span></div>
+        <div class="total"><span>Total due today</span><span data-total>$59.00</span></div>
+      </div>
+      <p class="ck-renew">Renews every <span data-unit>year</span> until you cancel. <b>Cancel anytime in Account › Plan</b>; Pro stays on until the end of what you paid for.</p>
+
+      <div class="ck-inc">
+        <span class="label">What's included</span>
+        <ul class="check-list">
+          <li><svg data-i="check"></svg>Every project, with no limit</li>
+          <li><svg data-i="check"></svg>Claude Code, Claude, Cursor, Codex, Gemini CLI, Antigravity, Windsurf, VS Code and any MCP app</li>
+          <li><svg data-i="check"></svg>Reads Word, PDF, Excel, PowerPoint, emails and diagrams, and text in scans on a Mac</li>
+          <li><svg data-i="check"></svg>Memory, Playbooks and Activity</li>
+          <li><svg data-i="check"></svg>Up to 3 computers, Mac and Windows</li>
+          <li><svg data-i="check"></svg>The command line, the MCP server and signed automatic updates</li>
+          <li><svg data-i="check"></svg>Email support</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="ck-pay" aria-labelledby="ck-pay-h">
+      <h2 id="ck-pay-h">Payment</h2>
+      <!-- Stripe's Payment Element draws these fields; this is its shape in our tokens. -->
+      <div class="ck-wallets">
+        <button type="button" class="ck-wallet" aria-label="Pay with Apple Pay"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.8-3.5.8s-1.8-.8-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.2.8 1.1 1.7 2.3 2.9 2.3 1.1-.1 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.6zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2-.5 2.7-1.3z"/></svg>Pay</button>
+        <button type="button" class="ck-wallet" aria-label="Pay with Google Pay"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.5l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z"/><path fill="#FBBC05" d="M6.4 13.9a6 6 0 0 1 0-3.8V7.5H3.1a10 10 0 0 0 0 9z"/><path fill="#EA4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.5l3.3 2.6C7.2 7.8 9.4 6 12 6z"/></svg>Pay</button>
+      </div>
+      <div class="ck-or">Or pay by card</div>
+
+      <form class="ck-fields" id="ck-form" novalidate>
+        <div class="ck-f">
+          <label for="ck-card">Card number</label>
+          <div class="ck-in card"><input id="ck-card" inputmode="numeric" autocomplete="cc-number" placeholder="1234 1234 1234 1234"><svg data-i="card"></svg></div>
+        </div>
+        <div class="ck-row">
+          <div class="ck-f"><label for="ck-exp">Expiry</label><div class="ck-in"><input id="ck-exp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY"></div></div>
+          <div class="ck-f"><label for="ck-cvc">CVC</label><div class="ck-in"><input id="ck-cvc" inputmode="numeric" autocomplete="cc-csc" placeholder="CVC"></div></div>
+        </div>
+        <div class="ck-f">
+          <label for="ck-name">Name on card</label>
+          <div class="ck-in"><input id="ck-name" autocomplete="cc-name" placeholder="Full name"></div>
+        </div>
+        <div class="ck-row">
+          <div class="ck-f">
+            <label for="ck-country">Country</label>
+            <div class="ck-in sel">
+              <select id="ck-country" autocomplete="country">
+                <option>United States</option><option>Canada</option><option>United Kingdom</option><option>Ireland</option><option>Germany</option><option>France</option><option>Netherlands</option><option>Switzerland</option><option>Sweden</option><option>Australia</option><option>India</option><option>Japan</option>
+              </select>
+              <svg data-i="down"></svg>
+            </div>
+          </div>
+          <div class="ck-f"><label for="ck-post">Postcode</label><div class="ck-in"><input id="ck-post" autocomplete="postal-code" placeholder="10001"></div></div>
+        </div>
+
+        <button class="btn primary" type="submit" data-pay>Subscribe · $59</button>
+        <p class="ck-secure"><svg data-i="lock"></svg><span>Payments are handled by Stripe. Artifice never sees your card number.</span></p>
+        <p class="ck-legal">By subscribing you agree to the <a href="legal.html">Terms</a>. Pro renews until you cancel; see the <a href="legal.html#privacy">Privacy policy</a> for how payment details are handled.</p>
+      </form>
+    </section>
+  </div>
+
+  <!-- ======================= DONE ======================= -->
+  <div class="ck-done" data-view="done" hidden>
+    <div class="ck-done-card" aria-live="polite">
+      <div class="ck-badge"><svg data-i="check"></svg></div>
+      <h1>You're on Pro</h1>
+      <p class="sub">Thank you. Go back to Artifice: it switches to Pro by itself in a few seconds.</p>
+      <a class="btn primary" href="artifice://">Return to Artifice</a>
+      <div class="ck-receipt">
+        <div><span>Plan</span><span data-done-plan>Artifice Pro, yearly</span></div>
+        <div><span>Paid today</span><span data-done-paid>$59.00</span></div>
+        <div><span>Renews</span><span data-done-renew>Every year, until you cancel</span></div>
+      </div>
+      <p class="note">Your receipt is on its way by email. Manage Pro anytime in Artifice, under Account › Plan.</p>
+    </div>
+  </div>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  // Monthly or yearly, and the success state (?state=done). ?period=monthly starts on monthly, as the app's link can.
+  (function () {
+    const q = new URLSearchParams(location.search);
+    const P = {
+      yearly: { price: '$59', per: 'a year', note: "That's $4.92 a month, billed once a year.", line: 'Artifice Pro, yearly', sub: '$59.00', pay: 'Subscribe · $59', unit: 'year' },
+      monthly: { price: '$5.99', per: 'a month', note: 'Billed every month. Switch to yearly anytime.', line: 'Artifice Pro, monthly', sub: '$5.99', pay: 'Subscribe · $5.99', unit: 'month' },
+    };
+    const set = (sel, v) => document.querySelectorAll(sel).forEach(e => { e.textContent = v; });
+    let period = q.get('period') === 'monthly' ? 'monthly' : 'yearly';
+    const choose = per => {
+      period = per; const p = P[per];
+      document.querySelectorAll('[data-period]').forEach(b => b.setAttribute('aria-checked', String(b.dataset.period === per)));
+      set('[data-price]', p.price); set('[data-per]', p.per); set('[data-note]', p.note);
+      set('[data-line]', p.line); set('[data-sub]', p.sub); set('[data-total]', p.sub);
+      set('[data-pay]', p.pay); set('[data-unit]', p.unit);
+      set('[data-done-plan]', p.line); set('[data-done-paid]', p.sub); set('[data-done-renew]', `Every ${p.unit}, until you cancel`);
+    };
+    choose(period);
+    document.querySelectorAll('[data-period]').forEach(b => b.addEventListener('click', () => choose(b.dataset.period)));
+    const group = document.querySelector('.ck-periods');
+    group.addEventListener('keydown', e => {
+      if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;
+      e.preventDefault(); const next = period === 'yearly' ? 'monthly' : 'yearly';
+      choose(next); group.querySelector(`[data-period="${next}"]`).focus();
+    });
+    const show = v => {
+      document.querySelectorAll('[data-view]').forEach(e => { e.hidden = e.dataset.view !== v; });
+      document.title = v === 'done' ? "You're on Pro | Artifice" : 'Checkout: pay for Artifice Pro | Artifice';
+    };
+    show(q.get('state') === 'done' ? 'done' : 'pay');
+    document.getElementById('ck-form').addEventListener('submit', e => { e.preventDefault(); show('done'); scrollTo(0, 0); });
+  })();
+</script>
+</body>
+</html>

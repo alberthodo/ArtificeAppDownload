@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Download: Artifice for Mac and Windows | Artifice</title>
+<meta name="description" content="Download Artifice 0.1.8 for Mac (Apple silicon or Intel) or Windows (x64 or Arm). Sign in, pick a folder and connect Claude Code, Cursor or another AI tool. 14 days free, no card.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/product.css">
+<style>
+  /* without JavaScript, show the version for "any computer" */
+  .no-js [data-os-show]:not([data-os-show~="other"]) { display: none; }
+
+  /* ---------- hero ---------- */
+  .dl-hero { padding: 96px 0 0; }
+  .dl-hero-in { display: grid; grid-template-columns: 7fr 5fr; gap: 72px; align-items: end; }
+  .dl-hero .h1 { max-width: 13em; }
+  .dl-hero .lead { margin-top: 20px; max-width: 32em; }
+  .dl-go { margin-top: 36px; }
+  .dl-go .actions { gap: 12px 16px; }
+  .dl-file { margin-top: 16px; font-size: 14px; color: var(--ink-3); display: flex; flex-wrap: wrap; gap: 4px 14px; }
+  .dl-file b { font-weight: 500; color: var(--ink-2); }
+  .dl-alt { margin-top: 8px; font-size: 14px; color: var(--ink-3); }
+  .dl-alt a { color: var(--ink); }
+  .dl-which { margin-top: 28px; max-width: 34em; }
+
+  .rel { border-top: 2px solid var(--ink); padding-top: 22px; }
+  .rel-top { display: flex; align-items: center; gap: 12px; }
+  .rel-top .small { margin-left: auto; }
+  .rel h2 { font-size: 17px; margin-top: 18px; letter-spacing: -0.005em; }
+  .rel p { margin-top: 4px; font-size: 15px; color: var(--ink-2); line-height: 1.55; }
+  .rel .rows { margin-top: 22px; }
+  .rel .rows > div { display: flex; align-items: center; gap: 12px; padding: 12px 0; font-size: 15px; }
+  .rel .rows svg { width: 16px; height: 16px; color: var(--ink-3); flex: none; }
+  .rel .arrow { margin-top: 20px; font-size: 15px; }
+
+  /* phone: send yourself the link */
+  .send { margin-top: 32px; max-width: 30em; }
+  .send label { display: block; font-size: 14px; font-weight: 500; color: var(--ink-2); margin-bottom: 8px; }
+  .send-row { display: flex; gap: 10px; }
+  .send input { flex: 1; min-width: 0; height: 50px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); font: 16px var(--sans); box-shadow: var(--shadow-s); }
+  .send input::placeholder { color: var(--ink-3); }
+  .send input:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+  .send .small { margin-top: 12px; }
+  .send-done { display: none; margin-top: 16px; font-size: 15px; color: var(--ready); font-weight: 500; align-items: center; gap: 8px; }
+  .send-done svg { width: 16px; height: 16px; }
+  .send.sent .send-done { display: flex; }
+  .send-copy { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-3); }
+  .send-copy code { font-size: 13px; }
+  .send-copy .copy { position: static; }
+
+  /* ---------- after you click: four steps with small pieces of the real app ---------- */
+  .steps4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; counter-reset: st; }
+  .st { display: flex; flex-direction: column; }
+  .st-ui { height: 212px; border-radius: var(--r-l); background: var(--sunken); padding: 18px; display: flex; align-items: center; justify-content: center; }
+  .st-n { margin-top: 22px; font-size: 13px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .st h3 { font-size: 17px; margin-top: 6px; letter-spacing: -0.005em; }
+  .st p { margin-top: 6px; font-size: 15px; color: var(--ink-2); line-height: 1.6; }
+  .st p b { font-weight: 500; color: var(--ink); }
+
+  /* a small app surface, as the app draws it */
+  .mi { width: 100%; max-width: 268px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-m); padding: 16px; font: 13px/1.45 var(--sans); color: var(--ink); }
+  .mi-t { font-size: 14px; font-weight: 600; letter-spacing: -0.005em; line-height: 1.3; }
+  .mi-s { font-size: 11.5px; color: var(--ink-3); margin-top: 4px; line-height: 1.45; }
+  .mi-btn { display: inline-flex; align-items: center; height: 28px; padding: 0 11px; border: 1px solid var(--line-2); border-radius: 8px; font-size: 12px; font-weight: 500; background: var(--surface); color: var(--ink); white-space: nowrap; }
+  .mi-btn.primary { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+  .mi-mark { width: 26px; height: 26px; border-radius: 7px; margin-bottom: 12px; }
+  .mi .mi-btn.primary { margin-top: 14px; }
+  .mi-row { display: flex; align-items: center; gap: 9px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 12.5px; }
+  .mi-row:first-of-type { margin-top: 12px; }
+  .mi-row .ic { width: 18px; height: 18px; border-radius: 5px; display: grid; place-items: center; background: var(--sunken); border: 1px solid var(--line); color: var(--ink-2); flex: none; }
+  .mi-row .ic svg { width: 11px; height: 11px; }
+  .mi-row .ic.claude { background: #D97757; border-color: transparent; color: #fff; }
+  .mi-row .mi-btn { margin-left: auto; height: 24px; padding: 0 9px; font-size: 11.5px; }
+  .mi-row .on { margin-left: auto; font-size: 11.5px; color: var(--ready); display: inline-flex; align-items: center; gap: 5px; }
+  .mi-row .on::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ready); }
+  .mi-folder { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--bg); }
+  .mi-folder svg { width: 16px; height: 16px; color: var(--ink-2); flex: none; }
+  .mi-folder .nm { font-size: 12.5px; font-weight: 500; }
+  .mi-folder .p { font: 11px var(--mono); color: var(--ink-3); }
+  .mi-folder .rd { margin-left: auto; font-size: 11px; color: var(--ink-3); white-space: nowrap; }
+  .mi-bar { height: 3px; border-radius: 2px; background: var(--line); margin-top: 8px; overflow: hidden; }
+  .mi-bar span { display: block; height: 100%; width: 40%; background: var(--ink-2); border-radius: 2px; }
+
+  /* the disk image window, and the Windows installer */
+  .dmg { width: 100%; max-width: 268px; background: var(--surface); border: 1px solid var(--line-2); border-radius: 10px; box-shadow: var(--shadow-m); overflow: hidden; }
+  .dmg-bar { height: 26px; display: flex; align-items: center; gap: 6px; padding: 0 10px; background: var(--sunken); border-bottom: 1px solid var(--line); font-size: 11px; color: var(--ink-3); }
+  .dmg-bar .lights { gap: 5px; } .dmg-bar .lights i { width: 8px; height: 8px; }
+  .dmg-bar span:last-child { flex: 1; text-align: center; margin-right: 34px; }
+  .dmg-in { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 22px 16px 18px; text-align: center; font-size: 11.5px; color: var(--ink-2); }
+  .dmg-in img, .dmg-in .fold { width: 48px; height: 48px; margin: 0 auto 8px; border-radius: 11px; }
+  .dmg-in .fold { display: grid; place-items: center; background: var(--sunken); border: 1px solid var(--line); color: var(--ink-2); }
+  .dmg-in .fold svg { width: 24px; height: 24px; }
+  .dmg-in .to { color: var(--ink-3); font-size: 18px; }
+  .inst-bar { height: 30px; display: flex; align-items: center; padding: 0 0 0 12px; background: var(--sunken); border-bottom: 1px solid var(--line); font-size: 11.5px; color: var(--ink-2); }
+  .inst-bar i { margin-left: auto; width: 34px; text-align: center; font-style: normal; color: var(--ink-3); font-size: 11px; }
+  .inst-in { padding: 16px; }
+  .inst-in .mi-bar span { width: 64%; }
+
+  /* ---------- every build ---------- */
+  .builds-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; margin-bottom: 24px; }
+  .builds-head .small a { color: var(--ink-2); }
+  .builds td, .builds th { vertical-align: middle; }
+  .builds .os { display: flex; align-items: center; gap: 12px; }
+  .builds .os .ic { width: 32px; height: 32px; border-radius: 9px; background: var(--sunken); display: grid; place-items: center; color: var(--ink-2); flex: none; }
+  .builds .os .ic svg { width: 16px; height: 16px; }
+  .builds .os small { display: block; font-weight: 400; font-size: 13.5px; color: var(--ink-3); }
+  .builds td.file { font: 13.5px var(--mono); color: var(--ink-2); }
+  .builds td.size { font-variant-numeric: tabular-nums; color: var(--ink-2); white-space: nowrap; }
+  .builds td:last-child, .builds th:last-child { text-align: right; padding-right: 0; }
+  .builds tr.mine td { background: color-mix(in srgb, var(--sunken) 70%, transparent); }
+  .builds tr.mine td:first-child { box-shadow: inset 2px 0 0 var(--ink); padding-left: 14px; }
+  .builds .yours { display: none; margin-left: 8px; }
+  .builds tr.mine .yours { display: inline-flex; }
+  .which { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .which .note { font-size: 14.5px; }
+
+  /* ---------- requirements and the command line ---------- */
+  .req { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .req li { display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .req .ic { width: 32px; height: 32px; border-radius: 9px; background: var(--sunken); display: grid; place-items: center; color: var(--ink-2); }
+  .req .ic svg { width: 16px; height: 16px; }
+  .req b { display: block; font-weight: 500; }
+  .req span { display: block; font-size: 15px; color: var(--ink-2); line-height: 1.6; margin-top: 2px; }
+  .cli .lead { margin-top: 16px; font-size: 18px; }
+  .cli .code { margin-top: 28px; }
+  .cli .after { margin-top: 18px; }
+  .cli .after .code { margin-top: 10px; }
+
+  /* ---------- updates, older versions, help ---------- */
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .three > div { border-top: 1px solid var(--line); padding-top: 24px; }
+  .three h3 { font-size: 17px; letter-spacing: -0.005em; }
+  .three p { margin-top: 8px; font-size: 15.5px; color: var(--ink-2); line-height: 1.6; }
+  .three .arrow { margin-top: 16px; font-size: 15px; }
+  .upd { margin-top: 20px; max-width: 240px; padding: 12px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-s); font-size: 13px; }
+  .upd b { display: block; font-weight: 600; }
+  .upd span { font-size: 12px; color: var(--ink-3); }
+  .upd .mi-btn { margin-top: 10px; }
+  .menu-line { margin-top: 14px; font-size: 13.5px; color: var(--ink-3); }
+  .menu-line kbd { font-family: var(--sans); font-size: 12px; }
+
+  @media (max-width: 1080px) {
+    .dl-hero-in { grid-template-columns: 1fr; gap: 56px; }
+    .rel { max-width: 520px; }
+    .steps4 { grid-template-columns: 1fr 1fr; gap: 40px 24px; }
+    .three { grid-template-columns: 1fr 1fr; }
+    .three > div:last-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 860px) {
+    .dl-hero { padding-top: 48px; }
+    .dl-go .actions .btn.lg { flex: 1 1 100%; }
+    .send-row { flex-direction: column; }
+    .send-row .btn { width: 100%; }
+    .steps4 { grid-template-columns: 1fr; gap: 40px; }
+    .st-ui { height: auto; min-height: 190px; padding: 24px 18px; }
+    .which, .three { grid-template-columns: 1fr; }
+    .three > div:last-child { grid-column: auto; }
+    /* the builds table becomes a list */
+    .builds thead { display: none; }
+    .builds, .builds tbody, .builds tr, .builds td { display: block; width: 100%; }
+    .builds tr { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; padding: 16px 0; border-top: 1px solid var(--line); }
+    .builds tbody tr:last-child { border-bottom: 1px solid var(--line); }
+    .builds tr.mine td:first-child { box-shadow: none; padding-left: 0; }
+    .builds tr.mine { background: color-mix(in srgb, var(--sunken) 70%, transparent); box-shadow: inset 2px 0 0 var(--ink); padding-left: 14px; padding-right: 10px; }
+    .builds tr.mine td { background: none; }
+    .builds td { border: 0 !important; padding: 0; }
+    .builds td:first-child { grid-column: 1 / -1; }
+    .builds td.file { grid-column: 1; padding-left: 44px; font-size: 13px; }
+    .builds td.size { grid-column: 1; padding-left: 44px; font-size: 13.5px; }
+    .builds td:last-child { grid-column: 2; grid-row: 2 / span 2; align-self: center; }
+  }
+</style>
+</head>
+<body data-page="download">
+<main id="main">
+
+  <!-- ======================= HERO: one button for this computer ======================= -->
+  <section class="dl-hero">
+    <div class="container dl-hero-in">
+      <div>
+        <span class="label reveal">Download</span>
+
+        <!-- Mac -->
+        <div data-os-show="mac">
+          <h1 class="h1 reveal" style="margin-top:16px">Download Artifice for your Mac.</h1>
+          <p class="lead reveal d1">Install it, pick a folder, and your AI tools start from the right passages. 14 days free, no card needed.</p>
+          <div class="dl-go reveal d2">
+            <div class="actions"><a class="btn primary lg" href="https://github.com/alberthodo/ArtificeAppDownload/releases/download/v0.1.8/Artifice_0.1.8_aarch64.dmg"><svg data-i="apple"></svg>Download for Mac</a></div>
+            <div class="dl-file"><span><b>Apple silicon</b> (M1 and later)</span><span>.dmg</span><span>126.4 MB</span></div>
+            <p class="dl-alt">Mac with an Intel processor? <a href="https://github.com/alberthodo/ArtificeAppDownload/releases/download/v0.1.8/Artifice_0.1.8_x64.dmg">Download for Intel</a> (127.3 MB)</p>
+          </div>
+        </div>
+
+        <!-- Windows -->
+        <div data-os-show="windows">
+          <h1 class="h1 reveal" style="margin-top:16px">Download Artifice for Windows.</h1>
+          <p class="lead reveal d1">Install it, pick a folder, and your AI tools start from the right passages. 14 days free, no card needed.</p>
+          <div class="dl-go reveal d2">
+            <div class="actions"><a class="btn primary lg" href="https://github.com/alberthodo/ArtificeAppDownload/releases/download/v0.1.8/Artifice_0.1.8_x64-setup.exe"><svg data-i="windows"></svg>Download for Windows</a></div>
+            <div class="dl-file"><span><b>x64</b> (most Windows PCs)</span><span>.exe installer</span><span>118.1 MB</span></div>
+            <p class="dl-alt">On a Snapdragon or other Arm PC? <a href="https://github.com/alberthodo/ArtificeAppDownload/releases/download/v0.1.8/Artifice_0.1.8_arm64-setup.exe">Download for Arm</a> (117.0 MB)</p>
+          </div>
+        </div>
+
+        <!-- a computer we can't tell -->
+        <div data-os-show="other">
+          <h1 class="h1 reveal" style="margin-top:16px">Download Artifice for Mac or Windows.</h1>
+          <p class="lead reveal d1">Choose your computer. Install it, pick a folder, and your AI tools start from the right passages. 14 days free, no card needed.</p>
+          <div class="dl-go reveal d2">
+            <div class="actions">
+              <a class="btn lg" href="https://github.com/alberthodo/ArtificeAppDownload/releases/download/v0.1.8/Artifice_0.1.8_aarch64.dmg"><svg data-i="apple"></svg>Download for Mac</a>
+              <a class="btn lg" href="https://github.com/alberthodo/ArtificeAppDownload/releases/download/v0.1.8/Artifice_0.1.8_x64-setup.exe"><svg data-i="windows"></svg>Download for Windows</a>
+            </div>
+            <p class="dl-alt" style="margin-top:16px">These are for Apple silicon Macs and most Windows PCs. Intel Macs and Arm PCs are in <a href="#builds">every download</a>, below. There's no Linux version.</p>
+          </div>
+        </div>
+
+        <!-- a phone or tablet -->
+        <div data-os-show="phone">
+          <h1 class="h1 reveal" style="margin-top:16px">Artifice runs on your Mac or PC.</h1>
+          <p class="lead reveal d1">It reads folders on your computer, so it installs there, not on a phone. Send yourself the link, then open it on your computer.</p>
+          <form class="send reveal d2" id="send" action="#" novalidate>
+            <label for="send-email">Your email address</label>
+            <div class="send-row">
+              <input id="send-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" inputmode="email" required>
+              <button class="btn primary lg" type="submit">Send me the link</button>
+            </div>
+            <p class="small">One email with the download link, nothing else.</p>
+            <p class="send-done" role="status" aria-live="polite"><svg data-i="check"></svg>Sent. Open the email on your computer.</p>
+            <div class="send-copy"><span>Or copy it:</span><code>tryartifice.com/download</code><button class="copy" type="button" data-copy-text="https://tryartifice.com/download"><svg data-i="copy"></svg>Copy</button></div>
+          </form>
+        </div>
+      </div>
+
+      <aside class="rel reveal d2" aria-label="This version">
+        <div class="rel-top"><span class="version">0.1.8</span><span class="label">Latest version</span><span class="small">November 10, 2026</span></div>
+        <h2>Reads Word, PDF, Excel and PowerPoint</h2>
+        <p>And a calmer app, in five places: Home, Library, Memory, Playbooks and Activity.</p>
+        <div class="rows">
+          <div><svg data-i="check"></svg>14 days free, no card</div>
+          <div><svg data-i="refresh"></svg>Updates itself once installed</div>
+          <div><svg data-i="lock"></svg>Your files never leave your computer</div>
+        </div>
+        <a class="arrow" href="changelog.html#v0-1-8">Release notes</a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ======================= AFTER YOU CLICK ======================= -->
+  <section class="section">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">After the download</span>
+        <h2 class="h2">From the download to your first briefing.</h2>
+        <p class="lead">Four short steps, most of them one click. Artifice walks you through them the first time it opens.</p>
+      </div>
+      <div class="steps4">
+        <div class="st reveal">
+          <div class="st-ui">
+            <div class="dmg" data-os-show="mac other phone" aria-hidden="true">
+              <div class="dmg-bar"><span class="lights"><i></i><i></i><i></i></span><span>Artifice</span></div>
+              <div class="dmg-in"><div><img src="assets/mark.svg" alt="">Artifice</div><span class="to">→</span><div><span class="fold"><svg data-i="folder"></svg></span>Applications</div></div>
+            </div>
+            <div class="dmg" data-os-show="windows" aria-hidden="true">
+              <div class="inst-bar">Artifice Setup<i>—</i><i>✕</i></div>
+              <div class="inst-in"><div class="mi-t">Installing Artifice</div><div class="mi-s">Installs for you only. No administrator password needed.</div><div class="mi-bar"><span></span></div></div>
+            </div>
+          </div>
+          <span class="st-n">1</span>
+          <h3>Open it.</h3>
+          <p data-os-show="mac other phone">On a Mac, open the <b>.dmg</b> and drag Artifice into Applications. If your Mac says it can't be opened, go to <b>System Settings › Privacy &amp; Security</b> and click <b>Open Anyway</b>. You only do this once.</p>
+          <p data-os-show="windows other phone">On Windows, run the installer. If Windows says it protected your PC, click <b>More info</b>, then <b>Run anyway</b>.</p>
+        </div>
+
+        <div class="st reveal d1">
+          <div class="st-ui">
+            <div class="mi" aria-hidden="true">
+              <img class="mi-mark" src="assets/mark.svg" alt="">
+              <div class="mi-t">Sign in to Artifice</div>
+              <div class="mi-s">New here? The same button creates your account. No password needed.</div>
+              <span class="mi-btn primary">Sign in with your browser</span>
+            </div>
+          </div>
+          <span class="st-n">2</span>
+          <h3>Sign in and start your trial.</h3>
+          <p>Your browser opens. Continue with Google, Microsoft or a link sent to your email. Then start the 14-day free trial. No card needed.</p>
+        </div>
+
+        <div class="st reveal d2">
+          <div class="st-ui">
+            <div class="mi" aria-hidden="true">
+              <div class="mi-t">Which folder should your AI know about?</div>
+              <div class="mi-folder"><svg data-i="folder"></svg><span><span class="nm">acme</span><br><span class="p">~/Documents/acme</span></span><span class="rd">Reading 40%</span></div>
+              <div class="mi-bar"><span></span></div>
+              <div class="mi-s" style="margin-top:10px">Artifice only reads your files; it never changes them.</div>
+            </div>
+          </div>
+          <span class="st-n">3</span>
+          <h3>Pick a folder.</h3>
+          <p>A codebase, a folder of documents or a shared drive folder. Artifice starts reading it at once, on this computer, and you can add more later.</p>
+        </div>
+
+        <div class="st reveal d3">
+          <div class="st-ui">
+            <div class="mi" aria-hidden="true">
+              <div class="mi-t">Which AI should use acme?</div>
+              <div class="mi-s">Connect once; it then works in every project you add.</div>
+              <div class="mi-row"><span class="ic claude"><svg data-i="terminal"></svg></span>Claude Code<span class="on">Connected</span></div>
+              <div class="mi-row"><span class="ic"><svg data-i="code"></svg></span>Cursor<span class="mi-btn">Connect</span></div>
+              <div class="mi-row"><span class="ic"><svg data-i="terminal"></svg></span>Codex<span class="mi-btn">Connect</span></div>
+            </div>
+          </div>
+          <span class="st-n">4</span>
+          <h3>Connect your AI tool.</h3>
+          <p>Artifice lists the AI tools on your computer. Click <b>Connect</b>, start a new session, and ask it about your folder. The first briefing shows on Home.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= EVERY BUILD ======================= -->
+  <section class="section" id="builds">
+    <div class="container">
+      <div class="head reveal" style="margin-bottom:32px">
+        <span class="label">Every download</span>
+        <h2 class="h2">Every computer Artifice runs on.</h2>
+      </div>
+      <div class="builds-head reveal">
+        <span class="version">0.1.8</span>
+        <span class="small">Released November 10, 2026 · <a href="changelog.html#v0-1-8">Release notes</a> · <a href="https://github.com/alberthodo/ArtificeAppDownload/releases/tag/v0.1.8">On GitHub</a></span>
+      </div>
+      <div class="reveal">
+        <table class="table builds">
+          <caption class="vh">Artifice 0.1.8 installers</caption>
+          <thead><tr><th scope="col">Computer</th><th scope="col">File</th><th scope="col">Size</th><th scope="col"><span class="vh">Download</span></th></tr></thead>
+          <tbody>
+            <tr data-build="mac">
+              <td><div class="os"><span class="ic"><svg data-i="apple"></svg></span><span>Mac · Apple silicon<span class="tag yours">Likely yours</span><small>M1 and later</small></span></div></td>
+              <td class="file">.dmg</td>
+              <td class="size">126.4 MB</td>
+              <td><a class="btn sm" href="https://github.com/alberthodo/ArtificeAppDownload/releases/download/v0.1.8/Artifice_0.1.8_aarch64.dmg"><svg data-i="download"></svg>Download</a></td>
+            </tr>
+            <tr>
+              <td><div class="os"><span class="ic"><svg data-i="apple"></svg></span><span>Mac · Intel<small>Macs with an Intel processor</small></span></div></td>
+              <td class="file">.dmg</td>
+              <td class="size">127.3 MB</td>
+              <td><a class="btn sm" href="https://github.com/alberthodo/ArtificeAppDownload/releases/download/v0.1.8/Artifice_0.1.8_x64.dmg"><svg data-i="download"></svg>Download</a></td>
+            </tr>
+            <tr data-build="windows">
+              <td><div class="os"><span class="ic"><svg data-i="windows"></svg></span><span>Windows · x64<span class="tag yours">Likely yours</span><small>Most Windows PCs</small></span></div></td>
+              <td class="file">.exe installer</td>
+              <td class="size">118.1 MB</td>
+              <td><a class="btn sm" href="https://github.com/alberthodo/ArtificeAppDownload/releases/download/v0.1.8/Artifice_0.1.8_x64-setup.exe"><svg data-i="download"></svg>Download</a></td>
+            </tr>
+            <tr>
+              <td><div class="os"><span class="ic"><svg data-i="windows"></svg></span><span>Windows · Arm<small>Snapdragon and other Arm PCs</small></span></div></td>
+              <td class="file">.exe installer</td>
+              <td class="size">117.0 MB</td>
+              <td><a class="btn sm" href="https://github.com/alberthodo/ArtificeAppDownload/releases/download/v0.1.8/Artifice_0.1.8_arm64-setup.exe"><svg data-i="download"></svg>Download</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="which reveal">
+        <p class="note"><svg data-i="apple"></svg><span><strong>Which Mac?</strong> Open the Apple menu › About This Mac. If it lists a <strong>Chip</strong>, such as Apple M2, it's Apple silicon. If it lists a <strong>Processor</strong> from Intel, choose the Intel download.</span></p>
+        <p class="note"><svg data-i="windows"></svg><span><strong>Which PC?</strong> Open Settings › System › About. Under <strong>System type</strong>, "x64-based processor" means x64, and "ARM-based processor" means Arm.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= REQUIREMENTS + COMMAND LINE ======================= -->
+  <section class="section">
+    <div class="container grid-2">
+      <div class="reveal">
+        <span class="label">Requirements</span>
+        <h2 class="h2" style="margin-top:14px;margin-bottom:32px">What your computer needs.</h2>
+        <ul class="req">
+          <li><span class="ic"><svg data-i="cpu"></svg></span><span><b>A Mac or a Windows PC</b><span>Apple silicon or Intel on a Mac; x64 or Arm on Windows. Keep the system up to date, as you would for any app.</span></span></li>
+          <li><span class="ic"><svg data-i="folder"></svg></span><span><b>Room for the app and its index</b><span>The installer is about 120 MB. Each project's index is kept on your computer and grows with the folder.</span></span></li>
+          <li><span class="ic"><svg data-i="offline"></svg></span><span><b>The internet, now and then</b><span>To sign in and to confirm your plan. Between checks Artifice works offline, for up to 14 days.</span></span></li>
+          <li><span class="ic"><svg data-i="tools"></svg></span><span><b>An AI tool to brief</b><span>Claude Code, Claude, Cursor, Codex, Gemini CLI, Antigravity, Windsurf, VS Code, or any app that supports MCP.</span></span></li>
+          <li><span class="ic"><svg data-i="image"></svg></span><span><b>Scans and pictures, on a Mac</b><span>Text in scanned PDFs, screenshots and whiteboard photos is read by your Mac's own text recognition. Everything else works the same on Windows.</span></span></li>
+        </ul>
+      </div>
+
+      <div class="cli reveal d1" id="cli">
+        <span class="label">Command line</span>
+        <h2 class="h2" style="margin-top:14px">The <code style="font-size:.86em">artifice</code> command comes with the app.</h2>
+        <p class="lead">The program inside Artifice answers every command, for scripts, servers and agents that run shell commands. Give it a short name once, then open a new terminal.</p>
+        <div class="code">
+          <div class="code-bar" role="tablist"><button aria-selected="true" data-tab="mac">Mac (zsh)</button><button aria-selected="false" data-tab="win">Windows (PowerShell)</button></div>
+          <button class="copy" type="button"><svg data-i="copy"></svg>Copy</button>
+<pre data-tab="mac"><span class="c"># add this line to ~/.zshrc</span>
+alias artifice=<span class="s">"/Applications/Artifice.app/Contents/MacOS/artifice-desktop"</span></pre>
+<pre data-tab="win" hidden><span class="c"># add this line to your profile (notepad $PROFILE)</span>
+Set-Alias artifice <span class="s">"$env:LOCALAPPDATA\Artifice\artifice-desktop.exe"</span></pre>
+        </div>
+        <div class="after">
+          <p class="small">Installed Artifice somewhere else? Use that folder instead. Then check it works:</p>
+          <div class="code">
+            <button class="copy" type="button"><svg data-i="copy"></svg>Copy</button>
+<pre><span class="p">$ </span>artifice --version</pre>
+          </div>
+        </div>
+        <a class="arrow" href="docs-article.html" style="margin-top:24px">Command line guide</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= UPDATES, OLDER VERSIONS, HELP ======================= -->
+  <section class="section end">
+    <div class="container three">
+      <div class="reveal">
+        <h3>Artifice updates itself.</h3>
+        <p>It checks on its own. When an update is ready, a line at the bottom of the sidebar offers to restart. Your AI tools carry on, and switch to the new version the next time they ask.</p>
+        <div class="upd" aria-hidden="true"><b>Update ready</b><span>Artifice 0.1.9</span><br><span class="mi-btn primary">Restart to update</span></div>
+        <p class="menu-line">Or check yourself: <strong>File › Check for Updates…</strong></p>
+      </div>
+      <div class="reveal d1">
+        <h3>Need an older version?</h3>
+        <p>Every version and what changed in it is in the changelog. Each release on GitHub keeps its installers for every computer.</p>
+        <a class="arrow" href="changelog.html">Changelog</a><br>
+        <a class="arrow" href="https://github.com/alberthodo/ArtificeAppDownload/releases">All releases on GitHub</a>
+      </div>
+      <div class="reveal d2">
+        <h3>Stuck on a step?</h3>
+        <p>Write to us with what you see, and a screenshot if you can. The people who make Artifice read every email.</p>
+        <a class="arrow" href="mailto:support@tryartifice.com">support@tryartifice.com</a><br>
+        <a class="arrow" href="docs-article.html">Getting started guide</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  // This page only: mark the build that fits this computer, and the phone form.
+  (function () {
+    var os = window.SITE ? window.SITE.os : 'other';
+    var row = document.querySelector('[data-build="' + os + '"]');
+    if (row) row.classList.add('mine');
+
+    // Sending the link: the address goes to the site's mail endpoint when this is built.
+    var form = document.getElementById('send');
+    if (form) form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = form.querySelector('input');
+      if (!input.value || !input.checkValidity()) { input.focus(); input.setAttribute('aria-invalid', 'true'); return; }
+      input.removeAttribute('aria-invalid');
+      form.classList.add('sent');
+    });
+
+    // a copy button that copies a fixed text, not a code block
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-copy-text]'); if (!b) return;
+      e.stopImmediatePropagation();
+      var done = function () { b.classList.add('done'); b.innerHTML = SITE.icon('check') + 'Copied'; setTimeout(function () { b.classList.remove('done'); b.innerHTML = SITE.icon('copy') + 'Copy'; }, 1600); };
+      (navigator.clipboard ? navigator.clipboard.writeText(b.dataset.copyText) : Promise.resolve()).then(done, done);
+    }, true);
+  })();
+</script>
+</body>
+</html>

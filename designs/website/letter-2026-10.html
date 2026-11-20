@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building Artifice, October 2026: what we measured | Artifice</title>
+<meta name="description" content="The first Building Artifice letter, October 2026: what our benchmarks showed, including that Artifice saved nothing on 50 real bug fixes, why it now stays quiet while your AI codes, and how search by meaning cut the cost of questions.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/product.css">
+<style>
+  /* ---------- letter head ---------- */
+  .lh { padding: 80px 0 0; }
+  .lh .back { font-size: 14px; color: var(--ink-3); text-decoration: none; display: inline-flex; gap: 6px; }
+  .lh .back:hover { color: var(--ink); }
+  .lh .label { display: block; margin-top: 40px; }
+  .lh .h1 { margin-top: 14px; font-size: 48px; max-width: 14em; }
+  .byline { display: flex; align-items: center; gap: 12px; margin-top: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--ink-3); }
+  .byline img { width: 36px; height: 36px; border-radius: 10px; }
+  .byline b { display: block; font-size: 15px; color: var(--ink); font-weight: 600; }
+
+  /* ---------- the letter ---------- */
+  .letter { padding-top: 40px; }
+  .letter .newhere { font-size: 15.5px; line-height: 1.6; color: var(--ink-3); font-style: italic; }
+  .letter .opening { font-family: var(--display); font-size: 21px; line-height: 1.6; letter-spacing: -0.008em; color: var(--ink); }
+  .letter h2 { scroll-margin-top: 96px; }
+  .letter h3 .version { margin-left: 8px; vertical-align: 3px; }
+  .letter strong { font-weight: 600; }
+  .letter .num-line { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 1.6em 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .letter .num-line > div { padding: 18px 16px 18px 0; }
+  .letter .num-line > div + div { padding-left: 16px; border-left: 1px solid var(--line); }
+  .letter .num-line b { display: block; font-family: var(--display); font-size: 30px; line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .letter .num-line span { display: block; margin-top: 6px; font-size: 13.5px; line-height: 1.45; color: var(--ink-3); }
+  .letter .hard { list-style: none; padding: 0; }
+  .letter .hard li { padding: 18px 0 18px 22px; border-top: 1px solid var(--line); position: relative; }
+  .letter .hard li:last-child { border-bottom: 1px solid var(--line); }
+  .letter .hard li::before { content: ""; position: absolute; left: 0; top: 31px; width: 8px; height: 8px; border-radius: 50%; background: var(--attn); }
+  .letter .hard li.fixed::before { background: var(--ready); }
+  .letter .hard li b { display: block; }
+  .letter .hard .st { display: block; margin-top: 4px; font-size: 14px; color: var(--ink-3); }
+  .letter .ask { margin: 1.8em 0 0; padding: 28px 30px; border-radius: var(--r-l); background: var(--sunken); }
+  .letter .ask p { font-family: var(--display); font-size: 21px; line-height: 1.5; letter-spacing: -0.01em; color: var(--ink); }
+  .letter .ask p + p { margin-top: 12px; font-family: var(--sans); font-size: 15.5px; color: var(--ink-2); letter-spacing: 0; }
+  .signoff { margin-top: 2.4em; display: flex; align-items: center; gap: 14px; }
+  .signoff img { width: 40px; height: 40px; border-radius: 11px; }
+  .signoff b { display: block; font-size: 16px; font-weight: 600; }
+  .signoff span { font-size: 14.5px; color: var(--ink-3); }
+
+  /* figures: a piece of the real app (product.css) */
+  .lfig { margin: 2em 0; }
+  .lshot { height: 236px; padding: 26px 28px 0; border-radius: var(--r-l) var(--r-l) 0 0; background: var(--sunken); border: 1px solid var(--line); border-bottom: 0; overflow: hidden; display: flex; }
+  .lshot > * { flex: 1; min-width: 0; }
+  .lshot .app { display: block; height: auto; min-height: 100%; padding: 18px 22px 0; background: var(--bg); border: 1px solid var(--line-2); border-bottom: 0; border-radius: 11px 11px 0 0; box-shadow: var(--shadow-m); }
+  .lfig figcaption { margin-top: 0; padding: 12px 0 0; border-top: 1px solid var(--line); }
+  .m-h { font-size: 15px; font-weight: 600; letter-spacing: -0.008em; margin-top: 2px; }
+  .m-sub { font-size: 12px; color: var(--ink-3); margin-top: 3px; line-height: 1.45; }
+  .m-opt { display: grid; grid-template-columns: 1fr auto; gap: 1px 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
+  .m-opt:first-of-type { margin-top: 12px; }
+  .m-opt b { font-size: 13px; font-weight: 600; }
+  .m-opt b span { font-weight: 400; color: var(--ink-3); margin-left: 6px; }
+  .m-opt .n { grid-column: 1; font-size: 11.5px; color: var(--ink-3); }
+  .m-opt .app-btn { grid-row: 1 / 3; grid-column: 2; margin: 0; }
+  .app-pass .where, .app-pass .txt { display: block; }
+  .app-btn.ink { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+
+  /* ---------- after the letter ---------- */
+  .after { margin-top: 72px; }
+  .pn { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pn a, .pn .none { display: block; padding: 20px 22px; border: 1px solid var(--line); border-radius: var(--r-l); text-decoration: none; background: var(--surface); transition: border-color .16s var(--ease); }
+  .pn a:hover { border-color: var(--line-2); }
+  .pn .k { display: block; font-size: 13px; color: var(--ink-3); }
+  .pn .t { display: block; margin-top: 4px; font-weight: 500; line-height: 1.4; }
+  .pn .next { text-align: right; }
+  .pn .none { background: none; border-style: dashed; color: var(--ink-3); text-align: right; }
+  .pn .none .t { color: var(--ink-2); font-weight: 400; }
+  .full { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px 28px; }
+
+  .join { margin-top: 72px; padding: 36px; border-radius: var(--r-xl); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-s); }
+  .join .h3 { max-width: 20ch; }
+  .join .body { margin-top: 8px; margin-bottom: 22px; }
+
+  /* email signup (same component as changelog.html and letters.html) */
+  .signup { display: grid; gap: 12px; }
+  .signup .row { display: flex; gap: 10px; }
+  .signup input[type="email"] { flex: 1; min-width: 0; height: 50px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 12px; background: var(--surface); color: var(--ink); font: 16px var(--sans); box-shadow: var(--shadow-s); transition: border-color .16s var(--ease); }
+  .signup input[type="email"]::placeholder { color: var(--ink-3); }
+  .signup input[type="email"]:hover { border-color: var(--ink-3); }
+  .signup input[type="email"]:focus { outline: 2px solid var(--ink); outline-offset: 2px; border-color: var(--ink); }
+  .signup .promise { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13.5px; color: var(--ink-3); }
+  .signup .promise span { display: inline-flex; align-items: center; gap: 6px; }
+  .signup .promise svg { width: 14px; height: 14px; }
+  .signup .done { display: none; align-items: center; gap: 8px; font-size: 15px; color: var(--ink); min-height: 50px; }
+  .signup .done svg { width: 18px; height: 18px; color: var(--ready); flex: none; }
+  .signup.sent .row { display: none; }
+  .signup.sent .done { display: flex; }
+
+  @media (max-width: 860px) {
+    .lh { padding-top: 40px; }
+    .lh .label { margin-top: 28px; }
+    .lh .h1 { font-size: 34px; }
+    .letter .opening { font-size: 19px; }
+    .prose { font-size: 17px; }
+    .letter .num-line { grid-template-columns: 1fr; }
+    .letter .num-line > div { padding: 14px 0; }
+    .letter .num-line > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+    .letter .ask { padding: 22px; }
+    .letter .ask p { font-size: 19px; }
+    .lshot { height: 220px; padding: 20px 16px 0; }
+    .lshot .app { padding: 16px 16px 0; }
+    .pn { grid-template-columns: 1fr; }
+    .pn .next, .pn .none { text-align: left; }
+    .join { padding: 24px; }
+    .signup .row { flex-direction: column; }
+    .signup .row .btn { width: 100%; }
+  }
+  .lshot .term { border-bottom: 0; border-radius: 11px 11px 0 0; box-shadow: var(--shadow-m); }
+  .lshot .term .body { min-height: 0; padding: 14px 16px 18px; }
+  .lshot .term, .lshot .term .body div { font: 12px/1.65 var(--mono); }
+  .lshot .term .bar { font-size: 12px; }
+  .letter .table { font-size: 15px; margin: 1.6em 0; }
+  .letter .table td:not(:first-child), .letter .table th:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .letter .table td:first-child { font-weight: 400; }
+  .letter .table .with { font-weight: 600; }
+  .letter .table-note { margin-top: -0.6em; font-size: 14px; color: var(--ink-3); }
+  .pn .none.prev { text-align: left; }
+  @media (max-width: 860px) { .letter .table { font-size: 13.5px; } .letter .table th, .letter .table td { padding-right: 10px; } }
+</style>
+</head>
+<body data-page="letters">
+<main id="main">
+  <article aria-labelledby="letter-title">
+
+    <!-- ======================= HEAD ======================= -->
+    <header class="lh">
+      <div class="container read">
+        <a class="back" href="letters.html">← All letters</a>
+        <span class="label ox">Building Artifice · October 2026</span>
+        <h1 class="h1" id="letter-title">What we measured, including where Artifice didn't help.</h1>
+        <div class="byline"><img src="assets/mark.svg" alt=""><span><b>The Artifice team</b>Letter 1 · about 6 minutes to read</span></div>
+      </div>
+    </header>
+
+    <!-- ======================= LETTER ======================= -->
+    <div class="container read">
+      <div class="prose letter">
+        <p class="newhere">New here? Once a month, the people who make Artifice write about what we shipped and what we learned. One email, no promotions. This is the first one.</p>
+
+        <p class="opening">This month we spent more time measuring Artifice than building it. The first answer we got was no.</p>
+
+        <p>Artifice reads your project on your computer and hands your AI tools the parts they need. The claim behind it is simple: an AI that's handed the right passages should spend less finding them. We wanted to know if that's true, measured as carefully as we could, before we said it anywhere.</p>
+
+        <h2 id="how">How we tested</h2>
+        <p>We ran Claude Code with Claude Sonnet 5.5, the same pinned build in every run, with no shell and no web access, once with Artifice and once without. Cost is what Claude Code itself reports at Anthropic's list prices. Every comparison is paired: the same task, the same run number.</p>
+        <p>For bug fixes we used 50 real GitHub issues from SWE-rebench's March 2026 set, three runs each, and every patch was scored by the benchmark's own test harness. We dropped a better-known set first. On SWE-bench Verified Mini, the model named the files to change for 94% of the tasks from the issue text alone: it had largely memorized them.</p>
+
+        <h2 id="found">What we found</h2>
+
+        <h3>On bug fixes, Artifice saved nothing</h3>
+        <p>Our first versions handed Claude a pack of the code most relevant to each request. They cost <strong>9–11% more per task</strong>, and solved no more of them. So we tried the best pack anyone could give: the exact lines the real fix changes. It still cost the same.</p>
+        <p>Claude Code is already good at this. It finds where to make a fix in about eight tool calls on its own. What it spends turns on is understanding the code around that place, and it reads that whatever it's given. On a request to change code, every token a context tool adds is extra cost.</p>
+
+        <h3>So Artifice now stays out of the way <span class="version">0.1.6</span></h3>
+        <p>Artifice now tells a question ("how does this work?") from a change ("fix this") on your computer, in about 30 milliseconds, without asking any AI. For a change, or when it's unsure, it adds nothing. It labelled all 720 benchmark questions and all 145 issue reports correctly, and was right 92.5% of the time on 120 prompts written the way people type. Most of its mistakes were questions taken for changes, which cost nothing: they just get no help.</p>
+
+        <figure class="lfig">
+          <div class="lshot" role="img" aria-label="In Claude Code, a request to change code gets nothing from Artifice, and a question gets two passages">
+            <div class="term">
+              <div class="bar"><span class="lights"><i></i><i></i><i></i></span>claude · ~/acme</div>
+              <div class="body">
+                <div class="you">Fix the rounding in roundTotal</div>
+                <div class="dim" style="margin-top:4px">artifice · a change, so nothing added</div>
+                <div class="you" style="margin-top:12px">Why does it round half up?</div>
+                <div class="tool" style="margin-top:4px"><span class="art">artifice</span> briefed Claude Code: 2 passages</div>
+                <div class="dim">  src/billing.ts · roundTotal()</div>
+                <div class="dim">  docs/billing.md · Rounding</div>
+              </div>
+            </div>
+          </div>
+          <figcaption>A change gets nothing. A question gets the code to answer from.</figcaption>
+        </figure>
+
+        <p>With that, and with Artifice's own tools no longer loaded into every conversation, the 150 bug-fix runs came out even:</p>
+
+        <table class="table">
+          <caption class="vh">Bug fixes, Claude Code alone and with Artifice 0.1.6</caption>
+          <thead><tr><th scope="col">50 bug fixes × 3 runs</th><th scope="col">Claude Code alone</th><th scope="col">With Artifice</th></tr></thead>
+          <tbody>
+            <tr><td>Cost per task</td><td>$0.159</td><td class="with">$0.159</td></tr>
+            <tr><td>Difference</td><td></td><td class="with">−0.1%</td></tr>
+            <tr><td>Solved</td><td>54.0%</td><td class="with">53.3%</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">The 95% confidence interval on the cost runs from −3.5% to +3.2%: no saving, and no extra cost.</p>
+
+        <h3>On questions, small packs of real code helped</h3>
+        <p>Questions about how code works take broad reading, and that is what a pack can replace. Two things mattered. The pack has to hold the code itself, not one-line summaries of it, or Claude reads the files anyway. And it has to be small: a 2,500-token pack saved 6% on our design questions, 1,200 saved 10%, and 700 saved 14%. At 400 it was too thin to answer from.</p>
+        <p>Then the humbling part. On 60 questions we had never used for anything, the 700-token setup saved <strong>3.8%</strong>, with 10% fewer turns and the same answer quality, 80.4 out of 100 both ways. The 14% from our 30 design questions didn't hold. Small design sets overstate, and we nearly believed ours.</p>
+
+        <h3>Then we rebuilt search on meaning <span class="version">0.1.7</span></h3>
+        <p>Trying 0.1.6 on our own projects gave odd answers. “Tell me about this project” got a research note, a Unity physics settings file and part of an instructions file, all matched on the word “project”. So we rebuilt how Artifice finds things: by what a question means, with a small model that runs on your computer.</p>
+        <p>We tested it on five real projects, with 144 questions held back from every choice we made:</p>
+
+        <div class="num-line" role="group" aria-label="Results of 0.1.7 on 144 held-out questions">
+          <div><b class="gold">−28%</b><span>Cost per question in Claude Code. 0.1.6 was −12%</span></div>
+          <div><b>4.2 <small style="font-size:16px;color:var(--ink-3);letter-spacing:0">vs 6.4</small></b><span>Turns to reach an answer</span></div>
+          <div><b>9.15 <small style="font-size:16px;color:var(--ink-3);letter-spacing:0">vs 9.13</small></b><span>Answer score out of 10, with and without</span></div>
+        </div>
+
+        <p>Two benchmarks, two numbers, and we want to be straight about why they differ. The 3.8% is on popular open-source Python projects the model may partly know already, which shrinks any benefit. The 28% is on our own question set: written by one Claude session and checked by another, not by users, and graded by an AI. That became 0.1.7, released November 1.</p>
+
+        <h2 id="hard">What broke, or was hard</h2>
+        <ul class="hard">
+          <li class="fixed"><b>Folders with spaces in their names confused Claude.</b> The first 0.1.7 run scored lower on knowledge questions. In the worst case, Claude read <code>Artifice docs/concepts/…</code> as the word “Artifice” and a path, failed to open the file and gave up. 0.1.6 had the same flaw. Paths with spaces are now quoted.<span class="st">Fixed in 0.1.7</span></li>
+          <li class="fixed"><b>“Database is locked”.</b> After a big change to a project, like switching git branches, several AI tools asking at once could fail or wait minutes. Requests no longer wait behind each other.<span class="st">Fixed in 0.1.6, shipped in 0.1.7</span></li>
+          <li><b>Composer Pro is paused.</b> The optional summaries model is paused while we build a better version. Projects that used it switch to Composer and keep the summaries it already wrote.<span class="st">Paused</span></li>
+          <li><b>What we haven't measured.</b> One agent and one model so far, single tasks rather than long sessions, and answers graded by an AI. Other agents work differently and may save more on changes.<span class="st">Still true</span></li>
+        </ul>
+
+        <h2 id="next">What's next</h2>
+        <p>Your folders hold more than code. Artifice 0.1.7 still skips PDF, Word, Excel and PowerPoint files, and that's next. After that, other AI tools than Claude Code, measured the same way. No dates we can't keep.</p>
+
+        <h2 id="question">One question for you</h2>
+        <div class="ask">
+          <p>What do you mostly ask your AI to do: answer questions about your work, or change it?</p>
+          <p>One line is plenty, and which AI tool you use. It tells us where Artifice should help next.</p>
+        </div>
+
+        <div class="signoff"><img src="assets/mark.svg" alt=""><span><b>The Artifice team</b><span>Reply to this letter, or write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>. We read every one.</span></span></div>
+      </div>
+
+      <!-- ======================= AFTER ======================= -->
+      <nav class="after" aria-label="More letters">
+        <div class="pn">
+          <span class="none prev"><span class="k">Previous letter</span><span class="t">None. This is where the letters start.</span></span>
+          <a class="next" href="letter.html"><span class="k">Next letter →</span><span class="t">November 2026: Why Artifice is a paid app, and why students stay free.</span></a>
+        </div>
+        <div class="full"><a class="arrow" href="how-we-count.html">How we count, in full</a><a class="arrow" href="changelog.html#v0-1-6">0.1.6</a><a class="arrow" href="changelog.html#v0-1-7">0.1.7</a><a class="arrow" href="letters.html">All letters</a></div>
+      </nav>
+
+      <section class="join" aria-labelledby="join-t">
+        <h2 class="h3" id="join-t">Get the next letter by email.</h2>
+        <p class="body">Once a month, from the people who make Artifice. No tracking pixels, and one click unsubscribes you.</p>
+        <form class="signup" action="#" data-signup>
+          <div class="row">
+            <label class="vh" for="l-email">Email address</label>
+            <input id="l-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+            <button class="btn primary lg" type="submit">Get the letter</button>
+          </div>
+          <p class="done" role="status"><svg data-i="check"></svg>We sent you an email. Confirm it, and the next letter is yours.</p>
+          <div class="promise"><span>Once a month</span><span>Unsubscribe anytime</span><span>Never sold or shared</span></div>
+        </form>
+      </section>
+    </div>
+  </article>
+  <div style="height:136px"></div>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  document.querySelectorAll('[data-signup]').forEach(function (f) {
+    f.addEventListener('submit', function (e) { e.preventDefault(); if (f.checkValidity()) f.classList.add('sent'); });
+  });
+</script>
+</body>
+</html>

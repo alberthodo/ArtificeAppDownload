@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connecting AI tools: connect once, for every project | Artifice</title>
+<meta name="description" content="Connect Claude Code, the Claude app, Codex, Gemini CLI, Antigravity, Cursor, Windsurf or VS Code to Artifice once, for all your projects. What Connect changes, where, and how to check it works.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* ---------- docs article: three columns ---------- */
+  .doc { display: grid; grid-template-columns: 232px minmax(0, 1fr) 200px; gap: 56px; align-items: start; padding-top: 48px; padding-bottom: 120px; }
+  .doc-main { min-width: 0; max-width: var(--read); }
+
+  /* left: docs navigation */
+  .doc-nav { position: sticky; top: 92px; max-height: calc(100vh - 112px); overflow-y: auto; padding: 4px 8px 24px 0; margin-left: -10px; font-size: 14.5px; scrollbar-width: thin; }
+  .doc-nav .home { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 8px; text-decoration: none; color: var(--ink-2); font-weight: 500; }
+  .doc-nav .home svg { width: 15px; height: 15px; }
+  .doc-nav .home:hover { color: var(--ink); background: var(--sunken); }
+  .doc-nav details { margin-top: 6px; }
+  .doc-nav summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 8px; font-weight: 600; font-size: 13.5px; color: var(--ink); }
+  .doc-nav summary::-webkit-details-marker { display: none; }
+  .doc-nav summary:hover { background: var(--sunken); }
+  .doc-nav summary::after { content: ""; width: 7px; height: 7px; border-right: 1.5px solid var(--ink-3); border-bottom: 1.5px solid var(--ink-3); transform: rotate(-45deg); transition: transform .16s var(--ease); margin-right: 3px; }
+  .doc-nav details[open] summary::after { transform: rotate(45deg) translate(-2px, -1px); }
+  .doc-nav ul { list-style: none; margin: 2px 0 8px; padding: 0 0 0 10px; border-left: 1px solid var(--line); margin-left: 10px; }
+  .doc-nav li a { display: block; padding: 5px 10px; border-radius: 7px; text-decoration: none; color: var(--ink-2); line-height: 1.4; }
+  .doc-nav li a:hover { color: var(--ink); background: var(--sunken); }
+  .doc-nav li a[aria-current="page"] { color: var(--ink); background: var(--selected); font-weight: 500; }
+  .doc-menu-btn { display: none; }
+
+  /* centre: the article */
+  .crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-3); }
+  .crumbs a { color: var(--ink-3); text-decoration: none; }
+  .crumbs a:hover { color: var(--ink); }
+  .crumbs .sep { color: var(--line-2); }
+  .doc-title { margin-top: 18px; font-family: var(--display); font-size: 44px; line-height: 1.08; letter-spacing: -0.026em; font-weight: 600; }
+  .doc-lead { margin-top: 18px; }
+  .doc-meta { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--ink-3); }
+  .doc-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .doc-meta svg { width: 14px; height: 14px; }
+  .doc-body { margin-top: 40px; padding-top: 8px; border-top: 1px solid var(--line); }
+  .doc-body > h2:first-child { margin-top: 1.4em; }
+  .prose h2, .prose h3 { scroll-margin-top: 92px; }
+  .prose .anchor:focus-visible { opacity: 1; }
+  .prose .code { font-size: 13.5px; line-height: 1.7; }
+  .prose .code pre { padding-right: 88px; }
+  .prose ol.ways { list-style: none; padding: 0; counter-reset: w; }
+  .prose ol.ways li { counter-increment: w; display: grid; grid-template-columns: 28px 1fr; gap: 12px; padding: 14px 0; border-top: 1px solid var(--line); margin: 0; }
+  .prose ol.ways li:last-child { border-bottom: 1px solid var(--line); }
+  .prose ol.ways li::before { content: counter(w); width: 26px; height: 26px; border-radius: 8px; background: var(--sunken); display: grid; place-items: center; font-size: 13px; font-weight: 600; color: var(--ink-2); margin-top: 2px; }
+  .prose ol.ways b { display: block; }
+  .prose ol.ways span { color: var(--ink-2); font-size: 16px; }
+  .tbl { overflow-x: auto; margin-left: -2px; padding-left: 2px; }
+  .prose .table { font-size: 14.5px; line-height: 1.55; }
+  .prose .table td, .prose .table th { padding-right: 18px; }
+  .prose .table td:last-child, .prose .table th:last-child { padding-right: 0; }
+  .prose .table code { font-size: 12.5px; word-break: break-word; }
+  .prose .table .os { display: block; margin-top: 4px; font-size: 13px; color: var(--ink-3); }
+  .prose .table td:first-child { white-space: nowrap; }
+  .prose .table.wrap1 td:first-child { white-space: normal; min-width: 9em; }
+  .prose .note { margin-top: 1.6em; }
+  .prose .note + * { margin-top: 1.6em; }
+
+  /* article footer: helpful, previous and next */
+  .doc-foot { margin-top: 72px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .helpful { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+  .helpful .q { font-weight: 500; }
+  .helpful .btns { display: flex; gap: 8px; }
+  .helpful .btn svg { width: 15px; height: 15px; }
+  .helpful .thanks { font-size: 15px; color: var(--ink-2); }
+  .helpful .thanks[hidden] { display: none; }
+  .helpful.done .btns, .helpful.done .q { display: none; }
+  .pager { margin-top: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pager a { display: block; padding: 18px 20px; border: 1px solid var(--line); border-radius: var(--r-l); text-decoration: none; background: var(--surface); transition: border-color .16s var(--ease), box-shadow .16s var(--ease); }
+  .pager a:hover { border-color: var(--line-2); box-shadow: var(--shadow-m); }
+  .pager .k { display: block; font-size: 13px; color: var(--ink-3); }
+  .pager .t { display: block; margin-top: 4px; font-weight: 500; }
+  .pager .next { text-align: right; }
+  .pager .prev .t::before { content: "← "; color: var(--ink-3); }
+  .pager .next .t::after { content: " →"; color: var(--ink-3); }
+
+  /* right: on this page */
+  .doc-toc { position: sticky; top: 92px; max-height: calc(100vh - 112px); overflow-y: auto; font-size: 13.5px; }
+  .doc-toc .label { display: block; font-size: 13px; color: var(--ink); font-weight: 600; margin-bottom: 10px; }
+  .doc-toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); }
+  .doc-toc a { display: block; padding: 5px 0 5px 14px; margin-left: -1px; border-left: 1.5px solid transparent; color: var(--ink-3); text-decoration: none; line-height: 1.4; }
+  .doc-toc a:hover { color: var(--ink); }
+  .doc-toc a.on { color: var(--ink); border-left-color: var(--ink); }
+  .doc-toc .sub a { padding-left: 26px; }
+  .doc-toc .top { margin-top: 18px; display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--ink-3); text-decoration: none; }
+  .doc-toc .top:hover { color: var(--ink); }
+  .doc-toc .top svg { width: 13px; height: 13px; }
+  .toc-inline { display: none; }
+
+  /* ---------- tablet: TOC moves into the article ---------- */
+  @media (max-width: 1080px) {
+    .doc { grid-template-columns: 220px minmax(0, 1fr); gap: 48px; }
+    .doc-toc { display: none; }
+    .toc-inline { display: block; margin-top: 28px; border: 1px solid var(--line); border-radius: var(--r-m); background: var(--surface); }
+    .toc-inline summary { list-style: none; cursor: pointer; padding: 12px 16px; font-size: 14.5px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; }
+    .toc-inline summary::-webkit-details-marker { display: none; }
+    .toc-inline summary::after { content: ""; width: 8px; height: 8px; border-right: 1.5px solid var(--ink-3); border-bottom: 1.5px solid var(--ink-3); transform: rotate(45deg) translate(-2px, -2px); transition: transform .16s var(--ease); }
+    .toc-inline[open] summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+    .toc-inline ol { margin: 0; padding: 4px 16px 14px 34px; font-size: 14.5px; line-height: 1.5; }
+    .toc-inline li + li { margin-top: 6px; }
+    .toc-inline a { color: var(--ink-2); text-decoration: none; }
+    .toc-inline a:hover { color: var(--ink); text-decoration: underline; }
+  }
+
+  /* ---------- phone and small tablet: nav becomes "Docs menu" ---------- */
+  @media (max-width: 860px) {
+    .doc { grid-template-columns: minmax(0, 1fr); gap: 0; padding-top: 16px; padding-bottom: 88px; }
+    .doc-menu-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; height: 46px; padding: 0 14px; border: 1px solid var(--line); border-radius: var(--r-m); background: var(--surface); color: var(--ink); font: 500 15px var(--sans); cursor: pointer; box-shadow: var(--shadow-s); }
+    .doc-menu-btn span { display: inline-flex; align-items: center; gap: 10px; }
+    .doc-menu-btn span small { font-size: 14px; color: var(--ink-3); font-weight: 400; }
+    .doc-menu-btn svg { width: 16px; height: 16px; color: var(--ink-3); }
+    .doc-menu-btn .chev { transition: transform .16s var(--ease); }
+    .doc-menu-btn[aria-expanded="true"] .chev { transform: rotate(180deg); }
+    .doc-nav { position: static; max-height: none; overflow: visible; margin: 8px 0 0; padding: 8px; border: 1px solid var(--line); border-radius: var(--r-m); background: var(--surface); display: none; }
+    .doc-nav.open { display: block; animation: fade .16s var(--ease); }
+    .no-js .doc-nav { display: block; }
+    .doc-main { margin-top: 32px; }
+    .doc-title { font-size: 34px; }
+    .doc-body { margin-top: 32px; }
+    .prose { font-size: 16.5px; }
+    .prose h2 { font-size: 23px; }
+    .pager { grid-template-columns: 1fr; }
+    .pager .next { text-align: left; }
+  }
+</style>
+</head>
+<body data-page="docs">
+<main id="main">
+  <div class="container doc">
+
+    <!-- ======================= LEFT: DOCS NAVIGATION ======================= -->
+    <button class="doc-menu-btn" type="button" aria-expanded="false" aria-controls="doc-nav" data-doc-menu>
+      <span><svg data-i="sidebar"></svg>Docs menu <small>Guides</small></span><svg data-i="down" class="i chev"></svg>
+    </button>
+    <nav class="doc-nav" id="doc-nav" aria-label="Docs">
+      <a class="home" href="docs.html"><svg data-i="map"></svg>Docs home</a>
+      <details open>
+        <summary>Basics</summary>
+        <ul>
+          <li><a href="docs-article.html" data-doc="basics/what-is-artifice">What is Artifice?</a></li>
+          <li><a href="docs-article.html" data-doc="basics/install-and-build">Install and build</a></li>
+          <li><a href="docs-article.html" data-doc="basics/quickstart-cli">Quickstart: command line</a></li>
+          <li><a href="docs-article.html" data-doc="basics/quickstart-app">Quickstart: desktop app</a></li>
+          <li><a href="docs-article.html" data-doc="basics/glossary">Glossary</a></li>
+        </ul>
+      </details>
+      <details>
+        <summary>Concepts</summary>
+        <ul>
+          <li><a href="docs-article.html" data-doc="concepts/projects">Projects</a></li>
+          <li><a href="docs-article.html" data-doc="concepts/segments-and-levels">Passages and detail levels</a></li>
+          <li><a href="docs-article.html" data-doc="concepts/librarian">How Artifice does the work</a></li>
+          <li><a href="docs-article.html" data-doc="concepts/freshness">Freshness</a></li>
+          <li><a href="docs-article.html" data-doc="concepts/context-packs">Briefings</a></li>
+          <li><a href="docs-article.html" data-doc="concepts/notebook">Memory</a></li>
+          <li><a href="docs-article.html" data-doc="concepts/jobs">Playbooks</a></li>
+          <li><a href="docs-article.html" data-doc="concepts/learning-from-agents">Learning from your AI</a></li>
+          <li><a href="docs-article.html" data-doc="concepts/savings">How savings are counted</a></li>
+        </ul>
+      </details>
+      <details open>
+        <summary>Guides</summary>
+        <ul>
+          <li><a href="docs-article.html" data-doc="guides/desktop-app">Using the desktop app</a></li>
+          <li><a href="docs-article.html" data-doc="guides/connect-ai-tools" aria-current="page">Connecting AI tools</a></li>
+          <li><a href="docs-article.html" data-doc="guides/choose-a-librarian">Choosing a summaries model</a></li>
+          <li><a href="docs-article.html" data-doc="guides/writing-jobs">Writing playbooks</a></li>
+          <li><a href="docs-article.html" data-doc="guides/benchmarking">Benchmarking</a></li>
+          <li><a href="docs-article.html" data-doc="guides/uninstall">Uninstalling Artifice</a></li>
+          <li><a href="docs-article.html" data-doc="guides/troubleshooting">Troubleshooting</a></li>
+        </ul>
+      </details>
+      <details>
+        <summary>Reference</summary>
+        <ul>
+          <li><a href="docs-article.html" data-doc="reference/cli">CLI reference</a></li>
+          <li><a href="docs-article.html" data-doc="reference/mcp-tools">MCP tools</a></li>
+          <li><a href="docs-article.html" data-doc="reference/api-commands">API commands</a></li>
+          <li><a href="docs-article.html" data-doc="reference/configuration">Configuration</a></li>
+          <li><a href="docs-article.html" data-doc="reference/files-and-locations">Files and locations</a></li>
+          <li><a href="docs-article.html" data-doc="reference/database-schema">Database schema</a></li>
+          <li><a href="docs-article.html" data-doc="reference/hooks">Claude Code hooks</a></li>
+          <li><a href="docs-article.html" data-doc="reference/usage-analytics">Usage analytics</a></li>
+          <li><a href="docs-article.html" data-doc="reference/pack-format">Briefing format</a></li>
+        </ul>
+      </details>
+      <details>
+        <summary>More</summary>
+        <ul>
+          <li><a href="docs-article.html" data-doc="misc/faq">FAQ</a></li>
+          <li><a href="docs-article.html" data-doc="misc/limitations">Known limitations</a></li>
+          <li><a href="docs-article.html" data-doc="misc/roadmap">Roadmap</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+        </ul>
+      </details>
+    </nav>
+
+    <!-- ======================= CENTRE: ARTICLE ======================= -->
+    <article class="doc-main" id="top">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="docs.html">Docs</a><span class="sep" aria-hidden="true">/</span><a href="docs.html#guides">Guides</a><span class="sep" aria-hidden="true">/</span><span aria-current="page">Connecting AI tools</span>
+      </nav>
+      <h1 class="doc-title">Connecting AI tools</h1>
+      <p class="lead doc-lead">Connect each AI tool once, and it can use every project you add. Artifice adds itself to the tool's own settings on your computer, never to your projects' files.</p>
+      <div class="doc-meta">
+        <span><svg data-i="refresh"></svg>Last updated October 22, 2026</span>
+        <span><svg data-i="doc"></svg>8 minutes to read</span>
+      </div>
+
+      <details class="toc-inline">
+        <summary>On this page</summary>
+        <ol>
+          <li><a href="#three-ways">Three ways in</a></li>
+          <li><a href="#connect">Connect a tool</a></li>
+          <li><a href="#what-changes">What Connect changes</a></li>
+          <li><a href="#however">Connected however you set it up</a></li>
+          <li><a href="#other-apps">Any other MCP app</a></li>
+          <li><a href="#which-tool">Which tool made a request</a></li>
+          <li><a href="#older-setup">Older per-folder setup</a></li>
+          <li><a href="#check">Check that it works</a></li>
+        </ol>
+      </details>
+
+      <div class="prose doc-body">
+
+        <h2 id="three-ways">Three ways in<a class="anchor" href="#three-ways" aria-label="Link to Three ways in">#</a></h2>
+        <p>Artifice reaches your AI tools in three ways. Connecting a tool sets up the first two for you.</p>
+        <ol class="ways">
+          <li><span><b>The MCP server</b>Your AI calls Artifice's tools, such as <code>artifice_context</code>, through <code>artifice mcp</code>. See <a href="docs-article.html" data-doc="reference/mcp-tools">MCP tools</a>.</span></li>
+          <li><span><b>Hooks, in Claude Code</b>Artifice adds a briefing to every prompt and watches which files Claude Code opens. This works even when the AI never calls an MCP tool, which independent tests found is common. See <a href="docs-article.html" data-doc="reference/hooks">Claude Code hooks</a>.</span></li>
+          <li><span><b>The command line</b>Any AI tool that can run shell commands can use <code>artifice ask "&lt;task&gt;"</code>, <code>artifice expand &lt;id&gt;</code> and <code>artifice remember "…"</code>.</span></li>
+        </ol>
+
+        <h2 id="connect">Connect a tool<a class="anchor" href="#connect" aria-label="Link to Connect a tool">#</a></h2>
+        <p>In the app, open <strong>AI tools</strong> in the sidebar. Each tool installed on your computer has a <strong>Connect</strong> button. From a terminal, use <code>artifice connect</code>:</p>
+        <div class="code">
+          <button class="copy" type="button"><svg data-i="copy"></svg>Copy</button>
+<pre><span class="c"># see what's connected, and how</span>
+<span class="p">$ </span>artifice connect
+
+<span class="c"># connect a tool: claude-code, claude-desktop, codex, gemini,</span>
+<span class="c"># antigravity, cursor, windsurf or vscode</span>
+<span class="p">$ </span>artifice connect claude-code
+
+<span class="c"># disconnect it again</span>
+<span class="p">$ </span>artifice connect codex --remove</pre>
+        </div>
+        <p>Then restart the tool, or start a new session, so it picks Artifice up:</p>
+        <div class="tbl">
+          <table class="table">
+            <thead><tr><th>Tool</th><th>After connecting</th></tr></thead>
+            <tbody>
+              <tr><td>Claude (the app)</td><td>Quit and reopen the Claude app</td></tr>
+              <tr><td>Claude Code</td><td>Start a new Claude Code session</td></tr>
+              <tr><td>Codex</td><td>Start a new Codex session</td></tr>
+              <tr><td>Gemini CLI</td><td>Start a new Gemini CLI session</td></tr>
+              <tr><td>Antigravity</td><td>Restart Antigravity</td></tr>
+              <tr><td>Cursor</td><td>Restart Cursor</td></tr>
+              <tr><td>Windsurf</td><td>Restart Windsurf (now Devin Desktop)</td></tr>
+              <tr><td>VS Code</td><td>Restart VS Code, and use Copilot in agent mode</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note"><svg data-i="info"></svg><p><strong>In Claude Code, you'll see it at once.</strong> The <code>artifice</code> MCP server is listed, each prompt gets an <code>&lt;artifice-context&gt;</code> block, and the first session also gets an <code>&lt;artifice-digest&gt;</code>, a short overview of the project.</p></div>
+        <p>The server and hooks work out the project from the folder your AI is working in. A project you've added gets a briefing; any other folder gets nothing.</p>
+
+        <h2 id="what-changes">What Connect changes<a class="anchor" href="#what-changes" aria-label="Link to What Connect changes">#</a></h2>
+        <p>Connect adds Artifice to the tool's <strong>user-wide</strong> settings, so it works in every project without touching any of them.</p>
+        <ul>
+          <li><strong>Every settings file is backed up first,</strong> to <code>backups/</code> in Artifice's data folder.</li>
+          <li><strong>Disconnect removes only Artifice's entries,</strong> under any name, from the tool's user settings and from the per-project entries in your own user files.</li>
+          <li><strong>A project's shared files are left alone,</strong> such as a committed <code>.mcp.json</code>. Artifice lists them instead, so you can decide.</li>
+          <li><strong>Nothing is added twice.</strong> If Artifice is already in a tool's user settings under another name, for example from <code>claude mcp add --scope user Artifice …</code>, Connect adds only the Claude Code hooks.</li>
+        </ul>
+
+        <h3 id="what-connect-writes">Where each tool's entry goes<a class="anchor" href="#what-connect-writes" aria-label="Link to Where each tool's entry goes">#</a></h3>
+        <div class="tbl">
+          <table class="table">
+            <thead><tr><th>Tool</th><th>File, and the entry Artifice adds</th></tr></thead>
+            <tbody>
+              <tr><td>Claude Code</td><td><code>~/.claude.json</code>, or <code>$CLAUDE_CONFIG_DIR/.claude.json</code><span class="os">Windows: <code>%USERPROFILE%\.claude.json</code></span><span class="os"><code>mcpServers.artifice</code> at the top level (user scope), plus hooks in <code>~/.claude/settings.json</code>. Covers the CLI, VS Code and JetBrains.</span></td></tr>
+              <tr><td>Claude app</td><td><code>~/Library/Application Support/Claude/claude_desktop_config.json</code>, or <code>$CLAUDE_USER_DATA_DIR</code><span class="os">Windows: <code>%APPDATA%\Claude\…</code> · Linux: <code>~/.config/Claude/…</code></span><span class="os"><code>mcpServers.artifice</code></span></td></tr>
+              <tr><td>Codex</td><td><code>~/.codex/config.toml</code>, or <code>$CODEX_HOME/config.toml</code><span class="os"><code>[mcp_servers.artifice]</code>; the rest of the file is kept as you wrote it. The CLI, the IDE extension and the app share this file.</span></td></tr>
+              <tr><td>Gemini CLI</td><td><code>~/.gemini/settings.json</code><span class="os"><code>mcpServers.artifice</code></span></td></tr>
+              <tr><td>Antigravity</td><td><code>~/.gemini/config/mcp_config.json</code><span class="os">Windows: <code>%USERPROFILE%\.gemini\config\…</code></span><span class="os"><code>mcpServers.artifice</code>, for the agent app, the IDE and the CLI</span></td></tr>
+              <tr><td>Cursor</td><td><code>~/.cursor/mcp.json</code><span class="os"><code>mcpServers.artifice</code></span></td></tr>
+              <tr><td>Windsurf</td><td><code>~/.config/devin/mcp_config.json</code><span class="os">Windows: <code>%APPDATA%\devin\…</code> · only the older app installed: <code>~/.codeium/windsurf/mcp_config.json</code></span><span class="os"><code>mcpServers.artifice</code></span></td></tr>
+              <tr><td>VS Code</td><td><code>~/Library/Application Support/Code/User/mcp.json</code><span class="os">Windows: <code>%APPDATA%\Code\User\mcp.json</code> · Linux: <code>~/.config/Code/User/mcp.json</code></span><span class="os"><code>servers.artifice</code> with <code>"type": "stdio"</code></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Paths are for a Mac unless marked. The entry starts the program that ran Connect: the <code>artifice</code> command line, or the app's own <code>artifice-desktop</code> when you connect from the app.</p>
+        <p><strong>Repair.</strong> If you move the app or update it from Downloads, an entry can point to a copy that no longer exists. When the app starts, it points those entries at the running copy. An entry that starts another working copy, such as a command-line install, is left alone.</p>
+
+        <h2 id="however">Connected however you set it up<a class="anchor" href="#however" aria-label="Link to Connected however you set it up">#</a></h2>
+        <p>The app and <code>artifice connect</code> show a tool as <strong>connected</strong> however Artifice got into its settings: from the app, from the tool's own command (<code>claude mcp add</code>, <code>codex mcp add</code>, <code>gemini mcp add</code>), from the command line, or by hand. The server can have any name. Artifice reads every file the tool reads, and recognises its own server by the program it starts: an <code>artifice…</code> program with the <code>mcp</code> argument, directly or through a shell (<code>sh -c "… artifice mcp"</code>), or any server named <code>artifice</code>.</p>
+        <div class="tbl">
+          <table class="table wrap1">
+            <thead><tr><th>Tool</th><th>Also read</th><th>Turned off when</th></tr></thead>
+            <tbody>
+              <tr><td>Claude Code</td><td>Local scope in <code>~/.claude.json</code> (<code>claude mcp add</code>'s default), <code>.mcp.json</code> in each added project, and the admin file <code>managed-mcp.json</code></td><td>Its name is in the project's <code>disabledMcpServers</code> or <code>disabledMcpjsonServers</code></td></tr>
+              <tr><td>Claude app</td><td>Artifice desktop extensions, and the Microsoft Store build's settings file</td><td>The extension's <code>isEnabled</code> is false</td></tr>
+              <tr><td>Codex</td><td><code>.codex/config.toml</code> in each added project, which Codex reads only for trusted projects</td><td><code>enabled = false</code></td></tr>
+              <tr><td>Gemini CLI</td><td><code>.gemini/settings.json</code> in each added project, and <code>$GEMINI_CLI_HOME</code></td><td>Its name is in <code>mcp.excluded</code></td></tr>
+              <tr><td>Antigravity</td><td>The IDE's and the CLI's own <code>mcp_config.json</code>, and <code>.agents/mcp_config.json</code> in each added project</td><td><code>"disabled": true</code></td></tr>
+              <tr><td>Cursor</td><td><code>.cursor/mcp.json</code> in each added project</td><td><code>"disabled": true</code>, if present</td></tr>
+              <tr><td>Windsurf</td><td>Both the Devin Desktop file and the older Windsurf file</td><td><code>"disabled": true</code>, if present</td></tr>
+              <tr><td>VS Code</td><td><code>.vscode/mcp.json</code> in each added project</td><td><code>"disabled": true</code> or <code>"enabled": false</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>A tool set up for only some projects shows <strong>Connected · in shop</strong>, for example, and <strong>Details</strong> lists the files.</p>
+        <p><strong>Seen in use.</strong> The MCP server and the hooks also note each AI tool that actually talks to Artifice. A tool that isn't in any settings file Artifice knows, but has used it in the last 30 days, shows as <strong>In use · set up outside Artifice</strong>: a team-managed setup, a plugin or a wrapper script, for example. It has no Disconnect button, because there's nothing for Artifice to remove. MCP apps Artifice doesn't recognise, such as Zed, Cline, opencode or Kiro, are listed under <strong>Other apps using Artifice</strong>.</p>
+
+        <h3 id="settings-comments">Settings files with comments, or written on Windows<a class="anchor" href="#settings-comments" aria-label="Link to Settings files with comments, or written on Windows">#</a></h3>
+        <p>Gemini CLI's <code>settings.json</code> and other tools' files may hold comments (<code>//</code>, <code>/* */</code>) and trailing commas, and Windows editors often save a byte-order mark at the start. Artifice reads all of these. When a file has comments, Artifice adds its entry as text and keeps your comments and layout.</p>
+        <p>A file that still can't be read is never changed. AI tools shows <strong>a settings file can't be read</strong>, with the file and the line, and <code>artifice connect</code> lists it under the tool. Fix that line in a text editor and connect again.</p>
+        <p>On Windows, Artifice writes its program path as <code>C:\…</code>, never the <code>\\?\C:\…</code> form some tools can't start.</p>
+
+        <h2 id="other-apps">Any other MCP app<a class="anchor" href="#other-apps" aria-label="Link to Any other MCP app">#</a></h2>
+        <p>Any app that supports MCP servers can use Artifice. Open <strong>AI tools › Details</strong> in the app to copy a server definition, or print one:</p>
+        <div class="code">
+          <div class="code-bar" role="tablist"><button aria-selected="true" data-tab="cmd">Terminal</button><button aria-selected="false" data-tab="json">Definition</button></div>
+          <button class="copy" type="button"><svg data-i="copy"></svg>Copy</button>
+<pre data-tab="cmd"><span class="c"># prints a server definition for any MCP app</span>
+<span class="p">$ </span>artifice connect generic</pre>
+<pre data-tab="json" hidden>{
+  <span class="s">"artifice"</span>: {
+    <span class="s">"command"</span>: <span class="s">"/abs/path/to/artifice"</span>,
+    <span class="s">"args"</span>: [<span class="s">"mcp"</span>]
+  }
+}</pre>
+        </div>
+        <p>By default the server uses the folder the app starts it in, the app's MCP roots, or, for Claude Code, <code>CLAUDE_PROJECT_DIR</code>. To pin one project, add <code>"--project", "/path/to/project"</code> to the args, or set <code>ARTIFICE_PROJECT</code>. Chat apps with no folder can pass <code>project</code> to <code>artifice_context</code>.</p>
+
+        <h2 id="which-tool">Which tool made a request<a class="anchor" href="#which-tool" aria-label="Link to Which tool made a request">#</a></h2>
+        <p>Every request is filed under the tool that made it, so Activity can show savings by AI tool:</p>
+        <div class="tbl">
+          <table class="table wrap1">
+            <thead><tr><th>Shown as</th><th>When the client is</th></tr></thead>
+            <tbody>
+              <tr><td>Claude Code</td><td>MCP client <code>claude-code</code>, and the Claude Code hooks</td></tr>
+              <tr><td>Claude</td><td>Claude Code running inside the Claude app (<code>CLAUDE_CODE_ENTRYPOINT</code> is <code>claude-desktop</code>, <code>claude-desktop-3p</code> or <code>local-agent</code>), or client <code>claude-ai</code> or <code>local-agent-mode-…</code></td></tr>
+              <tr><td>Codex</td><td><code>codex-mcp-client</code></td></tr>
+              <tr><td>Gemini CLI</td><td><code>gemini-cli-mcp-client</code></td></tr>
+              <tr><td>Antigravity</td><td><code>antigravity-client</code>, or a Gemini-named or unknown client started by Antigravity</td></tr>
+              <tr><td>Cursor</td><td><code>cursor-vscode</code></td></tr>
+              <tr><td>Windsurf</td><td><code>windsurf-client</code></td></tr>
+              <tr><td>VS Code</td><td><code>Visual Studio Code</code></td></tr>
+              <tr><td>Artifice</td><td>The app's own questions, and the command line</td></tr>
+              <tr><td>Other tools</td><td>Anything else</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The MCP client's label is kept as <code>mcp:&lt;name&gt;</code>, with the host in brackets when Claude Code reports one, for example <code>mcp:claude-code (claude-vscode)</code>. Only <code>CLAUDE_CODE_ENTRYPOINT</code> is read from the environment. Anything else the tool passes on, such as account IDs and email addresses, is never read or stored.</p>
+
+        <h3 id="counted-once">Each request is counted once<a class="anchor" href="#counted-once" aria-label="Link to Each request is counted once">#</a></h3>
+        <ul>
+          <li><strong>The same hook set up twice,</strong> for example user-wide and in an older per-folder <code>.claude/settings.local.json</code>, or by two copies of Artifice. Each event is claimed once across processes: a file read by its <code>tool_use_id</code>, a prompt by session and text within 10 seconds, and a session start by session within 10 seconds. Only the first copy delivers and counts.</li>
+          <li><strong>Several tools, projects and processes at once.</strong> Each request is written to its project and copied to the savings ledger under a key that can't repeat. Copying again from any process adds nothing, and a row that couldn't be copied is picked up the next time any process opens the project.</li>
+        </ul>
+
+        <h2 id="older-setup">Older per-folder setup<a class="anchor" href="#older-setup" aria-label="Link to Older per-folder setup">#</a></h2>
+        <p>Before Artifice connected tools for the whole computer, <code>artifice connect &lt;tool&gt; --write</code> wrote <code>.mcp.json</code>, <code>.claude/settings.local.json</code>, <code>.cursor/mcp.json</code> and a section in <code>CLAUDE.md</code> or <code>AGENTS.md</code> into each folder. That style is still there as <code>artifice connect &lt;tool&gt; --here --write</code>.</p>
+        <p>AI tools lists any such files it finds under <strong>Old setup files</strong>, and can remove Artifice's entries from them.</p>
+
+        <h2 id="check">Check that it works<a class="anchor" href="#check" aria-label="Link to Check that it works">#</a></h2>
+        <ul>
+          <li><strong>In the app,</strong> AI tools shows when each tool last used Artifice ("Used 2 minutes ago"), and Activity lists every briefing as your AI works.</li>
+          <li><code>artifice connect</code> shows each tool's state, where it's set up, and other MCP apps that have used Artifice.</li>
+          <li><code>artifice savings</code> shows requests going up as your AI works. Totals cover every project.</li>
+          <li><code>artifice doctor</code> prints a report of versions, folders, projects and each tool's connection. It holds no file contents or questions, so it's safe to paste into an email to us.</li>
+        </ul>
+        <p>Still stuck? See <a href="docs-article.html" data-doc="guides/troubleshooting">Troubleshooting</a>, or write to <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>.</p>
+      </div>
+
+      <!-- article footer -->
+      <footer class="doc-foot">
+        <div class="helpful" id="helpful">
+          <span class="q" id="helpful-q">Was this page helpful?</span>
+          <span class="btns" role="group" aria-labelledby="helpful-q">
+            <button class="btn sm" type="button" data-helpful="yes"><svg data-i="check"></svg>Yes</button>
+            <button class="btn sm" type="button" data-helpful="no"><svg data-i="x"></svg>No</button>
+          </span>
+          <p class="thanks" data-thanks="yes" hidden role="status">Thank you. It helps us know which pages to keep as they are.</p>
+          <p class="thanks" data-thanks="no" hidden role="status">Thank you. What was missing? <a href="mailto:support@tryartifice.com?subject=Docs%3A%20Connecting%20AI%20tools">Tell us in an email</a>, and we'll fix the page.</p>
+        </div>
+        <nav class="pager" aria-label="Previous and next">
+          <a class="prev" href="docs-article.html" data-doc="guides/desktop-app"><span class="k">Previous</span><span class="t">Using the desktop app</span></a>
+          <a class="next" href="docs-article.html" data-doc="guides/choose-a-librarian"><span class="k">Next</span><span class="t">Choosing a summaries model</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <!-- ======================= RIGHT: ON THIS PAGE ======================= -->
+    <aside class="doc-toc" aria-label="On this page">
+      <span class="label">On this page</span>
+      <ol>
+        <li><a href="#three-ways">Three ways in</a></li>
+        <li><a href="#connect">Connect a tool</a></li>
+        <li><a href="#what-changes">What Connect changes</a></li>
+        <li class="sub"><a href="#what-connect-writes">Where each tool's entry goes</a></li>
+        <li><a href="#however">Connected however you set it up</a></li>
+        <li class="sub"><a href="#settings-comments">Files with comments</a></li>
+        <li><a href="#other-apps">Any other MCP app</a></li>
+        <li><a href="#which-tool">Which tool made a request</a></li>
+        <li class="sub"><a href="#counted-once">Counted once</a></li>
+        <li><a href="#older-setup">Older per-folder setup</a></li>
+        <li><a href="#check">Check that it works</a></li>
+      </ol>
+      <a class="top" href="#top"><svg data-i="up"></svg>Back to top</a>
+    </aside>
+
+  </div>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  // Docs article: phone menu, "On this page" highlight, helpful vote (nothing is sent).
+  (function () {
+    const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+    // Docs menu (phones and small tablets)
+    const btn = $('[data-doc-menu]'), nav = $('#doc-nav');
+    btn.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+
+    // highlight the section being read
+    const links = $$('.doc-toc a[href^="#"]:not(.top)');
+    const heads = links.map(a => document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
+    const paint = () => {
+      let cur = heads[0];
+      for (const h of heads) { if (h.getBoundingClientRect().top < 140) cur = h; }
+      links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + cur.id));
+    };
+    addEventListener('scroll', paint, { passive: true }); paint();
+
+    // was this page helpful?
+    const box = $('#helpful');
+    box.addEventListener('click', e => {
+      const b = e.target.closest('[data-helpful]'); if (!b) return;
+      box.classList.add('done');
+      $$('[data-thanks]', box).forEach(p => { p.hidden = p.dataset.thanks !== b.dataset.helpful; });
+    });
+  })();
+</script>
+</body>
+</html>

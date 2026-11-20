@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Not found: that page isn't here | Artifice</title>
+<meta name="description" content="This page doesn't exist on tryartifice.com. Search the docs, changelog and questions, or go to Home, Docs or the Changelog.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* ---------- 404 ---------- */
+  .nf { min-height: calc(100vh - 68px); display: grid; place-items: center; padding: 96px 0 136px; text-align: center; }
+  .nf .label { display: block; }
+  .nf .h1 { margin: 16px auto 0; max-width: 16ch; }
+  .nf .lead { margin: 20px auto 0; max-width: 30em; }
+  .nf-search { width: min(520px, 100%); margin: 40px auto 0; display: flex; align-items: center; gap: 12px; height: 54px; padding: 0 12px 0 18px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--surface); box-shadow: var(--shadow-m); color: var(--ink-3); font: 16px var(--sans); text-align: left; cursor: text; transition: border-color .16s var(--ease); }
+  .nf-search:hover { border-color: var(--ink-3); }
+  .nf-search svg { width: 18px; height: 18px; flex: none; }
+  .nf-search span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .nf-search kbd { flex: none; }
+  .nf-links { margin: 40px auto 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 32px; }
+  .nf-help { margin-top: 32px; font-size: 14px; color: var(--ink-3); }
+  .nf-help a { color: var(--ink-2); }
+  @media (max-width: 860px) {
+    .nf { min-height: calc(100vh - 60px); padding: 72px 0 96px; }
+    .nf-search kbd { display: none; }
+    .nf-links { gap: 12px 24px; }
+  }
+</style>
+</head>
+<body data-page="404">
+<main id="main">
+  <section class="nf">
+    <div class="container">
+      <span class="label ox reveal">404</span>
+      <h1 class="h1 reveal d1">That page isn't on the shelf.</h1>
+      <p class="lead reveal d2">The link may be old, or the address may have a typo. Search for what you were after, or start from one of these.</p>
+      <button class="nf-search reveal d2" type="button" data-search aria-label="Search the site">
+        <svg data-i="search"></svg><span>Search docs, changelog and questions</span><kbd data-kbd>⌘K</kbd>
+      </button>
+      <nav class="nf-links reveal d3" aria-label="Places to go">
+        <a class="arrow" href="index.html">Home</a>
+        <a class="arrow" href="docs.html">Docs</a>
+        <a class="arrow" href="changelog.html">Changelog</a>
+      </nav>
+      <p class="nf-help reveal d3">Followed a link that should work? Tell us at <a href="mailto:support@tryartifice.com">support@tryartifice.com</a>.</p>
+    </div>
+  </section>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  if (window.SITE && SITE.os === 'windows') document.querySelectorAll('[data-kbd]').forEach(k => { k.textContent = 'Ctrl K'; });
+</script>
+</body>
+</html>

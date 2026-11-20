@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Letters: Building Artifice, once a month | Artifice</title>
+<meta name="description" content="The monthly Building Artifice letter from the people who make it: what shipped, what broke and what we're unsure about. Once a month, unsubscribe anytime, no tracking pixels.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* ---------- page head with signup ---------- */
+  .lt-head { display: grid; grid-template-columns: 7fr 5fr; gap: 72px; align-items: end; }
+  .lt-head .h1 { max-width: 12em; }
+  .lt-head .lead { max-width: 30em; }
+  .lt-join { padding: 28px; }
+  .lt-join .h4 { margin-bottom: 4px; }
+  .lt-join .small { margin-bottom: 18px; }
+
+  /* email signup (same component as changelog.html and letter.html) */
+  .signup { display: grid; gap: 12px; }
+  .signup .row { display: flex; gap: 10px; }
+  .signup input[type="email"] { flex: 1; min-width: 0; height: 50px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 12px; background: var(--surface); color: var(--ink); font: 16px var(--sans); box-shadow: var(--shadow-s); transition: border-color .16s var(--ease); }
+  .signup input[type="email"]::placeholder { color: var(--ink-3); }
+  .signup input[type="email"]:hover { border-color: var(--ink-3); }
+  .signup input[type="email"]:focus { outline: 2px solid var(--ink); outline-offset: 2px; border-color: var(--ink); }
+  .signup .promise { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13.5px; color: var(--ink-3); }
+  .signup .promise span { display: inline-flex; align-items: center; gap: 6px; }
+  .signup .promise svg { width: 14px; height: 14px; }
+  .signup .done { display: none; align-items: center; gap: 8px; font-size: 15px; color: var(--ink); min-height: 50px; }
+  .signup .done svg { width: 18px; height: 18px; color: var(--ready); flex: none; }
+  .signup.sent .row { display: none; }
+  .signup.sent .done { display: flex; }
+
+  /* ---------- the list of letters ---------- */
+  .lt-list { border-top: 1px solid var(--line); }
+  .lt-row { display: grid; grid-template-columns: 200px minmax(0, 1fr) 40px; gap: 32px; padding: 40px 0; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--ink); }
+  .lt-row .when { font-size: 15px; color: var(--ink-2); }
+  .lt-row .when small { display: block; font-size: 13px; color: var(--ink-3); margin-top: 2px; }
+  .lt-row .h3 { max-width: 24ch; transition: text-decoration-color .16s; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+  .lt-row:hover .h3 { text-decoration-color: var(--line-2); }
+  .lt-row .sum { margin-top: 10px; font-size: 16.5px; line-height: 1.6; color: var(--ink-2); max-width: 40em; text-wrap: pretty; }
+  .lt-row .topics { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+  .lt-row .go { align-self: center; justify-self: end; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; color: var(--ink-2); transition: transform .16s var(--ease), border-color .16s var(--ease), color .16s; }
+  .lt-row .go svg { width: 16px; height: 16px; }
+  .lt-row:hover .go { transform: translateX(3px); border-color: var(--line-2); color: var(--ink); }
+  .lt-row.latest .h3 { font-size: 30px; line-height: 1.18; letter-spacing: -0.02em; }
+  .lt-row.latest .open { margin-top: 22px; padding-left: 18px; border-left: 2px solid var(--ox); font-family: var(--display); font-size: 19px; line-height: 1.55; color: var(--ink); max-width: 34em; text-wrap: pretty; }
+  .lt-foot { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px 28px; }
+
+  /* ---------- how we email you ---------- */
+  .mailing { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .mailing .card { padding: 32px; }
+  .mailing h3 { font-size: 17px; }
+  .mailing .check-list { margin-top: 14px; }
+  .mailing .check-list li { border-top: 1px solid var(--line); padding: 12px 0; }
+  .mailing .check-list li:last-child { border-bottom: 1px solid var(--line); }
+  .mailing .check-list .s { display: block; font-size: 14px; color: var(--ink-3); margin-top: 2px; }
+  .mailing .no li svg { color: var(--ready); }
+  .reply { margin-top: 40px; display: flex; align-items: center; gap: 14px; font-size: 16px; color: var(--ink-2); }
+  .reply img { width: 32px; height: 32px; border-radius: 9px; flex: none; }
+  .reply b { color: var(--ink); font-weight: 600; }
+
+  @media (max-width: 1080px) {
+    .lt-head { grid-template-columns: 1fr; gap: 40px; align-items: start; }
+    .lt-join { max-width: 560px; }
+    .lt-row { grid-template-columns: 160px minmax(0, 1fr) 40px; gap: 24px; }
+  }
+  @media (max-width: 860px) {
+    .lt-join { padding: 22px; }
+    .signup .row { flex-direction: column; }
+    .signup .row .btn { width: 100%; }
+    .lt-row { grid-template-columns: 1fr; gap: 10px; padding: 32px 0; }
+    .lt-row .go { display: none; }
+    .lt-row.latest .h3 { font-size: 25px; }
+    .lt-row.latest .open { font-size: 17px; }
+    .mailing { grid-template-columns: 1fr; gap: 16px; }
+    .mailing .card { padding: 24px; }
+  }
+</style>
+</head>
+<body data-page="letters">
+<main id="main">
+
+  <!-- ======================= PAGE HEAD ======================= -->
+  <section class="page-head">
+    <div class="container lt-head">
+      <div>
+        <span class="label reveal">Letters</span>
+        <h1 class="h1 reveal d1">A letter from us, once a month.</h1>
+        <p class="lead reveal d2">“Building Artifice” is what shipped, what broke and what we're unsure about, written by the people who make it. Every letter is kept here too, so you can read them without signing up.</p>
+      </div>
+      <div class="card lt-join reveal d2" id="join">
+        <h2 class="h4">Get the next letter</h2>
+        <p class="small">One email a month. If you'd rather not, nothing else changes.</p>
+        <form class="signup" action="#" data-signup>
+          <div class="row">
+            <label class="vh" for="lt-email">Email address</label>
+            <input id="lt-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+            <button class="btn primary lg" type="submit">Get the letter</button>
+          </div>
+          <p class="done" role="status"><svg data-i="check"></svg>We sent you an email. Confirm it, and the next letter is yours.</p>
+          <div class="promise"><span><svg data-i="check"></svg>Once a month</span><span><svg data-i="check"></svg>Unsubscribe anytime</span><span><svg data-i="check"></svg>No tracking pixels</span></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= THE LETTERS ======================= -->
+  <section class="section tight">
+    <div class="container">
+      <h2 class="vh">All letters</h2>
+      <div class="lt-list">
+        <a class="lt-row latest reveal" href="letter.html" id="2026-11">
+          <span class="when">November 2026<small>Letter 2 · 5 min read</small></span>
+          <div>
+            <h3 class="h3">Why Artifice is a paid app, and why students stay free.</h3>
+            <p class="sum">Why Artifice is a $5.99 app rather than a free one with paid cloud extras, why students and code holders don't pay, what 0.1.8 and 0.1.9 changed, and the 0.1.7 mistake that made folders of documents cost more.</p>
+            <p class="open">Almost everything Artifice does happens on your own computer. There's no cloud service to sell you, so what we sell is the app, and Pro is all of it.</p>
+            <span class="topics"><span class="tag">0.1.8</span><span class="tag">0.1.9</span><span class="tag">Pricing</span></span>
+          </div>
+          <span class="go"><svg data-i="arrow"></svg></span>
+        </a>
+        <a class="lt-row reveal" href="letter-2026-10.html" id="2026-10">
+          <span class="when">October 2026<small>Letter 1 · 6 min read</small></span>
+          <div>
+            <h3 class="h3">What we measured, including where Artifice didn't help.</h3>
+            <p class="sum">We ran Artifice on 50 real bug fixes, three runs each, and it saved nothing: earlier versions even cost 9–11% more. What that taught us, why Artifice now stays quiet while your AI is coding, and how search by meaning cut the cost of questions about code by 28%.</p>
+            <span class="topics"><span class="tag">Benchmarks</span><span class="tag">0.1.0 to 0.1.7</span></span>
+          </div>
+          <span class="go"><svg data-i="arrow"></svg></span>
+        </a>
+      </div>
+      <div class="lt-foot reveal">
+        <a class="arrow" href="changelog.html">Every release, in the changelog</a>
+        <a class="arrow" href="how-we-count.html">How we count savings</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= HOW WE EMAIL YOU ======================= -->
+  <section class="section">
+    <div class="container">
+      <div class="head reveal">
+        <span class="label">How we email you</span>
+        <h2 class="h2">Less email than you expect, and we say so.</h2>
+        <p class="lead">The letter is the only email you sign up for here. These are the rules we keep for it.</p>
+      </div>
+      <div class="mailing">
+        <article class="card reveal">
+          <h3>What you get</h3>
+          <ul class="check-list">
+            <li><svg data-i="mail"></svg><span>One letter a month<span class="s">What shipped, what broke, what's next, and one question for you.</span></span></li>
+            <li><svg data-i="chat"></svg><span>A real reply when you write back<span class="s">Replies go to the people who wrote the letter, and we read every one.</span></span></li>
+            <li><svg data-i="person"></svg><span>Account emails, if you have an account<span class="s">Sign-in links and notices about your own plan. These come whether or not you get the letter.</span></span></li>
+          </ul>
+        </article>
+        <article class="card reveal d1">
+          <h3>What you don't</h3>
+          <ul class="check-list no">
+            <li><svg data-i="check"></svg><span>No promotions<span class="s">No sales, no "last chance", no countdowns.</span></span></li>
+            <li><svg data-i="check"></svg><span>No tracking pixels<span class="s">We don't know whether you opened a letter, and we don't try to.</span></span></li>
+            <li><svg data-i="check"></svg><span>Your address stays with us<span class="s">Never sold, never shared. Unsubscribe from any letter in one click.</span></span></li>
+          </ul>
+        </article>
+      </div>
+      <p class="reply reveal"><img src="assets/mark.svg" alt=""><span>Something you'd like us to write about? Tell <b>the Artifice team</b> at <a href="mailto:info@tryartifice.com">info@tryartifice.com</a>.</span></p>
+    </div>
+  </section>
+
+  <!-- ======================= FINAL ======================= -->
+  <section class="final">
+    <div class="container">
+      <h2 class="h1 reveal">Read the latest letter.</h2>
+      <p class="lead reveal d1">November 2026: why Artifice is a paid app, and why students stay free.</p>
+      <div class="actions reveal d2">
+        <a class="btn primary lg" href="letter.html">Read the letter</a>
+        <a class="btn lg" href="#join">Get the next one</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  document.querySelectorAll('[data-signup]').forEach(function (f) {
+    f.addEventListener('submit', function (e) { e.preventDefault(); if (f.checkValidity()) f.classList.add('sent'); });
+  });
+</script>
+</body>
+</html>
