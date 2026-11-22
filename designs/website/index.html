@@ -921,35 +921,12 @@
   .set-r em.never { padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--ready) 14%, transparent); color: var(--ready); font-weight: 600; }
   .set-r em.enc { color: var(--ink-2); }
 
-  /* students: a week of usage, a student card, a course folder, a cited answer */
-  .shot.wk { width: 460px; }
-  .wk-g { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; height: 130px; align-items: end; }
-  .wk-c { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr auto; gap: 4px; height: 100%; align-items: end; }
-  .wk-c small { grid-column: 1 / -1; text-align: center; font-size: 11px; color: var(--ink-3); }
-  .wk-c .b { height: var(--h); border-radius: 4px 4px 0 0; background: #898781; transform-origin: bottom; animation: wk-grow 7s var(--glide) infinite; }
-  .wk-c .b.art { background: #2a78d6; } .wk-c .b.lim { box-shadow: inset 0 3px 0 var(--attn); } .wk-c .b.off { opacity: .28; }
-  .wk-c:nth-child(2) .b { animation-delay: .15s; } .wk-c:nth-child(3) .b { animation-delay: .3s; } .wk-c:nth-child(4) .b { animation-delay: .45s; } .wk-c:nth-child(5) .b { animation-delay: .6s; }
-  @keyframes wk-grow { 0% { transform: scaleY(0); } 30%, 92% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: .4; } }
-  .wk-k { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; font-size: 11.5px; color: var(--ink-2); }
-  .wk-k i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; background: #898781; } .wk-k i.art { background: #2a78d6; }
+  /* students: the student card (the rest of the Students bento is further down) */
   .shot.stucard { left: 50%; top: 50%; width: 300px; padding: 20px 22px; border-radius: 18px; color: #fff; background: linear-gradient(135deg, #2b2324, #6B232A 60%, #8f3a3f); box-shadow: 0 24px 60px -20px rgba(80,20,25,.55); transform: translate(-50%, -50%) rotate(-4deg); animation: sc-tilt 7s var(--glide) infinite; }
   .sc-top { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; } .sc-top img { width: 22px; height: 22px; } .sc-top em { margin-left: auto; font-style: normal; font-size: 11px; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,.16); }
   .sc-name { margin-top: 34px; font-size: 19px; font-weight: 600; letter-spacing: -0.01em; } .sc-school { margin-top: 3px; font-size: 11.5px; opacity: .75; }
   .sc-foot { display: flex; justify-content: space-between; margin-top: 18px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.18); font-size: 11.5px; }
   @keyframes sc-tilt { 0%, 100% { transform: translate(-50%, -50%) rotate(-4deg); } 50% { transform: translate(-50%, -52%) rotate(-2deg); } }
-  .shot.fdr { width: 420px; }
-  .fdr-g { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 14px; font-size: 12px; }
-  .fd { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 9px; padding: 9px 10px; border-radius: 9px; border: 1px solid var(--line); background: var(--surface); }
-  .fd svg { grid-row: span 2; align-self: center; width: 22px; height: 22px; color: var(--ink-2); } .fd span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .fd em { font-style: normal; font-size: 11px; color: var(--ready); }
-  .fd em.rd { color: var(--ink-3); animation: fd-rd 6s var(--fade) infinite; }
-  @keyframes fd-rd { 0%, 45% { color: var(--ink-3); } 50%, 100% { color: var(--ready); } }
-  .shot.chatw { width: 600px; }
-  .ch-b { display: grid; gap: 10px; padding: 16px 20px 20px; font-size: 13px; line-height: 1.5; }
-  .ch-b .me { justify-self: end; max-width: 70%; padding: 8px 12px; border-radius: 14px 14px 4px 14px; background: var(--selected); }
-  .ch-b .tool { justify-self: start; display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--ink-3); }
-  .ch-b .ai { max-width: 86%; animation: tl-in 7s var(--fade) infinite .7s; }
-  .ch-b .cites { display: flex; gap: 6px; animation: tl-in 7s var(--fade) infinite 1.4s; }
-  .ch-b .cites span { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 8px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 11.5px; color: var(--ink-2); }
   /* business tiles (2026-11-20, cleaned up): four tiles in two rows like the students' (wide + narrow, narrow + wide).
      One surface, one small component per tile, centred in space; one card style, one icon style, one quiet change each. */
   .cx-grid.clean .cx-vis { display: grid; place-items: center; height: 300px; padding: 32px; background: none; border-bottom: 0; }
@@ -1107,15 +1084,123 @@
     #bz-biz .sy-r .tt { grid-column: 2; justify-items: start; }
   }
 
-  /* the business bento: the hero desk's radius, a smaller one inside, and room to breathe. Business panel only. */
-  #bz-biz .cx { border-radius: 12px; }
-  #bz-biz .cx .ab { border-radius: var(--r-m); }
-  #bz-biz .cx-grid { margin-top: 44px; }   /* the same gap as between the benchmarks' paragraph and its card */
-  @media (max-width: 1180px) { #bz-biz .bz-head { gap: 28px; } }
+  /* both bentos: the hero desk's radius, a smaller one inside, and room to breathe. The student card keeps its own shape. */
+  .bz-panel .cx { border-radius: 12px; }
+  #bz-biz .cx .ab, #bz-stu .shot.widget, #bz-stu .shot.window { border-radius: var(--r-m); }
+  .bz-panel .cx-grid { margin-top: 44px; }   /* the same gap as between the benchmarks' paragraph and its card */
+  @media (max-width: 1180px) { .bz-panel .bz-head { gap: 28px; } }
   @media (max-width: 860px) {
-    #bz-biz .cx-t { padding: 4px 20px 22px; }
+    .bz-panel .cx .cx-t { padding-left: 20px; padding-right: 20px; }
+    #bz-biz .cx .cx-t { padding-top: 4px; padding-bottom: 22px; }
     #bz-biz .cx-vis:not(.opl-vis):not(.rwg-vis) { padding-left: 20px; padding-right: 20px; }
   }
+
+  /* the Students bento (P-028C, 2026-11-22): the student card, answers you can verify, room for every idea, the plan.
+     The student card's own styles above are unchanged. */
+  #bz-stu .cx-grid.clean .cx-vis.stc-keep { display: block; padding: 0; }
+  @media (max-width: 860px) { #bz-stu .cx-grid.clean .cx-vis.stc-keep { height: 260px; } }
+
+  /* the grid: narrow and wide, then wide and narrow. In two columns the two narrow tiles share the first row. */
+  @media (max-width: 1080px) and (min-width: 861px) { #bz-stu .stl-card { order: 1; } #bz-stu .stl-plan { order: 2; } #bz-stu .stl-ans { order: 3; } #bz-stu .stl-build { order: 4; } }
+
+  /* 1. the plan, in a narrow tile: forty questions and the sixteen more, with the numbers beside them */
+  .cx-grid.clean .cx-vis.stq-vis { padding: 24px 12px; }
+  .stq { display: grid; justify-items: center; gap: 18px; width: 100%; }
+  .stq-block { display: grid; grid-template-columns: auto 74px; align-items: center; gap: 16px; }
+  .stq-block + .stq-block { margin-top: 11px; padding-top: 11px; border-top: 1px dashed var(--line-2); }
+  .stq-g { display: grid; grid-template-columns: repeat(8, 21px); gap: 7px 5px; }
+  .stq-g svg { display: block; width: 21px; height: 19px; fill: currentColor; color: color-mix(in srgb, var(--ink) 22%, var(--surface)); }
+  .stq-more .stq-g svg { color: #3987e5; }
+  .stq-n { display: grid; font-size: 12.5px; line-height: 1.3; color: var(--ink-2); }
+  .stq-n b { font-size: 34px; line-height: 1.05; font-weight: 650; letter-spacing: -.035em; color: var(--ink); }
+  .stq-more .stq-n b { color: #3987e5; }
+  .stq-note { font-size: 12px; color: var(--ink-3); text-align: center; }
+  /* on the way in, the sixteen arrive one by one; then a soft light runs through them */
+  .stq.wait .stq-more svg { opacity: 0; }
+  .stq.run .stq-more svg { animation: stq-in .5s var(--ease) backwards, stq-wave 4.8s ease-in-out infinite; animation-delay: calc(.25s + var(--k) * .13s), calc(3s + var(--k) * .11s); animation-play-state: running; }
+  @keyframes stq-in { from { opacity: 0; transform: translateY(5px) scale(.85); } }
+  @keyframes stq-wave { 0%, 22%, 100% { color: #3987e5; } 9% { color: color-mix(in srgb, #3987e5 55%, #fff); } }
+
+  /* 2. making: the same strokes slowly become whatever the student is making */
+  .cx-grid.clean .cx-vis.stm-vis { padding: 14px 40px; --stm-a: #6B232A; --stm-b: var(--gold); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cx-grid.clean .cx-vis.stm-vis { --stm-a: #B8505A; } }
+  :root[data-theme="dark"] .cx-grid.clean .cx-vis.stm-vis { --stm-a: #B8505A; }
+  .stm { display: grid; grid-template-columns: minmax(0, 388px) 170px; gap: 56px; align-items: center; justify-content: center; width: 100%; }
+  .stm-art { display: block; width: 100%; height: auto; max-height: 270px; overflow: visible; }
+  .stm-art path { fill: none; stroke-width: 1.35; stroke-linecap: round; stroke: color-mix(in srgb, var(--stm-b) var(--m), var(--stm-a)); }
+  .stm-words { display: grid; justify-items: start; }
+  .stm-word { margin: 0; padding: 4px 0; border: 0; background: none; font: inherit; font-size: 27px; line-height: 1.22; font-weight: 600; letter-spacing: -.022em; color: var(--ink); opacity: .5; cursor: pointer; transition: opacity .7s; }
+  .stm-word:hover { opacity: .75; }
+  .stm-word.on { opacity: 1; }
+  .stm-word:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; opacity: 1; }
+
+  /* 4. the answer, and the same words on the page they came from */
+  .cx-grid.clean .cx-vis.sta-vis { padding: 24px 40px; }
+  .sta { display: grid; grid-template-columns: minmax(0, 316px) minmax(0, 290px); gap: 64px; align-items: center; justify-content: center; width: 100%; }
+  .sta-tabs { display: flex; gap: 16px; margin-bottom: 26px; }
+  .sta-tab { position: relative; margin: 0; padding: 4px 0 7px; border: 0; background: none; font: inherit; font-size: 12.5px; color: var(--ink-3); cursor: pointer; transition: color .3s; }
+  .sta-tab::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5px; background: var(--ink); opacity: 0; transition: opacity .3s; }
+  .sta-tab.on { color: var(--ink); } .sta-tab.on::after { opacity: 1; }
+  .sta-tab:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .sta-h { display: block; margin-bottom: 9px; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--ink-3); }
+  .sta-says, .sta-pages { display: grid; }
+  .sta-says > div { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity .45s, visibility .45s; }
+  .sta-says > div.on { opacity: 1; visibility: visible; }
+  .sta-say { margin: 0; font-size: 21px; line-height: 1.38; letter-spacing: -.012em; color: var(--ink); text-wrap: balance; }
+  .sta-say sup { margin-left: 3px; font-size: 11px; font-weight: 600; color: #3987e5; }
+  .sta-from { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 7px; margin-top: 14px; font-size: 12.5px; color: var(--ink-2); }
+  .sta-from em { font-style: normal; font-weight: 600; color: #3987e5; }
+  .sta-pages { height: 240px; place-items: center; }
+  .sta-page { grid-area: 1 / 1; position: relative; box-sizing: border-box; width: 236px; height: 240px; padding: 20px 20px 30px; display: flex; flex-direction: column; gap: 9px;
+    border: 1px solid var(--line-2); border-radius: 4px; background: color-mix(in srgb, var(--ink) 3%, var(--surface)); opacity: 0; transition: opacity .45s; }
+  .sta-page.on { opacity: 1; }
+  .sta-page.slide { width: 290px; height: 194px; padding: 22px 22px 30px; justify-content: center; }
+  .sta-title { margin-bottom: 4px; font-size: 13px; font-weight: 600; color: var(--ink); }
+  .sta-ln { flex: none; height: 4px; width: var(--w); border-radius: 2px; background: color-mix(in srgb, var(--ink) 11%, var(--surface)); }
+  .sta-hit { position: relative; margin: 4px -8px; padding: 6px 8px; font-size: 13px; line-height: 1.4; color: var(--ink); }
+  .sta-hit::before { content: ""; position: absolute; inset: 0; border-left: 2px solid #3987e5; background: color-mix(in srgb, #3987e5 17%, transparent); clip-path: inset(0 100% 0 0); transition: clip-path .7s var(--ease); }
+  .sta-page.on .sta-hit::before { clip-path: inset(0); transition-delay: .4s; }
+  .sta-hit span { position: relative; }
+  .sta-loc { position: absolute; left: 20px; right: 20px; bottom: 9px; font-size: 10.5px; text-align: right; color: var(--ink-3); }
+
+  .sta-side { display: grid; justify-items: center; }
+  .sta-side > .sta-h { justify-self: center; margin-bottom: 7px; }
+  .sta-pages { height: 226px; }
+  .sta-page { height: 226px; padding-top: 16px; gap: 8px; }
+  .sta-from svg { width: 14px; height: 14px; color: var(--ready); stroke-width: 2.6; }
+
+  @media (max-width: 1230px) and (min-width: 1081px) {
+    .stm { grid-template-columns: minmax(0, 1fr) 150px; gap: 32px; }
+    .cx-grid.clean .cx-vis.stm-vis { padding: 14px 30px; }
+    .sta { grid-template-columns: minmax(0, 1fr) minmax(0, 270px); gap: 28px; }
+    .sta-page.slide { width: 270px; }
+    .cx-grid.clean .cx-vis.sta-vis { padding: 24px 30px; }
+  }
+  @media (max-width: 720px) and (min-width: 641px) {
+    .stm { grid-template-columns: minmax(0, 1fr) 150px; gap: 28px; }
+    .cx-grid.clean .cx-vis.stm-vis, .cx-grid.clean .cx-vis.sta-vis { padding: 22px 20px; }
+    .sta { grid-template-columns: minmax(0, 1fr) minmax(0, 260px); gap: 22px; }
+    .sta-page.slide { width: 100%; }
+  }
+  @media (max-width: 640px) {
+    .cx-grid.clean .cx-vis.stm-vis, .cx-grid.clean .cx-vis.sta-vis { padding: 22px 20px; }
+    .stm { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .stm-art { max-width: 340px; justify-self: center; }
+    .stm-words { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 16px; }
+    .stm-word { min-height: 44px; font-size: 19px; }
+    .sta { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+    .sta-tabs { margin-bottom: 14px; }
+    .sta-tab { min-height: 44px; }
+    .sta-say { font-size: 19px; }
+    .sta-page.slide { width: 100%; max-width: 290px; }
+  }
+  @media (max-width: 370px) {
+    .stq-block { grid-template-columns: auto 66px; gap: 10px; }
+    .stq-g { grid-template-columns: repeat(8, 17px); gap: 6px 4px; }
+    .stq-g svg { width: 17px; height: 16px; }
+    .stq-n b { font-size: 30px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .stq *, .stm *, .sta *, .sta-hit::before { animation: none !important; transition: none !important; } }
 
   /* AI tools: the app's own screen on the left, the words on the right */
   .tools { display: grid; grid-template-columns: 7fr 5fr; gap: 72px; align-items: center; }
@@ -1448,7 +1533,7 @@
           <div class="bz-head">
             <div>
               <h2 class="h2">Every AI in your company, working from the same playbook.</h2>
-              <p class="lead" style="margin-top:18px">Your company's knowledge, recurring work and lessons, shared with every AI your people use. Files stay on their computers.</p>
+              <p class="lead" style="margin-top:18px">Your company's knowledge, recurring work and lessons, shared with every AI your people use.</p>
             </div>
             <div class="bz-cta">
               <a class="btn primary lg" href="mailto:info@tryartifice.com?subject=Artifice%20for%20our%20company">Talk to us</a>
@@ -1527,55 +1612,51 @@
             </div>
           </div>
 
-          <div class="cx-grid">
-            <article class="cx w2">
-              <div class="cx-vis" aria-hidden="true"><div class="shot widget wk">
-                <div class="uw-top"><b>Your student plan</b><span>Example week</span></div>
-                <div class="wk-g">
-                  <div class="wk-c"><span class="b a" style="--h:34%"></span><span class="b art" style="--h:24%"></span><small>Mon</small></div>
-                  <div class="wk-c"><span class="b a" style="--h:66%"></span><span class="b art" style="--h:48%"></span><small>Tue</small></div>
-                  <div class="wk-c"><span class="b a lim" style="--h:100%"></span><span class="b art" style="--h:72%"></span><small>Wed</small></div>
-                  <div class="wk-c"><span class="b a off" style="--h:100%"></span><span class="b art" style="--h:88%"></span><small>Thu</small></div>
-                  <div class="wk-c"><span class="b a off" style="--h:100%"></span><span class="b art" style="--h:97%"></span><small>Fri</small></div>
-                </div>
-                <div class="wk-k"><span><i class="a"></i>Your AI alone · limit on Wednesday</span><span><i class="art"></i>With Artifice · through Friday</span></div>
-              </div></div>
-              <div class="cx-t"><h3>Your plan lasts longer</h3><p>28% less per question, and 35% faster answers.</p></div>
-            </article>
-            <article class="cx ">
-              <div class="cx-vis" aria-hidden="true"><div class="shot stucard">
+          <div class="cx-grid clean">
+            
+            
+            
+            
+          
+            <article class="cx stl-card">
+              <div class="cx-vis stc-keep" aria-hidden="true"><div class="shot stucard">
                 <div class="sc-top"><img src="assets/mark.svg" alt=""><span>Artifice</span><em>Student</em></div>
-                <div class="sc-name">Maya Chen</div>
+                <div class="sc-name">Lena Park</div>
                 <div class="sc-school">University of Edinburgh · school email verified</div>
                 <div class="sc-foot"><span>Everything in Pro</span><span>Free until Sep 2027</span></div>
               </div></div>
+              
               <div class="cx-t"><h3>Free while you study</h3><p>Everything in Pro, verified with your school email.</p></div>
+            
             </article>
-            <article class="cx ">
-              <div class="cx-vis" aria-hidden="true"><div class="shot window fdr">
-                <div class="window-bar"><span class="lights"><i></i><i></i><i></i></span><span class="window-title">CS 201 · Algorithms</span></div>
-                <div class="fdr-g">
-                  <div class="fd"><svg data-i="pdf" class="i "></svg><span>Lecture 07 — Graphs.pdf</span><em>Ready</em></div>
-                  <div class="fd"><svg data-i="slides" class="i "></svg><span>Week 3 slides.pptx</span><em>Ready</em></div>
-                  <div class="fd"><svg data-i="doc" class="i "></svg><span>Reading — Tarjan 1972.pdf</span><em class="rd">Reading…</em></div>
-                  <div class="fd"><svg data-i="image" class="i "></svg><span>Notes, scanned.jpg</span><em>Text read</em></div>
-                  <div class="fd"><svg data-i="code" class="i "></svg><span>assignment-3/</span><em>Ready</em></div>
-                  <div class="fd"><svg data-i="sheet" class="i "></svg><span>grades-practice.xlsx</span><em>Ready</em></div>
-                </div>
-              </div></div>
-              <div class="cx-t"><h3>Reads your course material</h3><p>Lectures, slides, readings and scanned notes.</p></div>
+            <article class="cx w2 stl-ans">
+              <div class="cx-vis sta-vis"><div class="sta"><div>
+      <div class="sta-tabs" role="group" aria-label="Example subjects"><button type="button" class="sta-tab on" aria-pressed="true">History</button><button type="button" class="sta-tab" aria-pressed="false">Literature</button><button type="button" class="sta-tab" aria-pressed="false">Biology</button></div>
+      <span class="sta-h">Your AI’s answer</span>
+      <div class="sta-says"><div class="on"><p class="sta-say">The Berlin Wall fell on 9&nbsp;November 1989.<sup>1</sup></p><span class="sta-from"><em>1</em>history-notes.docx · The Cold War ends<svg class="i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></span></div><div class=""><p class="sta-say">Mary Shelley first published Frankenstein anonymously, in 1818.<sup>1</sup></p><span class="sta-from"><em>1</em>week-3.pptx · Slide 8<svg class="i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></span></div><div class=""><p class="sta-say">Cells make most of their ATP in the mitochondria.<sup>1</sup></p><span class="sta-from"><em>1</em>lecture-04.pdf · Page 12<svg class="i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></span></div></div></div>
+    <div class="sta-side" aria-hidden="true"><span class="sta-h">Your own material</span><div class="sta-pages"><div class="sta-page  on"><b class="sta-title">The Cold War ends</b>
+      <i class="sta-ln" style="--w:100%"></i><i class="sta-ln" style="--w:94%"></i><i class="sta-ln" style="--w:62%"></i><p class="sta-hit"><span>The Berlin Wall fell on 9&nbsp;November 1989.</span></p><i class="sta-ln" style="--w:97%"></i><i class="sta-ln" style="--w:100%"></i><i class="sta-ln" style="--w:90%"></i><i class="sta-ln" style="--w:44%"></i><span class="sta-loc">The Cold War ends</span></div><div class="sta-page slide"><b class="sta-title">Frankenstein</b>
+      <i class="sta-ln" style="--w:78%"></i><p class="sta-hit"><span>Mary Shelley first published Frankenstein anonymously, in 1818.</span></p><i class="sta-ln" style="--w:88%"></i><i class="sta-ln" style="--w:56%"></i><span class="sta-loc">Slide 8</span></div><div class="sta-page "><b class="sta-title">Cellular respiration</b>
+      <i class="sta-ln" style="--w:100%"></i><i class="sta-ln" style="--w:94%"></i><i class="sta-ln" style="--w:62%"></i><p class="sta-hit"><span>Cells make most of their ATP in the mitochondria.</span></p><i class="sta-ln" style="--w:97%"></i><i class="sta-ln" style="--w:100%"></i><i class="sta-ln" style="--w:90%"></i><i class="sta-ln" style="--w:44%"></i><span class="sta-loc">Page 12</span></div></div></div></div></div>
+              
+              <div class="cx-t"><h3>Answers you can verify, for less</h3><p>Grounded in your own material, so your AI has less to guess.</p></div>
+            
             </article>
-            <article class="cx w2">
-              <div class="cx-vis" aria-hidden="true"><div class="shot window chatw">
-                <div class="window-bar"><span class="lights"><i></i><i></i><i></i></span><span class="window-title">Your AI</span></div>
-                <div class="ch-b">
-                  <div class="me">How does the proof in lecture 7 work?</div>
-                  <div class="tool"><svg data-i="search" class="i "></svg>Artifice · 3 passages from 2 files</div>
-                  <div class="ai">It's an induction on the number of nodes. The base case is a single leaf; the step adds one node and shows the property still holds for its parent.</div>
-                  <div class="cites"><span><svg data-i="pdf" class="i "></svg>lecture-07.pdf · page 12</span><span><svg data-i="doc" class="i "></svg>notes-week-7.md</span></div>
-                </div>
-              </div></div>
-              <div class="cx-t"><h3>Answers that show the page</h3><p>Check every answer against your notes.</p></div>
+            <article class="cx stl-build w2">
+              <div class="cx-vis stm-vis"><div class="stm"><svg class="stm-art" viewBox="0 0 360 260" aria-hidden="true"><path style="--m:0.0%" d="M193.0 130.0C214.3 169.1 265.4 95.9 295.2 143.9"></path><path style="--m:0.4%" d="M192.9 131.7C208.9 173.2 269.2 107.3 298.5 160.4"></path><path style="--m:1.7%" d="M192.6 133.4C203.0 176.6 271.4 119.2 296.0 176.6"></path><path style="--m:3.8%" d="M192.0 135.0C196.8 179.2 272.0 131.2 286.6 190.0"></path><path style="--m:6.7%" d="M191.3 136.5C190.2 181.0 271.1 143.2 272.8 199.6"></path><path style="--m:10.3%" d="M190.3 137.9C183.4 181.9 268.6 154.9 258.4 206.7"></path><path style="--m:14.6%" d="M189.2 139.2C176.6 181.9 264.5 166.3 246.1 214.2"></path><path style="--m:19.6%" d="M187.9 140.3C169.9 181.0 259.1 177.0 235.8 224.3"></path><path style="--m:25.0%" d="M186.5 141.3C163.3 179.3 252.3 186.9 225.6 236.7"></path><path style="--m:30.9%" d="M185.0 142.0C157.0 176.7 244.2 195.9 213.0 247.8"></path><path style="--m:37.1%" d="M183.4 142.6C151.1 173.3 235.1 203.7 197.7 253.7"></path><path style="--m:43.5%" d="M181.7 142.9C145.7 169.1 225.0 210.3 181.3 252.4"></path><path style="--m:50.0%" d="M180.0 143.0C140.9 164.3 214.1 215.4 166.1 245.2"></path><path style="--m:56.5%" d="M178.3 142.9C136.8 158.9 202.7 219.2 152.8 236.2"></path><path style="--m:62.9%" d="M176.6 142.6C133.4 153.0 190.8 221.4 140.1 229.3"></path><path style="--m:69.1%" d="M175.0 142.0C130.8 146.8 178.8 222.0 126.2 225.5"></path><path style="--m:75.0%" d="M173.5 141.3C129.0 140.2 166.8 221.1 110.4 222.8"></path><path style="--m:80.4%" d="M172.1 140.3C128.1 133.4 155.1 218.6 94.4 217.5"></path><path style="--m:85.4%" d="M170.8 139.2C128.1 126.6 143.7 214.5 81.7 207.2"></path><path style="--m:89.7%" d="M169.7 137.9C129.0 119.9 133.0 209.1 74.7 192.3"></path><path style="--m:93.3%" d="M168.7 136.5C130.7 113.3 123.1 202.3 73.3 175.6"></path><path style="--m:96.2%" d="M168.0 135.0C133.3 107.0 114.1 194.2 74.4 159.5"></path><path style="--m:98.3%" d="M167.4 133.4C136.7 101.1 106.3 185.1 74.1 145.1"></path><path style="--m:99.6%" d="M167.1 131.7C140.9 95.7 99.7 175.0 70.4 131.2"></path><path style="--m:100.0%" d="M167.0 130.0C145.7 90.9 94.6 164.1 64.8 116.1"></path><path style="--m:99.6%" d="M167.1 128.3C151.1 86.8 90.8 152.7 61.5 99.6"></path><path style="--m:98.3%" d="M167.4 126.6C157.0 83.4 88.6 140.8 64.0 83.4"></path><path style="--m:96.2%" d="M168.0 125.0C163.2 80.8 88.0 128.8 73.4 70.0"></path><path style="--m:93.3%" d="M168.7 123.5C169.8 79.0 88.9 116.8 87.2 60.4"></path><path style="--m:89.7%" d="M169.7 122.1C176.6 78.1 91.4 105.1 101.6 53.3"></path><path style="--m:85.4%" d="M170.8 120.8C183.4 78.1 95.5 93.7 113.9 45.8"></path><path style="--m:80.4%" d="M172.1 119.7C190.1 79.0 100.9 83.0 124.2 35.7"></path><path style="--m:75.0%" d="M173.5 118.7C196.7 80.7 107.7 73.1 134.4 23.3"></path><path style="--m:69.1%" d="M175.0 118.0C203.0 83.3 115.8 64.1 147.0 12.2"></path><path style="--m:62.9%" d="M176.6 117.4C208.9 86.7 124.9 56.3 162.3 6.3"></path><path style="--m:56.5%" d="M178.3 117.1C214.3 90.9 135.0 49.7 178.7 7.6"></path><path style="--m:50.0%" d="M180.0 117.0C219.1 95.7 145.9 44.6 193.9 14.8"></path><path style="--m:43.5%" d="M181.7 117.1C223.2 101.1 157.3 40.8 207.2 23.8"></path><path style="--m:37.1%" d="M183.4 117.4C226.6 107.0 169.2 38.6 219.9 30.7"></path><path style="--m:30.9%" d="M185.0 118.0C229.2 113.2 181.2 38.0 233.8 34.5"></path><path style="--m:25.0%" d="M186.5 118.7C231.0 119.8 193.2 38.9 249.6 37.2"></path><path style="--m:19.6%" d="M187.9 119.7C231.9 126.6 204.9 41.4 265.6 42.5"></path><path style="--m:14.6%" d="M189.2 120.8C231.9 133.4 216.3 45.5 278.3 52.8"></path><path style="--m:10.3%" d="M190.3 122.1C231.0 140.1 227.0 50.9 285.3 67.7"></path><path style="--m:6.7%" d="M191.3 123.5C229.3 146.7 236.9 57.7 286.7 84.4"></path><path style="--m:3.8%" d="M192.0 125.0C226.7 153.0 245.9 65.8 285.6 100.5"></path><path style="--m:1.7%" d="M192.6 126.6C223.3 158.9 253.7 74.9 285.9 114.9"></path><path style="--m:0.4%" d="M192.9 128.3C219.1 164.3 260.3 85.0 289.6 128.8"></path></svg>
+    <div class="stm-words" role="group" aria-label="What you can make"><button type="button" class="stm-word on" aria-pressed="true">Imagine</button><button type="button" class="stm-word" aria-pressed="false">Write</button><button type="button" class="stm-word" aria-pressed="false">Compose</button><button type="button" class="stm-word" aria-pressed="false">Design</button><button type="button" class="stm-word" aria-pressed="false">Discover</button></div></div></div>
+              
+              <div class="cx-t"><h3>Room for every idea</h3><p>Reports, experiments, apps, essays and more. Whatever you’re making, do your best work.</p></div>
+            
+            </article>
+            <article class="cx stl-plan">
+              <div class="cx-vis stq-vis"><div class="stq" role="img" aria-label="For every 40 questions about code, about 16 more from the same plan"><div>
+    <div class="stq-block"><div class="stq-g"><svg viewBox="0 0 28 25" style="--k:0"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:1"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:2"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:3"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:4"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:5"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:6"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:7"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:8"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:9"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:10"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:11"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:12"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:13"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:14"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:15"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:16"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:17"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:18"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:19"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:20"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:21"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:22"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:23"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:24"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:25"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:26"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:27"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:28"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:29"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:30"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:31"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:32"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:33"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:34"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:35"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:36"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:37"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:38"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:39"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg></div><span class="stq-n">For every<b>40</b>questions</span></div>
+    <div class="stq-block stq-more"><div class="stq-g"><svg viewBox="0 0 28 25" style="--k:0"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:1"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:2"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:3"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:4"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:5"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:6"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:7"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:8"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:9"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:10"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:11"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:12"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:13"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:14"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg><svg viewBox="0 0 28 25" style="--k:15"><path d="M6 0h16a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H12l-6.5 5v-5A6 6 0 0 1 0 14V6a6 6 0 0 1 6-6z"></path></svg></div><span class="stq-n"><b>+16</b>more</span></div></div>
+    <span class="stq-note">Measured on questions about code</span></div></div>
+              
+              <div class="cx-t"><h3>Your plan lasts longer</h3><p>About 40% more questions from the same plan.</p></div>
+            
             </article>
           </div>
         </div>

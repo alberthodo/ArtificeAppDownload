@@ -700,3 +700,107 @@
   if (!('IntersectionObserver' in window)) return;
   new IntersectionObserver(es => { seen = es[es.length - 1].isIntersecting; next(); }).observe(vis);
 })();
+
+// Students bento (P-028C): answers you can verify, room for every idea, the plan. The markup is complete as written
+// (the first answer, the bloom, all sixteen questions); this only adds the motion, the clicks and the reveal.
+(() => {
+  const panel = document.querySelector('#bz-stu');
+  const makeVis = panel?.querySelector('.stm-vis'), ansVis = panel?.querySelector('.sta-vis'), planVis = panel?.querySelector('.stq-vis');
+  if (!makeVis || !ansVis || !planVis || !('IntersectionObserver' in window)) return;
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  const $ = (v, s) => [...v.querySelectorAll(s)];
+  const pick = (els, i) => els.forEach((e, k) => e.classList.toggle('on', k === i));
+  const press = (btns, i) => { pick(btns, i); btns.forEach((b, k) => b.setAttribute('aria-pressed', String(k === i))); };
+
+  // the answers: History, Literature, Biology, each with the same sentence lit on its page; a click picks one
+  {
+    const tabs = $(ansVis, '.sta-tab'), says = $(ansVis, '.sta-says > div'), pages = $(ansVis, '.sta-page');
+    let at = 0, seen = false, timer = 0;
+    const show = i => { at = i; press(tabs, i); pick(says, i); pick(pages, i); };
+    const next = () => { clearTimeout(timer); if (seen && !calm.matches) timer = setTimeout(() => { show((at + 1) % tabs.length); next(); }, 6000); };
+    tabs.forEach((b, i) => b.addEventListener('click', () => { show(i); next(); }));
+    calm.addEventListener?.('change', next);
+    new IntersectionObserver(es => { seen = es[es.length - 1].isIntersecting; next(); }, { threshold: .25 }).observe(ansVis);
+  }
+
+  // room for every idea: one set of 48 strokes. Each form is abstract, and every stroke has a place in every form
+  const N = 48, TAU = Math.PI * 2, cos = Math.cos, sin = Math.sin;
+  const at = (x, y, r, a) => [x + r * cos(a), y + r * sin(a)];
+  const forms = [
+    // Imagine: a bloom opening out of one point
+    ['Imagine', (i, t) => {
+      const a = i / N * TAU + t * .07, r = 116 + 9 * sin(i / N * TAU * 6 + t * .5);
+      return [...at(180, 130, 13, a), ...at(180, 130, 52, a + .85), ...at(180, 130, 92, a - .38), ...at(180, 130, r, a + .12)];
+    }],
+    // Write: pages opening from a spine
+    ['Write', (i, t) => {
+      const half = N / 2, side = i < half ? -1 : 1, v = (i < half ? i : N - 1 - i) / (half - 1), y = 72 + v * 134, lift = 30 + 5 * sin(t * .8 + v * 3);
+      return [180 + side * 3, y, 180 + side * 42, y - lift, 180 + side * 106, y - lift - 4, 180 + side * 158, y - 12];
+    }],
+    // Compose: a phrase rising and falling
+    ['Compose', (i, t) => {
+      const u = i / (N - 1), x = 16 + u * 328, mid = 130 + 20 * sin(u * TAU - t * .6), h = 9 + 98 * sin(Math.PI * u) * (.56 + .44 * sin(u * TAU * 2.5 - t * .9)), lean = 9 * sin(u * TAU - t * .4);
+      return [x, mid - h, x + lean, mid - h / 3, x - lean, mid + h / 3, x, mid + h];
+    }],
+    // Design: a dome, drawn rib by rib
+    ['Design', (i, t) => {
+      const a = i / N * TAU + t * .1, c = cos(a), s = sin(a);
+      return [180 + 140 * c, 204 + 30 * s, 180 + 144 * c, 120 + 24 * s, 180 + 80 * c, 34 + 10 * s, 180 + 7 * c, 30 + 2 * s];
+    }],
+    // Discover: threads turning through one another
+    ['Discover', (i, t) => {
+      const a = i / N * TAU + t * .12, b = a + 2.25, x0 = 180 + 124 * cos(a), y0 = 38 + 27 * sin(a), x1 = 180 + 124 * cos(b), y1 = 218 + 27 * sin(b);
+      return [x0, y0, x0 + (x1 - x0) / 3, y0 + (y1 - y0) / 3, x0 + (x1 - x0) * 2 / 3, y0 + (y1 - y0) * 2 / 3, x1, y1];
+    }],
+  ];
+  const d = p => { const n = p.map(v => v.toFixed(1)); return `M${n[0]} ${n[1]}C${n[2]} ${n[3]} ${n[4]} ${n[5]} ${n[6]} ${n[7]}`; };
+  // making: a slow change from form to form, and each form keeps breathing while it holds
+  {
+    const HOLD = 3.6, MORPH = 2.2;
+    const paths = $(makeVis, '.stm-art path'), words = $(makeVis, '.stm-word'), ease = v => v * v * v * (v * (v * 6 - 15) + 10);
+    let t = 0, since = 0, from = null, to = 0, last = null, seen = false, raf = 0, lit = 0, now = [];
+    const render = () => {
+      const p = from ? Math.min(1, since / MORPH) : 1;
+      now = paths.map((el, i) => {
+        // the strokes set off a little after one another, so a form unfolds instead of sliding over
+        const q = ease(Math.max(0, Math.min(1, p * 1.3 - i / N * .3))), b = forms[to][1](i, t);
+        const pts = from && p < 1 ? b.map((v, k) => from[i][k] + (v - from[i][k]) * q) : b;
+        el.setAttribute('d', d(pts));
+        return pts;
+      });
+      if (lit !== to) { lit = to; press(words, to); }
+    };
+    const go = i => { from = now.length ? now : null; to = i; since = 0; };
+    const tick = ms => {
+      if (last !== null) { const dt = Math.min(.1, (ms - last) / 1000); t += dt; since += dt; }
+      last = ms;
+      if (since > MORPH + HOLD) go((to + 1) % forms.length);
+      render();
+      raf = requestAnimationFrame(tick);
+    };
+    const update = () => {
+      cancelAnimationFrame(raf); last = null;
+      if (calm.matches) { from = null; render(); } else if (seen) raf = requestAnimationFrame(tick);
+    };
+    words.forEach((b, i) => b.addEventListener('click', () => { if (i === to) return; go(i); if (calm.matches) { from = null; } render(); press(words, i); lit = i; }));
+    render();
+    calm.addEventListener('change', update);
+    new IntersectionObserver(es => { seen = es[es.length - 1].isIntersecting; update(); }, { threshold: .25 }).observe(makeVis);
+    // a frame for testing: form i, part way (p) from the one before it
+    makeVis.seek = (i, p = 1, at = 2) => {
+      cancelAnimationFrame(raf); seen = false; t = at; to = i;
+      from = paths.map((el, k) => forms[(i + forms.length - 1) % forms.length][1](k, at)); since = p * MORPH; render();
+    };
+  }
+  // the sixteen more wait out of sight, and arrive one by one once the tile is in view (all there without motion)
+  const stq = planVis.firstElementChild;
+  if (!calm.matches && 'IntersectionObserver' in window) {
+    stq.classList.add('wait');
+    new IntersectionObserver((es, io) => {
+      if (!es[es.length - 1].isIntersecting) return;
+      stq.classList.replace('wait', 'run'); io.disconnect();
+    }, { threshold: .6 }).observe(planVis);
+  }
+  calm.addEventListener('change', () => { if (calm.matches) stq.classList.remove('wait'); });
+
+})();
