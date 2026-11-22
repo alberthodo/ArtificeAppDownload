@@ -41,7 +41,7 @@
   const CAPS = [
     'Keep working when you\'d normally hit your limit. Artifice uses fewer tokens on questions about your code, so <b>the same plan goes about 40% further</b>.',
     'On questions about your code, Claude Code uses <b>28% fewer tokens</b> with Artifice, and still answers accurately.',
-    'Artifice has already read your PDFs, spreadsheets and scans, so your AI <b>goes straight to the answer</b>. No scripts to open your files, and no approvals to click through.',
+    'Artifice has already read your PDFs, spreadsheets and scans, so your AI <b>goes straight to the answer</b>, with far fewer scripts and approval prompts.',
     'When a file changes, Artifice flags anything your AI learned from it and hands over the current version, so your AI answers from <b>today\'s file, not last month\'s</b>.',
   ];
   let capWant = 0, capTimer = 0;
@@ -504,4 +504,199 @@
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(([e]) => { visible = e.isIntersecting; why.away = !visible || document.hidden; updatePause(); if (visible) start(); }, { threshold: .25 }).observe(stage);
   } else { visible = true; start(); }
+})();
+
+// ---- benchmarks: hovering or focusing a row explains it in a sentence (the numbers are on the chart too) ----
+(function () {
+  const card = document.querySelector('.bm'), tip = document.querySelector('.db-tip');
+  if (!card || !tip) return;
+  const place = (row, x) => {
+    const c = card.getBoundingClientRect(), r = row.getBoundingClientRect();
+    tip.textContent = row.dataset.tip; tip.hidden = false;
+    const w = tip.offsetWidth, left = Math.max(12, Math.min((x ?? r.left + r.width / 2) - c.left - w / 2, c.width - w - 12));
+    tip.style.left = left + 'px'; tip.style.top = (r.top - c.top - tip.offsetHeight - 6) + 'px';
+  };
+  card.querySelectorAll('.db-row').forEach(row => {
+    row.addEventListener('pointermove', e => place(row, e.clientX));
+    row.addEventListener('pointerleave', () => { tip.hidden = true; });
+    row.addEventListener('focus', () => place(row));
+    row.addEventListener('blur', () => { tip.hidden = true; });
+  });
+})();
+
+// ---- business / students: two tabs over the same bento (arrow keys move between them) ----
+(function () {
+  const tabs = [...document.querySelectorAll('.bz-tabs [role="tab"]')];
+  if (!tabs.length) return;
+  const pick = t => tabs.forEach(x => {
+    const on = x === t;
+    x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1;
+    document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+  });
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => pick(t));
+    t.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      pick(n); n.focus(); e.preventDefault();
+    });
+  });
+})();
+
+// ---- recurring work: the analog dial. The needle only falls, then rests on Low; the light running down the empty track loops ----
+(function () {
+  const dial = document.querySelector('.rwg');
+  if (!dial) return;
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  const needle = dial.querySelector('.rwg-needle'), search = dial.querySelector('.rwg-search');
+  const glows = [...dial.querySelectorAll('.rwg-glow')], lights = [...dial.querySelectorAll('radialGradient')];
+  const cuts = [...dial.querySelectorAll('.rwg-cut')], lead = dial.querySelector('.rwg-lead'), by = dial.querySelector('.rwg-by');
+  let wordX = 0, widths = null;
+  // centre the line on its average word, pulled left only as far as the longest needs; its start never moves
+  function layout() {
+    const start = lead.getBBox().width; // the drawn width: getComputedTextLength() leaves out the dx gap
+    if (!start) return;                 // inside a hidden tab: nothing to measure yet
+    const all = cuts.map(c => c.getComputedTextLength());
+    const rest = start + 5 + by.getComputedTextLength(), room = 320 - rest - Math.max(...all);
+    const centred = (320 - rest - all.reduce((a, b) => a + b) / all.length) / 2;
+    const x = Math.min(centred, Math.max(room / 2, room - 3)); // 3 units of air on the right
+    lead.setAttribute('x', x);
+    wordX = x + start + 5;
+    cuts.forEach(c => c.setAttribute('x', wordX));
+    widths = all;
+  }
+  document.fonts?.ready.then(() => { widths = null; });
+  const CX = 160, CY = 148, R = 122;
+  const LOW = .34, HIGH = .86;        // needle positions, 0 = Low, 1 = High (illustrative, not measured)
+  const SETTLE = 9, SPEED = .8;       // seconds until it is fully at rest (it looks settled by about 6), and how briskly it falls
+  const PASS = 5;                     // seconds for one light to run down the track; the two are half a pass apart
+  const WORD = PASS / 2, SWAP = .7;   // a new cut with each light: seconds it has, and for the one before to drift out as it drifts in
+  const xy = v => [CX - R * Math.cos(Math.PI * v), CY - R * Math.sin(Math.PI * v)];
+  // a damped needle: soft start, long soft landing, no overshoot, so it can never move back up
+  const damped = t => 1 - (1 + SPEED * t) * Math.exp(-SPEED * t);
+  const clamp = v => Math.max(0, Math.min(1, v)), ease = v => v * v * (3 - 2 * v);
+  const fallen = t => t >= SETTLE ? 1 : damped(t) / damped(SETTLE);
+
+  function draw(t, still) {
+    const f = still ? 1 : fallen(t), v = HIGH - (HIGH - LOW) * f;
+    needle.setAttribute('transform', `rotate(${180 * v} ${CX} ${CY})`);
+    search.setAttribute('d', v - LOW < .0005 ? '' : `M${xy(LOW).join(' ')} A${R} ${R} 0 0 1 ${xy(v).join(' ')}`);
+    glows.forEach((glow, i) => {
+      const p = (t / PASS + i / 2) % 1, [x, y] = xy(1 - (1 - LOW) * p);
+      lights[i].setAttribute('cx', x);
+      lights[i].setAttribute('cy', y);
+      // each light is dark at both ends of its pass and the pair always adds up to the same, so the loop has no seam
+      glow.style.opacity = still ? 0 : f * f * Math.sin(Math.PI * p) ** 2;
+    });
+    // the cuts drift up and through, like the light: one leaves as the next arrives, and the last hands over to the first
+    if (!still && !widths) layout();
+    dial.classList.toggle('live', !still && !!widths);
+    const step = Math.floor(t / WORD), into = t - step * WORD;
+    if (widths) {
+      const to = widths[step % cuts.length], from = step ? widths[(step - 1) % cuts.length] : to;
+      // a longer word gets its room before it fades in; a shorter one closes up after the last has gone
+      const p = to > from ? clamp(into / (SWAP * .5)) : clamp((into - SWAP * .4) / (SWAP * .6));
+      by.setAttribute('x', wordX + from + (to - from) * ease(p));
+    }
+    cuts.forEach((cut, i) => {
+      let shown = 0, shift = 0;
+      if (!still && i === step % cuts.length) {
+        const p = step ? ease(clamp((into - SWAP * .4) / (SWAP * .6))) : 1;
+        shown = p; shift = 4 * (1 - p);
+      } else if (!still && step && i === (step - 1) % cuts.length && into < SWAP * .6) {
+        const p = ease(clamp(into / (SWAP * .6)));
+        shown = 1 - p; shift = -4 * p;
+      }
+      cut.style.opacity = shown;
+      cut.setAttribute('transform', `translate(0 ${shift})`);
+    });
+  }
+
+  let time = 0, last = null, inView = false, started = false, paused = false, frame = 0;
+  function tick(now) {
+    if (last !== null) time += Math.min(.1, (now - last) / 1000);
+    last = now;
+    draw(time);
+    frame = requestAnimationFrame(tick);
+  }
+  function update() {
+    cancelAnimationFrame(frame);
+    last = null;
+    if (calm.matches) draw(0, true);      // resting on Low, no light
+    else if (inView && started && !paused) frame = requestAnimationFrame(tick);
+  }
+  dial.parentElement.addEventListener('click', () => { paused = !paused; update(); });
+  calm.addEventListener?.('change', update);
+  if (!('IntersectionObserver' in window)) return;   // the low position, as written in the page
+  if (!calm.matches) draw(0);
+  // the fall starts once most of the dial is showing; it is wound back only while none of it can be seen
+  new IntersectionObserver(es => {
+    const e = es[es.length - 1];
+    inView = e.isIntersecting;
+    if (!inView && started) {
+      started = paused = false;
+      time = 0;
+      if (!calm.matches) draw(0);
+    } else if (e.intersectionRatio >= .6) started = true;
+    update();
+  }, { threshold: [0, .6] }).observe(dial.parentElement);
+})();
+
+// Business, "Run it from one place": the admin's switches and six computers. The settings that are on step round the
+// computers, fading in place (nothing slides). Switch one off and it leaves every computer; switch it on and every
+// computer shows it before the loop carries on. Without motion all show one setting, as written in the page.
+(() => {
+  const vis = document.querySelector('#bz-biz .opl-vis');
+  if (!vis) return;
+  const ring = [0, 1, 2, 5, 4, 3];          // clockwise through the grid
+  const N = 6, EVERY = 3200, HOLD = 2600;   // ms between changes, and while a setting just switched on shows everywhere
+  const all = vis.querySelector('.opl-all'), list = [...vis.querySelectorAll('.opl-rule')];
+  const pcs = vis.querySelectorAll('.opl-scr'), screens = ring.map(k => [...pcs[k].children]);
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  const mod = v => ((v % N) + N) % N;
+  let step = 0, pushed = -1, seen = false, timer = 0;
+
+  const switchedOn = () => list.flatMap((r, i) => r.getAttribute('aria-checked') === 'true' ? [i] : []);
+  function draw() {
+    const on = switchedOn();
+    let lit = on.length ? on[Math.floor(step / N) % on.length] : -1;   // one setting stays lit for a whole lap
+    if (pushed >= 0) lit = pushed;
+    else if (calm.matches && on.length) lit = on[0];
+    const everywhere = pushed >= 0 || calm.matches || !on.length;
+    list.forEach((r, i) => r.classList.toggle('lit', i === lit));
+    screens.forEach((icons, at) => {
+      const show = everywhere ? lit : on[mod(at - step) % on.length];  // with none on, the screens are empty
+      icons.forEach((el, i) => {
+        // only the arriving icon takes a colour, so the one leaving fades out in the colour it had
+        if (i === show) el.classList.toggle('lit', i === lit);
+        el.style.opacity = i === show ? 1 : 0;
+      });
+    });
+  }
+  function next() {
+    clearTimeout(timer);
+    if (!seen) return;
+    if (pushed < 0 && (calm.matches || !switchedOn().length)) return;
+    timer = setTimeout(() => {
+      all.classList.remove('quick');
+      if (pushed >= 0) pushed = -1; else step++;
+      draw();
+      next();
+    }, pushed >= 0 ? HOLD : EVERY);
+  }
+  list.forEach((row, i) => {
+    row.disabled = false;                   // without script the switches stay as drawn
+    row.addEventListener('click', () => {
+      const on = row.getAttribute('aria-checked') !== 'true';
+      row.setAttribute('aria-checked', String(on));
+      pushed = on ? i : -1;
+      all.classList.add('quick');
+      draw();
+      next();
+    });
+  });
+  draw();
+  calm.addEventListener?.('change', () => { draw(); next(); });
+  if (!('IntersectionObserver' in window)) return;
+  new IntersectionObserver(es => { seen = es[es.length - 1].isIntersecting; next(); }).observe(vis);
 })();
