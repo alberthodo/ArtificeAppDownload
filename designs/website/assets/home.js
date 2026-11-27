@@ -524,23 +524,58 @@
   });
 })();
 
-// ---- business / students: two tabs over the same bento (arrow keys move between them) ----
+// ---- Pro / Business / Students: the section's title is a question finished by three tabs (P-029) ----
+// Click or arrow keys pick a plan; each plan has its own address (#pro, #business, #students); the title holds still
+// when the plan below changes height. On the way in, the three choices appear one after another, once.
 (function () {
-  const tabs = [...document.querySelectorAll('.bz-tabs [role="tab"]')];
-  if (!tabs.length) return;
-  const pick = t => tabs.forEach(x => {
-    const on = x === t;
-    x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1;
-    document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
-  });
-  tabs.forEach((t, i) => {
-    t.addEventListener('click', () => pick(t));
+  const tabs = document.querySelector('.pro-ch');
+  if (!tabs) return;
+  const all = [...tabs.querySelectorAll('[role="tab"]')];
+  const names = { 'bz-tab-pro': 'pro', 'bz-tab-biz': 'business', 'bz-tab-stu': 'students' };
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  const choose = (t, user) => {
+    const before = tabs.getBoundingClientRect().top;
+    all.forEach(x => { const on = x === t; x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute('aria-controls')).hidden = !on; });
+    if (user) {
+      history.replaceState(null, '', '#' + names[t.id]);
+      const moved = tabs.getBoundingClientRect().top - before; if (Math.abs(moved) > 1) scrollBy(0, moved);
+    }
+  };
+  all.forEach((t, i) => {
+    t.addEventListener('click', () => choose(t, true));
     t.addEventListener('keydown', e => {
       if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-      const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
-      pick(n); n.focus(); e.preventDefault();
+      const n = all[(i + (e.key === 'ArrowRight' ? 1 : all.length - 1)) % all.length];
+      choose(n, true); n.focus(); e.preventDefault();
     });
   });
+  const fromHash = () => { const want = location.hash.slice(1).toLowerCase(); return all.find(t => names[t.id] === want); };
+  const asked = fromHash();
+  if (asked) { choose(asked); requestAnimationFrame(() => document.getElementById('pro-q')?.scrollIntoView({ block: 'start' })); }
+  addEventListener('hashchange', () => { const t = fromHash(); if (t) choose(t); });
+
+  // the reveal: only if the title is still below the fold when the page is ready, and only once
+  if (!calm.matches && 'IntersectionObserver' in window && tabs.getBoundingClientRect().top > innerHeight * .9) {
+    tabs.classList.add('wait');
+    new IntersectionObserver((es, io) => {
+      if (!es[es.length - 1].isIntersecting) return;
+      tabs.classList.replace('wait', 'in'); io.disconnect();
+    }, { rootMargin: '0px 0px -12% 0px' }).observe(tabs);
+  }
+
+  // the Pro bento: the bars and the day fill in once seen; the memory shows its two habits in turn
+  const panel = document.getElementById('bz-pro');
+  if (!panel || !('IntersectionObserver' in window)) return;
+  const once = (el, fn) => new IntersectionObserver((es, io) => { if (es[es.length - 1].isIntersecting) { fn(); io.disconnect(); } }, { threshold: .5 }).observe(el);
+  ['.ppay', '.pday', '.pup'].forEach(s => { const el = panel.querySelector(s); if (el && !calm.matches) once(el, () => el.classList.add('run')); });
+  const mem = panel.querySelector('.pmem');
+  if (!mem) return;
+  const steps = [...mem.querySelectorAll('.pmem-steps span')];
+  let s = 0, timer = 0, seen = false;
+  const show = i => { s = i; mem.classList.toggle('s1', i === 1); steps.forEach((x, k) => x.classList.toggle('on', k === i)); };
+  const next = () => { clearTimeout(timer); if (seen && !calm.matches) timer = setTimeout(() => { show(1 - s); next(); }, 3800); };
+  new IntersectionObserver(es => { seen = es[es.length - 1].isIntersecting; next(); }, { threshold: .25 }).observe(mem);
+  calm.addEventListener?.('change', next);
 })();
 
 // ---- recurring work: the analog dial. The needle only falls, then rests on Low; the light running down the empty track loops ----
@@ -803,4 +838,33 @@
   }
   calm.addEventListener('change', () => { if (calm.matches) stq.classList.remove('wait'); });
 
+})();
+
+// ---- Business, "One library for every team" (P-040): one team's AI at a time, slowly ----
+// 1 Support's answer is flagged and corrected from the refund policy; 2 Business relations' answer updates when
+// Engineering ships; 3 every AI draws on one source of truth. The page holds scene one finished; this plays the rest.
+(function () {
+  const vis = document.querySelector('#bz-biz .an4-vis');
+  if (!vis) return;
+  const els = [...vis.querySelectorAll('.an4-row')], dots = [...vis.querySelectorAll('.an4-dots i')];
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  const EACH = 9, CYCLE = EACH * els.length;
+  // each scene: the answer, then its note (2s), then the correction or update (4.5s), held; then the next
+  const draw = u => {
+    const i = Math.floor(u / EACH) % els.length, k = u - Math.floor(u / EACH) * EACH, live = k < EACH - .7;
+    els.forEach((r, n) => {
+      const me = n === i && live;
+      r.classList.toggle('on', me);
+      if (r.classList.contains('many')) { r.classList.toggle('s1', me && k > 2); return; }
+      r.classList.toggle('s1', me && k > 2 && k <= 4.5); r.classList.toggle('s2', me && k > 4.5);
+    });
+    dots.forEach((d, n) => d.classList.toggle('on', n === i));
+  };
+  let t = 0, last = null, seen = false, raf = 0;
+  const tick = ms => { if (last !== null) t += Math.min(.1, (ms - last) / 1000); last = ms; draw(t % CYCLE); raf = requestAnimationFrame(tick); };
+  const update = () => { cancelAnimationFrame(raf); last = null; if (calm.matches) draw(6); else if (seen) raf = requestAnimationFrame(tick); };
+  calm.addEventListener?.('change', update);
+  if (calm.matches || !('IntersectionObserver' in window)) { draw(6); return; }
+  draw(0);
+  new IntersectionObserver(es => { seen = es[es.length - 1].isIntersecting; update(); }, { threshold: .25 }).observe(vis);
 })();

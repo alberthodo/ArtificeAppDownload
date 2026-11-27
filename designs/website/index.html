@@ -17,7 +17,7 @@
   .hero .reassure { margin-top: 20px; }
   /* the desktop: a computer screen with its wallpaper, as on cal.com */
   .stage { position: relative; margin-top: 80px; }
-  .desk { position: relative; border-radius: 12px; /* same as the hero Download button (.btn.lg) */ overflow: hidden; isolation: isolate; aspect-ratio: 16 / 9.6; min-height: 640px; box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 40px 100px -40px rgba(60,30,20,.45); }
+  .desk { position: relative; width: 100%; /* min-height + aspect-ratio would otherwise widen it past the page around 1081–1100px */ border-radius: 12px; /* same as the hero Download button (.btn.lg) */ overflow: hidden; isolation: isolate; aspect-ratio: 16 / 9.6; min-height: 640px; box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 40px 100px -40px rgba(60,30,20,.45); }
   /* wallpaper: Tokyo neon alley at night, by @peemaglama on Unsplash (Unsplash License). See assets/wallpaper-tokyo-neon.txt */
   .desk .wall { position: absolute; inset: 0; z-index: -1; background: #0c0a10 url("assets/wallpaper-tokyo-neon.jpg") center / cover no-repeat;
     /* muted and soft-focus, so it sits behind the windows instead of competing with them (P-014D); the scale hides the blurred edge */
@@ -938,54 +938,6 @@
   .ab .ico svg.i { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .cx-grid.clean .ck { width: 11px; height: 11px; }
 
-  /* the library keeps itself in sync, shown as calm product UI: two panels, "Departments" and "Every team's AI", joined through
-     the library. When a department edits something its time reads "Edited just now"; a soft light runs along the line and every
-     team's AI reads "Synced just now", one after another. Neutral icons, one accent, quiet fades. 12s, two beats (Finance, then
-     Engineering). */
-  .cx-grid.clean .sy-vis { padding: 28px 32px; }
-  .sy { display: grid; grid-template-columns: minmax(0, 1fr) 110px minmax(0, 1fr); align-items: center; width: 100%; max-width: 720px; }
-  .sy-p { padding: 6px 0 4px; }
-  .sy-h { display: block; padding: 8px 16px 10px; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--ink-3); }
-  .sy-r { position: relative; display: flex; align-items: center; gap: 11px; min-height: 60px; box-sizing: border-box; padding: 8px 16px; border-top: 1px solid var(--line); font-size: 14px; }
-  .sy-r .ic { width: 26px; height: 26px; flex: none; display: grid; place-items: center; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); color: var(--ink-2); }
-  .sy-r svg.i { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .sy-r b { flex: 1; min-width: 0; font-weight: 500; }
-  .sy-r b small { display: block; margin-top: 1px; font-size: 11.5px; font-weight: 400; color: var(--ink-3); }
-  /* departments are people: a few overlapping initials */
-  .avs { display: flex; flex: none; width: 60px; } .avs i { width: 26px; height: 26px; margin-right: -8px; display: grid; place-items: center; border-radius: 50%; font-style: normal; font-size: 10.5px; font-weight: 600; color: var(--ink); background: color-mix(in srgb, var(--ink) 14%, var(--surface)); border: 2px solid color-mix(in srgb, var(--ink) 3%, var(--surface)); }
-  .avs i:nth-child(2) { background: color-mix(in srgb, var(--ink) 22%, var(--surface)); }
-  .avs i.more { color: var(--ink-2); background: var(--sunken); font-size: 9.5px; }
-  /* the AI side are tools: each with its own mark (Claude, OpenAI for Codex, Gemini) on an app tile, the team using it underneath */
-  .sy-r .ic.tool { width: 30px; height: 30px; border-radius: 8px; background: var(--surface); border-color: var(--line-2); color: var(--ink); }
-  .sy-r .ic.tool svg.lg { width: 16px; height: 16px; }
-  .tt { display: grid; justify-items: end; font-size: 12.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
-  .tt > span { grid-area: 1 / 1; white-space: nowrap; }
-  .tt > span + span { opacity: 0; color: var(--ink); }
-  .sy-r::before { content: ""; position: absolute; inset: 0; background: color-mix(in srgb, #3987e5 7%, transparent); opacity: 0; pointer-events: none; }
-  .sy-line { position: relative; display: flex; align-items: center; gap: 10px; padding: 0 8px; }
-  .sy-line i { position: relative; flex: 1; height: 1px; background: var(--line-2); overflow: hidden; }
-  .sy-line i::after { content: ""; position: absolute; top: 0; bottom: 0; left: -40%; width: 40%; background: linear-gradient(90deg, transparent, #3987e5, transparent); opacity: 0; }
-  .sy-line img { width: 34px; height: 34px; flex: none; border-radius: 9px; box-shadow: var(--shadow-s); }
-  /* beat 1: Finance edits; beat 2: Engineering edits */
-  .fin .tt > span:nth-child(1) { animation: sy-a 12s var(--fade) infinite; } .fin .tt > span:nth-child(2) { animation: sy-b 12s var(--fade) infinite; } .fin .tt > span:nth-child(3) { animation: sy-c 12s var(--fade) infinite; }
-  .fin::before { animation: sy-hl1 12s var(--fade) infinite; }
-  .eng .tt > span:nth-child(1) { animation: sy-d 12s var(--fade) infinite; } .eng .tt > span:nth-child(2) { animation: sy-e 12s var(--fade) infinite; }
-  .eng::before { animation: sy-hl2 12s var(--fade) infinite; }
-  .sy-line i:first-child::after { animation: sy-run1 12s linear infinite; } .sy-line i:last-child::after { animation: sy-run2 12s linear infinite; }
-  .ai .tt > span:nth-child(1) { animation: sy-f 12s var(--fade) infinite; animation-delay: var(--d); } .ai .tt > span:nth-child(2) { animation: sy-g 12s var(--fade) infinite; animation-delay: var(--d); }
-  .ai::before { animation: sy-hl3 12s var(--fade) infinite; animation-delay: var(--d); }
-  @keyframes sy-a { 0%, 6% { opacity: 1; } 9%, 96% { opacity: 0; } 99%, 100% { opacity: 1; } }
-  @keyframes sy-b { 0%, 6% { opacity: 0; } 9%, 50% { opacity: 1; } 53%, 100% { opacity: 0; } }
-  @keyframes sy-c { 0%, 50% { opacity: 0; color: var(--ink-3); } 53%, 96% { opacity: 1; color: var(--ink-3); } 99%, 100% { opacity: 0; } }
-  @keyframes sy-d { 0%, 52% { opacity: 1; } 55%, 96% { opacity: 0; } 99%, 100% { opacity: 1; } }
-  @keyframes sy-e { 0%, 52% { opacity: 0; } 55%, 96% { opacity: 1; } 99%, 100% { opacity: 0; } }
-  @keyframes sy-hl1 { 0%, 6% { opacity: 0; } 9%, 20% { opacity: 1; } 28%, 100% { opacity: 0; } }
-  @keyframes sy-hl2 { 0%, 52% { opacity: 0; } 55%, 66% { opacity: 1; } 74%, 100% { opacity: 0; } }
-  @keyframes sy-run1 { 0%, 12% { left: -40%; opacity: 0; } 13% { opacity: 1; } 20% { left: 100%; opacity: 1; } 20.1%, 58% { left: -40%; opacity: 0; } 59% { opacity: 1; } 66% { left: 100%; opacity: 1; } 66.1%, 100% { opacity: 0; } }
-  @keyframes sy-run2 { 0%, 20% { left: -40%; opacity: 0; } 21% { opacity: 1; } 28% { left: 100%; opacity: 1; } 28.1%, 66% { left: -40%; opacity: 0; } 67% { opacity: 1; } 74% { left: 100%; opacity: 1; } 74.1%, 100% { opacity: 0; } }
-  @keyframes sy-f { 0%, 28% { opacity: 1; } 31%, 96% { opacity: 0; } 99%, 100% { opacity: 1; } }
-  @keyframes sy-g { 0%, 28% { opacity: 0; } 31%, 96% { opacity: 1; } 99%, 100% { opacity: 0; } }
-  @keyframes sy-hl3 { 0%, 28% { opacity: 0; } 31%, 40% { opacity: 1; } 48%, 74% { opacity: 0; } 77%, 86% { opacity: 1; } 94%, 100% { opacity: 0; } }
 
   /* more usage: the number is the picture */
   .big { text-align: center; padding-top: 28px; }
@@ -996,7 +948,6 @@
   .big .trk i { position: absolute; inset: 0 auto 0 0; width: 72%; border-radius: 5px; background: #2a78d6; }
   .big .trk em { position: absolute; inset: 0 0 0 72%; background: repeating-linear-gradient(135deg, var(--line-2) 0 4px, transparent 4px 8px); }
   .big small { display: block; margin-top: 10px; font-size: 12.5px; color: var(--ink-3); }
-  @media (prefers-reduced-motion: reduce) { .sy *, .sy *::before, .sy *::after { animation: none !important; } }
 
   /* recurring work: an analog dial of the company's AI tokens on recurring work (P-026D). The needle only ever falls: one smooth glide
      as Artifice removes the searching, settling on the Low side where the AI's own work begins (never zero). What loops after
@@ -1067,21 +1018,6 @@
     .opl-scr { height: 48px; margin: 0 4px; }
     .opl-all .opl-scr svg.i { width: 20px; height: 20px; }
     .opl-team { font-size: 11px; }
-  }
-
-  /* the library card where it is narrow: less air between the panels, and on small phones the time goes under the name */
-  #bz-biz .sy-r b { white-space: nowrap; }
-  @media (min-width: 1081px) and (max-width: 1230px) {
-    #bz-biz .sy { grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr); }
-    #bz-biz .sy-line { gap: 2px; padding: 0 2px; }
-    #bz-biz .sy-r { gap: 8px; padding-left: 12px; padding-right: 12px; font-size: 13px; }
-    #bz-biz .sy-r .tt { font-size: 12px; }
-    #bz-biz .sy-r .avs { width: 56px; }
-  }
-  @media (max-width: 370px) {
-    #bz-biz .sy-r { display: grid; grid-template-columns: auto minmax(0, 1fr); align-content: center; gap: 2px 10px; }
-    #bz-biz .sy-r > :first-child { grid-row: 1 / 3; align-self: center; }
-    #bz-biz .sy-r .tt { grid-column: 2; justify-items: start; }
   }
 
   /* both bentos: the hero desk's radius, a smaller one inside, and room to breathe. The student card keeps its own shape. */
@@ -1202,6 +1138,207 @@
   }
   @media (prefers-reduced-motion: reduce) { .stq *, .stm *, .sta *, .sta-hit::before { animation: none !important; transition: none !important; } }
 
+  /* Pro, Business, Students (P-029, 2026-11-25): the section's title is a question finished by three tabs, then each plan.
+     The Business and Students bentos above are unchanged. */
+
+  /* the section's title: a real heading (the question) and the three choices as tabs right under it, one size, read as
+     one sentence: "Artifice takes AI further in your… work / team / studies." */
+  .pro-q, .bz .bz-tabs.pro-ch { font-family: var(--display); font-size: 44px; line-height: 1.12; font-weight: 600; letter-spacing: -.028em; text-wrap: pretty; }
+  .pro-q { margin: 0; max-width: none; color: var(--ink); }
+  .bz .bz-tabs.pro-ch { display: block; width: 100%; padding: 0; margin: 0 0 56px; border: 0; border-radius: 0; background: none; color: var(--ink-2); }
+  .pro-ch-end { color: var(--ink); }
+  /* each choice: paragraph grey with a dotted underline (it can be picked); the chosen one in ink with no line.
+     An invisible layer above and below makes each one easier to tap; a button sits in the line like a block, so padding
+     would push the lines apart */
+  .bz .bz-tabs.pro-ch button { display: inline; position: relative; margin: 0 -.12em; padding: 0 .12em; border: 0; border-radius: 8px; background: none; box-shadow: none; font: inherit; letter-spacing: inherit; color: var(--ink-2); cursor: pointer; white-space: nowrap;
+    text-decoration: underline dotted; text-decoration-thickness: 2px; text-underline-offset: 8px; text-decoration-color: color-mix(in srgb, var(--ink) 30%, var(--bg)); -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    transition: color .25s var(--fade), background-color .25s var(--fade), text-decoration-color .25s var(--fade); }
+  .bz .bz-tabs.pro-ch button:hover, .bz .bz-tabs.pro-ch button:active { color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); text-decoration-color: color-mix(in srgb, var(--ink) 55%, var(--bg)); }
+  .bz .bz-tabs.pro-ch button[aria-selected="true"], .bz .bz-tabs.pro-ch button[aria-selected="true"]:hover { color: var(--ink); background: none; text-decoration: none; cursor: default; }
+  .bz .bz-tabs.pro-ch button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .bz .bz-tabs.pro-ch button::after { content: ""; position: absolute; left: 0; right: 0; top: -.2em; bottom: -.2em; }
+  /* each slash belongs to the phrase after it, so a line never ends on one; inline-block keeps it out of the underline */
+  .bz .bz-tabs.pro-ch button + button::before { content: "/"; display: inline-block; margin: 0 .22em 0 .04em; font-weight: 300; color: var(--line-2); }
+  /* once, on the way in: the question first, then the three choices one after another (all there without motion) */
+  .pro-ch.wait button, .pro-ch.wait .pro-ch-end { opacity: 0; }
+  .pro-ch.in button, .pro-ch.in .pro-ch-end { animation: pro-opt .55s var(--ease) backwards; animation-delay: calc(.2s + var(--o) * .14s); }
+  @keyframes pro-opt { from { opacity: 0; transform: translateY(.18em); } }
+  /* under the title, each plan says its line as one paragraph (the site's paragraph style) */
+  .bz-panel .bz-head .pro-said { margin: 0; max-width: 36em; font-size: 20px; line-height: 1.55; letter-spacing: -.005em; color: var(--ink-2); text-wrap: pretty; }
+  /* each plan's heading gets a small label with its name and price, in place of a second line under the sentence */
+  .bz-panel .pro-tag { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-bottom: 14px; font-size: 13px; color: var(--ink-2); }
+  .bz-panel .pro-tag b { padding: 3px 9px; border-radius: 6px; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--ink); background: color-mix(in srgb, var(--ink) 7%, transparent); }
+  .bz-panel:not([hidden]) .bz-head { animation: pro-in .5s var(--ease); }
+  @keyframes pro-in { from { opacity: 0; transform: translateY(6px); } }
+
+  /* room to breathe: a wider gap from each plan's line to its cards */
+  /* the plan's line to its cards: the same gap as the title to the plan */
+  .bz-panel .cx-grid { margin-top: 56px; }
+  @media (max-width: 640px) { .bz-panel .cx-grid { margin-top: 40px; } }
+
+  /* the Pro bento */
+  #bz-pro .reassure { display: flex; gap: 14px; font-size: 12.5px; color: var(--ink-3); }
+  #bz-pro .reassure span { display: inline-flex; align-items: center; gap: 5px; }
+  #bz-pro .reassure svg { width: 13px; height: 13px; color: var(--ready); }
+
+  /* 1. pays for itself: what the extra usage is worth, against what Pro costs */
+  .cx-grid.clean .cx-vis.ppay-vis { padding: 26px 44px; }
+  .ppay { width: 100%; max-width: 560px; }
+  .ppay-row + .ppay-row { margin-top: 26px; }
+  .ppay-top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-size: 14px; color: var(--ink-2); }
+  .ppay-top b { font-size: 40px; line-height: 1; font-weight: 650; letter-spacing: -.035em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .ppay-top b small { font-size: 15px; font-weight: 500; letter-spacing: 0; color: var(--ink-3); }
+  .ppay-bar { position: relative; height: 12px; margin-top: 10px; border-radius: 6px; background: var(--line); overflow: hidden; }
+  .ppay-bar i { position: absolute; inset: 0 auto 0 0; width: var(--w); border-radius: 6px; background: var(--c); transform-origin: left; }
+  .ppay.run .ppay-bar i { animation: ppay-grow 1.4s var(--ease) backwards; animation-delay: var(--d); animation-play-state: running; }
+  @keyframes ppay-grow { from { transform: scaleX(0); } }
+  .ppay-note { display: flex; align-items: center; gap: 8px; margin-top: 24px; padding-top: 16px; border-top: 1px dashed var(--line-2); font-size: 13px; color: var(--ink-3); }
+  .ppay-note b { flex: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 8px; border-radius: 999px; font-size: 12.5px; font-weight: 600; color: var(--ready); background: color-mix(in srgb, var(--ready) 13%, transparent); }
+  .ppay-note svg { width: 13px; height: 13px; stroke-width: 2.4; }
+
+  /* 2. remembers correctly: one memory, kept true */
+  .cx-grid.clean .cx-vis.pmem-vis { padding: 24px 22px; }
+  .pmem { width: 100%; max-width: 300px; display: grid; gap: 10px; }
+  .pmem-card { padding: 16px 16px 14px; border: 1px solid var(--line-2); border-radius: var(--r-m); background: color-mix(in srgb, var(--ink) 3%, var(--surface)); box-shadow: var(--shadow-s); }
+  .pmem-k { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; letter-spacing: .02em; color: var(--ink-3); }
+  .pmem-k i { width: 7px; height: 7px; border-radius: 50%; background: var(--ready); transition: background .4s; }
+  .pmem-t { margin-top: 8px; font-size: 15px; line-height: 1.4; color: var(--ink); }
+  .pmem-src { margin-top: 10px; font-size: 12px; color: var(--ink-3); }
+  .pmem-flag { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .5s var(--ease), opacity .4s; }
+  .pmem-flag > div { overflow: hidden; }
+  .pmem-flag p { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--attn); }
+  .pmem-flag span { display: flex; gap: 6px; margin-top: 9px; }
+  .pmem-flag span i { padding: 4px 10px; border-radius: 7px; border: 1px solid var(--line-2); font-style: normal; font-size: 12px; color: var(--ink-2); }
+  .pmem-flag span i:first-child { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+  .pmem-steps { display: grid; gap: 6px; padding: 0 2px; }
+  .pmem-steps span { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-3); opacity: .45; transition: opacity .4s, color .4s; }
+  .pmem-steps span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
+  .pmem-steps span.on { opacity: 1; color: var(--ink-2); }
+  .pmem.s1 .pmem-k i { background: var(--attn); }
+  .pmem.s1 .pmem-flag { grid-template-rows: 1fr; opacity: 1; }
+
+  /* 3. get more done: the same day, more finished in it */
+  .cx-grid.clean .cx-vis.pday-vis { padding: 26px 22px; }
+  .pday { width: 100%; max-width: 300px; }
+  .pday-n { order: -1; }
+  .pday { display: flex; flex-direction: column; }
+  .pday-h { margin-top: 22px; display: flex; justify-content: space-between; font-size: 11.5px; color: var(--ink-3); }
+  .pday-row { display: flex; gap: 4px; height: 30px; margin-top: 8px; padding: 4px; border-radius: 10px; background: var(--line); }
+  .pday-row i { position: relative; flex: 1; border-radius: 6px; background: #3987e5; }
+  .pday-row i::after { content: ""; position: absolute; left: 50%; top: 50%; width: 7px; height: 4px; border: solid #fff; border-width: 0 0 2px 2px; transform: translate(-50%, -70%) rotate(-45deg); opacity: .9; }
+  .pday.run .pday-row i { animation: pday-in .55s var(--ease) backwards; animation-delay: calc(.2s + var(--k) * .16s); animation-play-state: running; }
+  @keyframes pday-in { from { opacity: 0; transform: scaleX(.4); } }
+  .pday-n { display: grid; gap: 6px; }
+  .pday-n b { font-size: 56px; line-height: 1; font-weight: 650; letter-spacing: -.035em; color: var(--ink); }
+  .pday-n span { font-size: 14px; line-height: 1.35; color: var(--ink-2); }
+  .pday-foot { margin-top: 14px; font-size: 12px; color: var(--ink-3); }
+
+  /* 4. skip the upgrade: the plan you have, with room left */
+  .cx-grid.clean .cx-vis.pup-vis { padding: 26px 44px; }
+  .pup { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; width: 100%; max-width: 560px; }
+  .pup-tier { padding: 18px 18px 16px; border-radius: var(--r-m); border: 1px solid var(--line-2); }
+  .pup-tier.yours { background: color-mix(in srgb, var(--ink) 3%, var(--surface)); box-shadow: var(--shadow-s); }
+  .pup-tier.next { border-style: dashed; color: var(--ink-3); }
+  .pup-p { font-size: 30px; line-height: 1; font-weight: 650; letter-spacing: -.03em; color: var(--ink); }
+  .pup-p small { font-size: 13px; font-weight: 500; letter-spacing: 0; color: var(--ink-3); }
+  .pup-tier.next .pup-p { color: var(--ink-3); text-decoration: line-through; text-decoration-thickness: 2px; }
+  .pup-l { margin-top: 6px; font-size: 13px; color: var(--ink-2); }
+  .pup-bar { height: 8px; margin-top: 16px; border-radius: 4px; background: var(--line); overflow: hidden; }
+  .pup-bar i { display: block; height: 100%; width: 72%; border-radius: 4px; background: #3987e5; transform-origin: left; }
+  .pup.run .pup-bar i { animation: ppay-grow 1.4s var(--ease) .3s backwards; animation-play-state: running; }
+  .pup-room { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--ink-3); }
+  .pup-room b { font-weight: 600; color: var(--ready); }
+  .pup-tier.next .pup-l { color: var(--ink-3); }
+  .pup-skip { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; padding: 3px 10px 3px 8px; border-radius: 999px; font-size: 12.5px; font-weight: 600; color: var(--ready); background: color-mix(in srgb, var(--ready) 13%, transparent); }
+  .pup-skip svg { width: 13px; height: 13px; stroke-width: 2.4; }
+
+  @media (max-width: 1230px) { .pro-q, .bz .bz-tabs.pro-ch { font-size: 40px; } }
+  @media (max-width: 1230px) and (min-width: 1081px) { .cx-grid.clean .cx-vis.ppay-vis, .cx-grid.clean .cx-vis.pup-vis { padding: 24px 30px; } }
+  @media (max-width: 860px) {
+    .pro-q, .bz .bz-tabs.pro-ch { font-size: 36px; }
+  }
+  @media (max-width: 640px) {
+    .pro-q, .bz .bz-tabs.pro-ch { font-size: 29px; line-height: 1.16; } .bz .bz-tabs.pro-ch { margin-bottom: 40px; }
+    .bz .bz-tabs.pro-ch button::after { top: -.42em; bottom: -.42em; }   /* taller tap area on phones: about 44px */
+      .bz-panel .bz-head .pro-said { font-size: 18px; }   /* .lead on phones */
+    .cx-grid.clean .cx-vis.ppay-vis, .cx-grid.clean .cx-vis.pup-vis { padding: 24px 20px; }
+    .ppay-top { display: grid; gap: 6px; } .ppay-top b { font-size: 32px; }
+    .ppay-note { flex-wrap: wrap; }
+    .pup { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+    .pup-tier { padding: 14px 16px; }
+    #bz-pro .reassure { flex-wrap: wrap; }
+  }
+  @media (max-width: 400px) { .cx-grid.clean .cx-vis.pmem-vis { padding: 20px 14px; } .pro-q, .bz .bz-tabs.pro-ch { font-size: 26px; } }
+  @media (prefers-reduced-motion: reduce) { .bz .bz-tabs.pro-ch button { transition: none; } .pro-ch button, .pro-ch .pro-ch-end { animation: none !important; opacity: 1 !important; } .bz-panel .bz-head { animation: none !important; } .ppay *, .pmem *, .pday *, .pup *, .pro-ch * { animation: none !important; transition: none !important; } }
+
+  /* One library for every team (P-040, 2026-11-25): one team's AI at a time. Support's answer caught and corrected,
+     Business relations' answer updated when Engineering ships, and one source of truth for every AI. Scene one shows without script. */
+  #bz-biz .cx-grid.clean .cx-vis.an4-vis { place-items: center; padding: 26px 40px; }   /* block sits in the middle, like the other cards' visuals */
+  .an4 { display: grid; width: 100%; }
+  .an4-row { grid-area: 1 / 1; align-self: center; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; align-items: start;
+    opacity: 0; transform: translateY(8px); transition: opacity .9s var(--fade), transform .9s var(--ease); }
+  .an4-row.on { opacity: 1; transform: none; }
+  .an4-row > div { display: grid; gap: 10px; align-content: start; }
+  .an4-ai { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: var(--surface); border: 1px solid var(--line-2); box-shadow: var(--shadow-s); color: var(--ink); }
+  .an4-ai svg { width: 20px; height: 20px; }
+  .an4-who { font-size: 13px; color: var(--ink-3); }
+  .an4-say { margin: 0; font-family: var(--display); font-size: 24px; line-height: 1.3; letter-spacing: -.015em; color: var(--ink); text-wrap: balance; }
+  .an4-say b { font-weight: 600; }
+  .an4-src { justify-self: start; display: inline-flex; align-items: center; gap: 7px; padding: 4px 12px 4px 5px; border-radius: 999px; background: var(--sunken); border: 1px solid var(--line); font-size: 12.5px; color: var(--ink-2); white-space: nowrap; max-width: 100%; box-sizing: border-box; overflow: hidden; text-overflow: ellipsis; opacity: 0; transition: opacity .7s var(--fade); }
+  .an4-src img { width: 18px; height: 18px; border-radius: 4px; }
+  .an4-src b { font-weight: 600; color: var(--ink); }
+  .an4-row.cited .an4-src { opacity: 1; }
+  .an4wrap { width: fit-content; max-width: min(100%, 470px); }   /* hugs the widest scene so the centring is real */
+  /* which of the three is showing */
+  .an4-dots { display: flex; gap: 6px; margin: 22px 0 0; }   /* starts at the block's left edge: under the AI icon, and under the logos in scene three */
+  .an4-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line-2); transition: background .35s, width .35s var(--ease); }
+  .an4-dots i.on { width: 18px; border-radius: 3px; background: var(--ink-3); }
+  @media (max-width: 1230px) and (min-width: 1081px) { #bz-biz .cx-grid.clean .cx-vis.an4-vis { padding: 24px 26px; } .an4-say { font-size: 22px; } }
+  @media (max-width: 640px) {
+    #bz-biz .cx-grid.clean .cx-vis.an4-vis { padding: 24px 20px; }
+    .an4-row { grid-template-columns: 36px minmax(0, 1fr); gap: 12px; } .an4-ai { width: 36px; height: 36px; } .an4-ai svg { width: 17px; height: 17px; }
+    .an4-say { font-size: 20px; }
+    .an4-src { white-space: normal; border-radius: 10px; padding: 5px 10px 5px 5px; align-items: flex-start; line-height: 1.35; } .an4-src img { margin-top: 1px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .an4 *, .an4-dots * { transition: none !important; animation: none !important; } }
+
+  /* each scene changes once: the answer is corrected or updated, and its note changes with it */
+  .an4-say .was, .an4-say .now { white-space: nowrap; }
+  .an4-say .now { display: none; color: #3987e5; }   /* hidden with display:none so the spaces around it collapse to one */
+  .an4-row.s2 .an4-say .was { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--ink-3); }
+  .an4-row.s2 .an4-say .now { display: inline; animation: an4-in .9s var(--ease); }
+  @keyframes an4-in { from { opacity: 0; } }
+  .an4-notes { display: grid; justify-items: start; }
+  .an4-notes .an4-src { grid-area: 1 / 1; }
+  .an4-src.warn { background: color-mix(in srgb, #b4621a 12%, var(--surface)); border-color: color-mix(in srgb, #b4621a 35%, var(--line)); color: #9c5418; }
+  .an4-src.warn b { color: #9c5418; }
+  .an4-src.ok { background: color-mix(in srgb, var(--ready) 12%, var(--surface)); border-color: color-mix(in srgb, var(--ready) 30%, var(--line)); color: var(--ready); }
+  .an4-src.ok b { color: var(--ready); }
+  .an4-row .an4-src.n1, .an4-row .an4-src.n2 { opacity: 0; }
+  .an4-row.s1 .an4-src.n1 { opacity: 1; }
+  .an4-row.s2 .an4-src.n2 { opacity: 1; }
+  /* scene three: every AI at once */
+  .an4-many { display: flex; }
+  .an4-many .an4-ai { width: 34px; height: 34px; margin-right: -8px; box-shadow: 0 0 0 2px var(--surface), var(--shadow-s); }
+  .an4-many .an4-ai svg { width: 15px; height: 15px; }
+  .an4-row.many { grid-template-columns: 1fr; }
+
+  /* Library card, wide screens (P-041A): the content grows to fill the wide card */
+  @media (min-width: 641px) {
+    #bz-biz .cx-grid.clean .cx-vis.an4-vis { padding: 30px 48px; }
+    #bz-biz .an4wrap { max-width: min(100%, 640px); }
+    #bz-biz .an4-row { grid-template-columns: 56px minmax(0, 1fr); gap: 20px; }
+    #bz-biz .an4-row.many { grid-template-columns: minmax(0, 1fr); }   /* scene three keeps its single column */
+    #bz-biz .an4-ai { width: 56px; height: 56px; } #bz-biz .an4-ai svg { width: 25px; height: 25px; }
+    #bz-biz .an4-many .an4-ai { width: 44px; height: 44px; } #bz-biz .an4-many .an4-ai svg { width: 19px; height: 19px; }
+    #bz-biz .an4-row > div { gap: 12px; }
+    #bz-biz .an4-who { font-size: 14px; }
+    #bz-biz .an4-say { font-size: 32px; line-height: 1.24; letter-spacing: -.02em; }
+    #bz-biz .an4-src { font-size: 13.5px; padding: 5px 14px 5px 6px; } #bz-biz .an4-src img { width: 20px; height: 20px; }
+    #bz-biz .an4-dots { margin-top: 26px; }
+  }
+  @media (max-width: 1230px) and (min-width: 641px) { #bz-biz .an4-say { font-size: 28px; } #bz-biz .cx-grid.clean .cx-vis.an4-vis { padding: 28px 36px; } }
+
   /* AI tools: the app's own screen on the left, the words on the right */
   .tools { display: grid; grid-template-columns: 7fr 5fr; gap: 72px; align-items: center; }
   .tools-win { box-shadow: var(--shadow-l); }
@@ -1243,10 +1380,6 @@
     .bz-grid { grid-template-columns: 1fr; }
     .cx-grid { grid-template-columns: 1fr; } .cx.w2 { grid-column: auto; }
     .cx-grid.clean .cx-vis { height: auto; min-height: 230px; padding: 26px 18px; }
-    /* the sync card on a phone: departments, the library, every team's AI, top to bottom */
-    .cx-grid.clean .sy-vis { padding: 22px 16px; }
-    .sy { grid-template-columns: 1fr; }
-    .sy-line { flex-direction: column; height: 76px; padding: 6px 0; } .sy-line i { width: 1px; flex: 1; } .sy-line i::after { display: none; }
     .cx-vis { height: 260px; } .shot { left: 20px; top: 22px; }
     .cx .shot.window { width: 520px !important; max-width: none !important; } .cx .shot.wide .app { grid-template-columns: 1fr; } .cx .shot.wide .app-side { display: none; } .cx .sp { padding: 20px 22px; }
     .shot.pbt { left: 40px; top: 140px; }
@@ -1525,92 +1658,65 @@
   <section class="section">
     <div class="container">
       <div class="bz reveal">
-        <div class="bz-tabs" role="tablist" aria-label="Who it's for">
-          <button type="button" role="tab" id="bz-tab-biz" aria-controls="bz-biz" aria-selected="true">For business</button>
-          <button type="button" role="tab" id="bz-tab-stu" aria-controls="bz-stu" aria-selected="false" tabindex="-1">For students</button>
-        </div>
-        <div class="bz-panel" id="bz-biz" role="tabpanel" aria-labelledby="bz-tab-biz">
-          <div class="bz-head">
-            <div>
-              <h2 class="h2">Every AI in your company, working from the same playbook.</h2>
-              <p class="lead" style="margin-top:18px">Your company's knowledge, recurring work and lessons, shared with every AI your people use.</p>
-            </div>
-            <div class="bz-cta">
-              <a class="btn primary lg" href="mailto:info@tryartifice.com?subject=Artifice%20for%20our%20company">Talk to us</a>
-            </div>
+        <h2 class="pro-q" id="pro-q">Explore how Artifice pushes the boundaries of your…</h2>
+        <div class="bz-tabs pro-ch" role="tablist" aria-labelledby="pro-q"><button type="button" id="bz-tab-pro" role="tab" aria-controls="bz-pro" style="--o: 0;" aria-selected="true">professional work</button> <button type="button" role="tab" id="bz-tab-stu" aria-controls="bz-stu" aria-selected="false" style="--o: 1;" tabindex="-1">college experience</button> <button type="button" role="tab" id="bz-tab-biz" aria-controls="bz-biz" aria-selected="false" style="--o: 2;" tabindex="-1">company or team</button><span class="pro-ch-end" style="--o: 3;">.</span></div>
+        <!-- Pro (P-029, 2026-11-25) -->
+        <div class="bz-panel" id="bz-pro" role="tabpanel" aria-labelledby="bz-tab-pro">
+        <div class="bz-head">
+          <div>
+            <p class="pro-tag"><b>PRO</b>$5.99 a month, after 14 days free</p>
+            <p class="pro-said">More from the AI you already pay for.</p>
           </div>
-
-          <div class="cx-grid clean">
-            <article class="cx w2">
-              <div class="cx-vis sy-vis" aria-hidden="true"><div class="sy">
-                <div class="ab sy-p">
-                  <span class="sy-h">Departments</span>
-                  <div class="sy-r fin"><span class="avs"><i>P</i><i>J</i><i class="more">+3</i></span><b>Finance</b><span class="tt"><span>Edited 3h ago</span><span>Edited just now</span><span>Edited 1m ago</span></span></div>
-                  <div class="sy-r leg"><span class="avs"><i>R</i><i>S</i></span><b>Legal</b><span class="tt"><span>Edited 1d ago</span></span></div>
-                  <div class="sy-r eng"><span class="avs"><i>D</i><i>A</i><i class="more">+8</i></span><b>Engineering</b><span class="tt"><span>Edited 2d ago</span><span>Edited just now</span></span></div>
-                </div>
-                <span class="sy-line"><i></i><img src="assets/mark.svg" alt=""><i></i></span>
-                <div class="ab sy-p">
-                  <span class="sy-h">Every team's AI</span>
-                  <div class="sy-r ai" style="--d:0.00s"><span class="ic tool"><svg viewBox="0 0 24 24" class="lg"><path fill="#D97757" d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg></span><b>Claude Code<small>Sales</small></b><span class="tt"><span>Synced 3h ago</span><span>Synced just now</span></span></div><div class="sy-r ai" style="--d:0.18s"><span class="ic tool"><svg viewBox="0 0 24 24" class="lg"><path fill="#8E75B2" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg></span><b>Gemini CLI<small>Marketing</small></b><span class="tt"><span>Synced 3h ago</span><span>Synced just now</span></span></div><div class="sy-r ai" style="--d:0.36s"><span class="ic tool"><svg viewBox="0 0 24 24" class="lg"><path fill="currentColor" d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg></span><b>Codex<small>Support</small></b><span class="tt"><span>Synced 3h ago</span><span>Synced just now</span></span></div>
-                </div>
-              </div></div>
-              <div class="cx-t"><h3>One library for every team</h3><p>A change in one team reaches every AI on its own.</p></div>
-            </article>
-            <article class="cx ">
-              <div class="cx-vis" aria-hidden="true"><div class="big">
-                <div class="n">72%<s>100%</s></div><div class="trk"><i></i><em></em></div><small>of the tokens, for the same answers</small>
-              </div></div>
-              <div class="cx-t"><h3>More AI from the same seats</h3><p>28% less per question. Same answers.</p></div>
-            </article>
-            <article class="cx ">
-              <div class="cx-vis rwg-vis" aria-hidden="true"><svg class="rwg" viewBox="0 0 320 250">
-                <path class="rwg-track" d="M38.00 148.00 A122 122 0 0 1 282.00 148.00"/><defs><radialGradient id="rwg-g0" gradientUnits="userSpaceOnUse" cx="282" cy="148" r="46"><stop class="in" offset="0"/><stop class="out" offset="1"/></radialGradient><radialGradient id="rwg-g1" gradientUnits="userSpaceOnUse" cx="282" cy="148" r="46"><stop class="in" offset="0"/><stop class="out" offset="1"/></radialGradient></defs><path class="rwg-glow" stroke="url(#rwg-g0)" d="M101.23 41.09 A122 122 0 0 1 282.00 148.00"/><path class="rwg-glow" stroke="url(#rwg-g1)" d="M101.23 41.09 A122 122 0 0 1 282.00 148.00"/><path class="rwg-search" d=""/><path class="rwg-work" d="M38.00 148.00 A122 122 0 0 1 101.23 41.09"/>
-                <path class="rwg-marks" d="M54.33 139.68 L59.31 140.08 M55.31 131.42 L60.24 132.20 M56.93 123.25 L61.79 124.42 M59.19 115.24 L63.94 116.79 M62.07 107.44 L66.69 109.35 M65.55 99.88 L70.01 102.15 M69.62 92.62 L73.88 95.23 M74.24 85.69 L78.29 88.63 M79.40 79.16 L83.20 82.41 M91.16 67.40 L94.41 71.20 M97.69 62.24 L100.63 66.29 M104.62 57.62 L107.23 61.88 M111.88 53.55 L114.15 58.01 M119.44 50.07 L121.35 54.69 M127.24 47.19 L128.79 51.94 M135.25 44.93 L136.42 49.79 M143.42 43.31 L144.20 48.24 M151.68 42.33 L152.08 47.31 M168.32 42.33 L167.92 47.31 M176.58 43.31 L175.80 48.24 M184.75 44.93 L183.58 49.79 M192.76 47.19 L191.21 51.94 M200.56 50.07 L198.65 54.69 M208.12 53.55 L205.85 58.01 M215.38 57.62 L212.77 61.88 M222.31 62.24 L219.37 66.29 M228.84 67.40 L225.59 71.20 M240.60 79.16 L236.80 82.41 M245.76 85.69 L241.71 88.63 M250.38 92.62 L246.12 95.23 M254.45 99.88 L249.99 102.15 M257.93 107.44 L253.31 109.35 M260.81 115.24 L256.06 116.79 M263.07 123.25 L258.21 124.42 M264.69 131.42 L259.76 132.20 M265.67 139.68 L260.69 140.08"/><path class="rwg-marks major" d="M54.00 148.00 L65.00 148.00 M85.05 73.05 L92.82 80.82 M160.00 42.00 L160.00 53.00 M234.95 73.05 L227.18 80.82 M266.00 148.00 L255.00 148.00"/>
-                <path class="rwg-needle" d="M68 148 L160 143 L176 145 L176 151 L160 153 Z" transform="rotate(61.2 160 148)"/>
-                <circle class="rwg-hub" cx="160" cy="148" r="11"/><circle class="rwg-pin" cx="160" cy="148" r="3.5"/>
-                <text class="rwg-end-label" x="38" y="169" text-anchor="middle">Low</text><text class="rwg-end-label" x="282" y="169" text-anchor="middle">High</text>
-                <text class="rwg-head" x="160" y="189" text-anchor="middle">AI tokens</text>
-                <text class="rwg-sub" x="160" y="208" text-anchor="middle">on recurring work (illustrative)</text>
-                <text class="rwg-all" x="160" y="241" text-anchor="middle"><tspan class="work">●</tspan> AI’s work<tspan class="search" dx="18">●</tspan> Searching, <tspan class="out">cut by Artifice</tspan></text>
-                <g class="rwg-key"><text class="rwg-lead" x="20" y="241"><tspan class="work">●</tspan> AI’s work<tspan class="search" dx="18">●</tspan></text><text class="rwg-cut" x="130" y="241">Searching</text><text class="rwg-cut" x="130" y="241">Hallucination</text><text class="rwg-cut" x="130" y="241">Verbosity</text><text class="rwg-cut" x="130" y="241">Bash commands</text><text class="rwg-by" x="200" y="241">, <tspan class="out">cut by Artifice</tspan></text></g>
-              </svg></div>
-              <div class="cx-t"><h3>Save tokens on recurring work</h3><p>Artifice takes out the busywork, team by team.</p></div>
-            </article>
-            <article class="cx w2">
-              <div class="cx-vis opl-vis"><div class="opl-all">
-                <div role="group" aria-label="Admin settings"><span class="opl-h">Your admin</span>
-                  <button type="button" class="opl-rule lit" role="switch" aria-checked="true" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg><b>Single sign-on</b><i class="opl-on"></i></button>
-                  <button type="button" class="opl-rule" role="switch" aria-checked="true" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg><b>Managed install</b><i class="opl-on"></i></button>
-                  <button type="button" class="opl-rule" role="switch" aria-checked="true" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg><b>Approved AI tools</b><i class="opl-on"></i></button>
-                  <button type="button" class="opl-rule" role="switch" aria-checked="true" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg><b>Never-read folders</b><i class="opl-on"></i></button>
-                  <button type="button" class="opl-rule" role="switch" aria-checked="true" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg><b>Audit log</b><i class="opl-on"></i></button>
-                  <button type="button" class="opl-rule" role="switch" aria-checked="true" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg><b>Pinned updates</b><i class="opl-on"></i></button>
-                </div>
-                <div><span class="opl-h">Every team’s computers</span><div class="opl-fleet" aria-hidden="true">
-                  <div class="opl-pc"><div class="opl-scr"><span class="lit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></span></div><i class="opl-base"></i><span class="opl-team">Finance</span></div>
-                  <div class="opl-pc"><div class="opl-scr"><span class="lit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></span></div><i class="opl-base"></i><span class="opl-team">Legal</span></div>
-                  <div class="opl-pc"><div class="opl-scr"><span class="lit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></span></div><i class="opl-base"></i><span class="opl-team">Engineering</span></div>
-                  <div class="opl-pc"><div class="opl-scr"><span class="lit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></span></div><i class="opl-base"></i><span class="opl-team">Sales</span></div>
-                  <div class="opl-pc"><div class="opl-scr"><span class="lit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></span></div><i class="opl-base"></i><span class="opl-team">Marketing</span></div>
-                  <div class="opl-pc"><div class="opl-scr"><span class="lit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></span></div><i class="opl-base"></i><span class="opl-team">Support</span></div>
-                </div><div class="opl-local"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Files stay on each computer</div></div>
-              </div></div>
-              <div class="cx-t"><h3>Run it from one place</h3><p>Every team gets AI. You keep control.</p></div>
-            </article>
+          <div class="bz-cta">
+            <a class="btn primary lg" href="download.html">Try Pro free</a>
+            <span class="reassure"><span><svg viewBox="0 0 24 24" class="i" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>No card needed</span><span><svg viewBox="0 0 24 24" class="i" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>14 days free</span></span>
           </div>
         </div>
+        <div class="cx-grid clean">
+          <article class="cx w2">
+            <div class="cx-vis ppay-vis"><div class="ppay" role="img" aria-label="On a 20 dollar AI plan, about 8 dollars a month of extra usage, for 5.99 dollars">
+              <div class="ppay-row"><div class="ppay-top"><span>Extra usage you get, on a $20 AI plan</span><b>$8<small> a month</small></b></div><div class="ppay-bar"><i style="--w:100%;--c:#3987e5;--d:.2s"></i></div></div>
+              <div class="ppay-row"><div class="ppay-top"><span>What Pro costs</span><b>$5.99<small> a month</small></b></div><div class="ppay-bar"><i style="--w:74.9%;--c:var(--ink-3);--d:.5s"></i></div></div>
+              <p class="ppay-note"><b><svg viewBox="0 0 24 24" class="i" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>Pays for itself</b>About 40% more usage, measured on questions about code</p>
+            </div></div>
+            <div class="cx-t"><h3>Pays for itself</h3><p>On a $20 AI plan, the extra usage is worth more than Pro costs.</p></div>
+          </article>
+          <article class="cx">
+            <div class="cx-vis pmem-vis"><div class="pmem" aria-hidden="true">
+              <div class="pmem-card"><span class="pmem-k"><i></i>Memory · Decision</span><p class="pmem-t">Exports always use UTC dates.</p><span class="pmem-src">From export-settings.md</span>
+                <div class="pmem-flag"><div><p>export-settings.md changed. Still true?</p><span><i>Still true</i><i>Remove</i></span></div></div></div>
+              <div class="pmem-steps"><span class="on">Said twice? Kept once.</span><span>A file it came from changed? It asks.</span></div>
+            </div></div>
+            <div class="cx-t"><h3>Remembers correctly</h3><p>No duplicates, and no out-of-date facts slipping through.</p></div>
+          </article>
+          <article class="cx">
+            <div class="cx-vis pday-vis"><div class="pday" role="img" aria-label="Answers take 37% less time">
+              <div class="pday-h"><span>Answers in your day</span><span>more of them fit</span></div>
+              <div class="pday-row"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><i style="--k:4"></i><i style="--k:5"></i><i style="--k:6"></i><i style="--k:7"></i></div>
+              <div class="pday-n"><b>37%</b><span>less time waiting on each answer</span></div>
+              <p class="pday-foot">Measured on questions about code</p>
+            </div></div>
+            <div class="cx-t"><h3>Get more done</h3><p>Fewer back-and-forths, so more of your day goes to the work.</p></div>
+          </article>
+          <article class="cx w2">
+            <div class="cx-vis pup-vis"><div class="pup" role="img" aria-label="Stay on your 20 dollar plan with room to spare, instead of moving to the 100 dollar plan">
+              <div class="pup-tier yours"><div class="pup-p">$20<small> a month</small></div><div class="pup-l">The plan you have</div><div class="pup-bar"><i></i></div><div class="pup-room"><span>Used</span><b>Room to spare</b></div></div>
+              <div class="pup-tier next"><div class="pup-p">$100<small> a month</small></div><div class="pup-l">The next plan up</div><span class="pup-skip"><svg viewBox="0 0 24 24" class="i" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>Not needed</span></div>
+            </div></div>
+            <div class="cx-t"><h3>Skip the upgrade</h3><p>Stay on the plan you have, instead of paying five times more for the next one.</p></div>
+          </article>
+        </div></div>
         <div class="bz-panel" id="bz-stu" role="tabpanel" aria-labelledby="bz-tab-stu" hidden>
           <div class="bz-head">
-            <div>
-              <h2 class="h2">Free while you study. Everything in Pro.</h2>
-              <p class="lead" style="margin-top:18px">Student AI plans run out fast. Artifice makes yours last, reads your course material, and costs nothing while you're at school.</p>
+              <div>
+                <p class="pro-tag"><b>STUDENTS</b>Free while you study</p><p class="pro-said">Free while you study. Everything in Pro.</p>
+                
+              </div>
+              <div class="bz-cta">
+                <a class="btn primary lg" href="students.html">Get it free</a>
+                <span class="small">Verify your school email · we check again once a year</span>
+              </div>
             </div>
-            <div class="bz-cta">
-              <a class="btn primary lg" href="students.html">Get it free</a>
-              <span class="small">Verify your school email · we check again once a year</span>
-            </div>
-          </div>
 
           <div class="cx-grid clean">
             
@@ -1657,6 +1763,70 @@
               
               <div class="cx-t"><h3>Your plan lasts longer</h3><p>About 40% more questions from the same plan.</p></div>
             
+            </article>
+          </div>
+        </div>
+        <div class="bz-panel" id="bz-biz" role="tabpanel" aria-labelledby="bz-tab-biz" hidden>
+          <div class="bz-head">
+              <div>
+                <p class="pro-tag"><b>BUSINESS</b>For every team · talk to us</p><p class="pro-said">Every AI in your company, working from the same playbook.</p>
+                
+              </div>
+              <div class="bz-cta">
+                <a class="btn primary lg" href="mailto:info@tryartifice.com?subject=Artifice%20for%20our%20company">Talk to us</a>
+              </div>
+            </div>
+
+          <div class="cx-grid clean">
+            <article class="cx w2">
+              <div class="cx-vis an4-vis">
+                <div class="an4wrap"><div class="an4"><div class="an4-row on s2"><span class="an4-ai"><svg viewBox="0 0 24 24" class="lg"><path fill="#8E75B2" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"></path></svg></span><div><span class="an4-who">Support · Gemini CLI, replying to a customer</span><p class="an4-say">Refunds are available within <span class="was">30&nbsp;days</span> <span class="now">14&nbsp;days</span> of purchase.</p>
+        <span class="an4-notes"><span class="an4-src n1 warn"><img src="assets/mark.svg" alt=""><span>Flagged: your <b>Refund policy</b> says 14 days</span></span><span class="an4-src n2 ok"><img src="assets/mark.svg" alt=""><span>Corrected · From <b>Refund policy</b></span></span></span></div></div><div class="an4-row"><span class="an4-ai"><svg viewBox="0 0 24 24" class="lg"><path fill="#D97757" d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"></path></svg></span><div><span class="an4-who">Business relations · Claude Code, writing to a partner</span><p class="an4-say">Single sign-on is <span class="was">coming&nbsp;soon</span> <span class="now">live&nbsp;today</span> for partner accounts.</p>
+        <span class="an4-notes"><span class="an4-src n1 "><img src="assets/mark.svg" alt=""><span>Engineering updated <b>release-notes.md</b> · 2 min ago</span></span><span class="an4-src n2 ok"><img src="assets/mark.svg" alt=""><span>Updated in real time · From <b>Engineering</b></span></span></span></div></div><div class="an4-row many"><div><span class="an4-many"><span class="an4-ai"><svg viewBox="0 0 24 24" class="lg"><path fill="#D97757" d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"></path></svg></span><span class="an4-ai"><svg viewBox="0 0 24 24" class="lg"><path fill="#8E75B2" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"></path></svg></span><span class="an4-ai"><svg viewBox="0 0 24 24" class="lg"><path fill="currentColor" d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"></path></svg></span></span><span class="an4-who">Sales, Legal, Support and Engineering · every AI</span><p class="an4-say">One source of truth for every AI in your company.</p><span class="an4-notes"><span class="an4-src n1 "><img src="assets/mark.svg" alt=""><span>Your <b>company library</b> · every team · always current</span></span></span></div></div></div>
+      <div class="an4-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div></div>
+              </div>
+              <div class="cx-t"><h3>Accurate recent data across all teams for less.</h3><p>Your company’s personal assistant that keeps your AI in check.</p></div>
+            </article>
+            <article class="cx ">
+              <div class="cx-vis" aria-hidden="true"><div class="big">
+                <div class="n">72%<s>100%</s></div><div class="trk"><i></i><em></em></div><small>of the tokens, for the same answers</small>
+              </div></div>
+              <div class="cx-t"><h3>More AI from the same seats</h3><p>28% less per question. Same answers.</p></div>
+            </article>
+            <article class="cx ">
+              <div class="cx-vis rwg-vis" aria-hidden="true"><svg class="rwg" viewBox="0 0 320 250">
+                <path class="rwg-track" d="M38.00 148.00 A122 122 0 0 1 282.00 148.00"/><defs><radialGradient id="rwg-g0" gradientUnits="userSpaceOnUse" cx="282" cy="148" r="46"><stop class="in" offset="0"/><stop class="out" offset="1"/></radialGradient><radialGradient id="rwg-g1" gradientUnits="userSpaceOnUse" cx="282" cy="148" r="46"><stop class="in" offset="0"/><stop class="out" offset="1"/></radialGradient></defs><path class="rwg-glow" stroke="url(#rwg-g0)" d="M101.23 41.09 A122 122 0 0 1 282.00 148.00"/><path class="rwg-glow" stroke="url(#rwg-g1)" d="M101.23 41.09 A122 122 0 0 1 282.00 148.00"/><path class="rwg-search" d=""/><path class="rwg-work" d="M38.00 148.00 A122 122 0 0 1 101.23 41.09"/>
+                <path class="rwg-marks" d="M54.33 139.68 L59.31 140.08 M55.31 131.42 L60.24 132.20 M56.93 123.25 L61.79 124.42 M59.19 115.24 L63.94 116.79 M62.07 107.44 L66.69 109.35 M65.55 99.88 L70.01 102.15 M69.62 92.62 L73.88 95.23 M74.24 85.69 L78.29 88.63 M79.40 79.16 L83.20 82.41 M91.16 67.40 L94.41 71.20 M97.69 62.24 L100.63 66.29 M104.62 57.62 L107.23 61.88 M111.88 53.55 L114.15 58.01 M119.44 50.07 L121.35 54.69 M127.24 47.19 L128.79 51.94 M135.25 44.93 L136.42 49.79 M143.42 43.31 L144.20 48.24 M151.68 42.33 L152.08 47.31 M168.32 42.33 L167.92 47.31 M176.58 43.31 L175.80 48.24 M184.75 44.93 L183.58 49.79 M192.76 47.19 L191.21 51.94 M200.56 50.07 L198.65 54.69 M208.12 53.55 L205.85 58.01 M215.38 57.62 L212.77 61.88 M222.31 62.24 L219.37 66.29 M228.84 67.40 L225.59 71.20 M240.60 79.16 L236.80 82.41 M245.76 85.69 L241.71 88.63 M250.38 92.62 L246.12 95.23 M254.45 99.88 L249.99 102.15 M257.93 107.44 L253.31 109.35 M260.81 115.24 L256.06 116.79 M263.07 123.25 L258.21 124.42 M264.69 131.42 L259.76 132.20 M265.67 139.68 L260.69 140.08"/><path class="rwg-marks major" d="M54.00 148.00 L65.00 148.00 M85.05 73.05 L92.82 80.82 M160.00 42.00 L160.00 53.00 M234.95 73.05 L227.18 80.82 M266.00 148.00 L255.00 148.00"/>
+                <path class="rwg-needle" d="M68 148 L160 143 L176 145 L176 151 L160 153 Z" transform="rotate(61.2 160 148)"/>
+                <circle class="rwg-hub" cx="160" cy="148" r="11"/><circle class="rwg-pin" cx="160" cy="148" r="3.5"/>
+                <text class="rwg-end-label" x="38" y="169" text-anchor="middle">Low</text><text class="rwg-end-label" x="282" y="169" text-anchor="middle">High</text>
+                <text class="rwg-head" x="160" y="189" text-anchor="middle">AI tokens</text>
+                <text class="rwg-sub" x="160" y="208" text-anchor="middle">on recurring work (illustrative)</text>
+                <text class="rwg-all" x="160" y="241" text-anchor="middle"><tspan class="work">●</tspan> AI’s work<tspan class="search" dx="18">●</tspan> Searching, <tspan class="out">cut by Artifice</tspan></text>
+                <g class="rwg-key"><text class="rwg-lead" x="20" y="241"><tspan class="work">●</tspan> AI’s work<tspan class="search" dx="18">●</tspan></text><text class="rwg-cut" x="130" y="241">Searching</text><text class="rwg-cut" x="130" y="241">Hallucination</text><text class="rwg-cut" x="130" y="241">Verbosity</text><text class="rwg-cut" x="130" y="241">Bash commands</text><text class="rwg-by" x="200" y="241">, <tspan class="out">cut by Artifice</tspan></text></g>
+              </svg></div>
+              <div class="cx-t"><h3>Save tokens on recurring work</h3><p>Artifice takes out the busywork, team by team.</p></div>
+            </article>
+            <article class="cx w2">
+              <div class="cx-vis opl-vis"><div class="opl-all">
+                <div role="group" aria-label="Admin settings"><span class="opl-h">Your admin</span>
+                  <button type="button" class="opl-rule lit" role="switch" aria-checked="true" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg><b>Single sign-on</b><i class="opl-on"></i></button>
+                  <button type="button" class="opl-rule" role="switch" aria-checked="true" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg><b>Managed install</b><i class="opl-on"></i></button>
+                  <button type="button" class="opl-rule" role="switch" aria-checked="true" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg><b>Approved AI tools</b><i class="opl-on"></i></button>
+                  <button type="button" class="opl-rule" role="switch" aria-checked="true" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg><b>Never-read folders</b><i class="opl-on"></i></button>
+                  <button type="button" class="opl-rule" role="switch" aria-checked="true" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg><b>Audit log</b><i class="opl-on"></i></button>
+                  <button type="button" class="opl-rule" role="switch" aria-checked="true" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg><b>Pinned updates</b><i class="opl-on"></i></button>
+                </div>
+                <div><span class="opl-h">Every team’s computers</span><div class="opl-fleet" aria-hidden="true">
+                  <div class="opl-pc"><div class="opl-scr"><span class="lit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></span></div><i class="opl-base"></i><span class="opl-team">Finance</span></div>
+                  <div class="opl-pc"><div class="opl-scr"><span class="lit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></span></div><i class="opl-base"></i><span class="opl-team">Legal</span></div>
+                  <div class="opl-pc"><div class="opl-scr"><span class="lit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></span></div><i class="opl-base"></i><span class="opl-team">Engineering</span></div>
+                  <div class="opl-pc"><div class="opl-scr"><span class="lit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></span></div><i class="opl-base"></i><span class="opl-team">Sales</span></div>
+                  <div class="opl-pc"><div class="opl-scr"><span class="lit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></span></div><i class="opl-base"></i><span class="opl-team">Marketing</span></div>
+                  <div class="opl-pc"><div class="opl-scr"><span class="lit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></span></div><i class="opl-base"></i><span class="opl-team">Support</span></div>
+                </div><div class="opl-local"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Files stay on each computer</div></div>
+              </div></div>
+              <div class="cx-t"><h3>Run it from one place</h3><p>Every team gets AI. You keep control.</p></div>
             </article>
           </div>
         </div>
