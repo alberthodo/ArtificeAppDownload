@@ -563,19 +563,6 @@
     }, { rootMargin: '0px 0px -12% 0px' }).observe(tabs);
   }
 
-  // the Pro bento: the bars and the day fill in once seen; the memory shows its two habits in turn
-  const panel = document.getElementById('bz-pro');
-  if (!panel || !('IntersectionObserver' in window)) return;
-  const once = (el, fn) => new IntersectionObserver((es, io) => { if (es[es.length - 1].isIntersecting) { fn(); io.disconnect(); } }, { threshold: .5 }).observe(el);
-  ['.ppay', '.pday', '.pup'].forEach(s => { const el = panel.querySelector(s); if (el && !calm.matches) once(el, () => el.classList.add('run')); });
-  const mem = panel.querySelector('.pmem');
-  if (!mem) return;
-  const steps = [...mem.querySelectorAll('.pmem-steps span')];
-  let s = 0, timer = 0, seen = false;
-  const show = i => { s = i; mem.classList.toggle('s1', i === 1); steps.forEach((x, k) => x.classList.toggle('on', k === i)); };
-  const next = () => { clearTimeout(timer); if (seen && !calm.matches) timer = setTimeout(() => { show(1 - s); next(); }, 3800); };
-  new IntersectionObserver(es => { seen = es[es.length - 1].isIntersecting; next(); }, { threshold: .25 }).observe(mem);
-  calm.addEventListener?.('change', next);
 })();
 
 // ---- recurring work: the analog dial. The needle only falls, then rests on Low; the light running down the empty track loops ----
@@ -867,4 +854,188 @@
   if (calm.matches || !('IntersectionObserver' in window)) { draw(6); return; }
   draw(0);
   new IntersectionObserver(es => { seen = es[es.length - 1].isIntersecting; update(); }, { threshold: .25 }).observe(vis);
+})();
+
+// ---- The Pro bento (P-043, 2026-11-27): the receipt prints, the memory check, the answer race, and your project as a globe ----
+(function () {
+  const P = document.getElementById('bz-pro'); if (!P) return;
+  const V = sel => P.querySelector(sel);
+  const rc = (V('.prc-vis') || {}).firstElementChild;
+
+  const mn = (V('.pmn-vis') || {}).firstElementChild;
+
+  const wt = (V('.prace-vis') || {}).firstElementChild;
+
+  const KIND = 'kbG-k';
+  const st = (V('.kb-vis') || {}).firstElementChild;
+
+  // the globe: a dotted sphere; your project's topics are regions on it, joined by their nearest neighbours
+  if (st) (function () {
+    const field = st.querySelector('.kbG-field'), cv = st.querySelector('.kbG-c'), lab = st.querySelector('.kbG-labels');
+    const ctx = cv.getContext('2d'), reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let rnd = 7; const R = () => (rnd = (rnd * 16807) % 2147483647) / 2147483647;
+    const sph = (lat, lon) => [Math.cos(lat) * Math.sin(lon), Math.sin(lat), Math.cos(lat) * Math.cos(lon)];
+    // the sphere itself: evenly spread faint dots (Fibonacci sphere)
+    const base = []; const NB = 1500, ga = Math.PI * (3 - Math.sqrt(5));
+    for (let i = 0; i < NB; i++) { const y = 1 - (i / (NB - 1)) * 2, r = Math.sqrt(1 - y * y), t = ga * i; base.push([Math.cos(t) * r, y, Math.sin(t) * r]); }
+    // regions: [name, lat, lon, points, used]
+    // it turns once every three chat rounds (37.8 s); each round's two regions sit together, placed to face you while that round's answer is up (8.8 s in)
+    const SPIN = 2 * Math.PI / 37.8, FACE = SPIN * 8.8, lonOf = i => -(FACE + i * 2 * Math.PI / 3);
+    const regs = [['Notes', .34, lonOf(0) - .34, 19], ['Tasks', -.22, lonOf(0) + .3, 15],
+                  ['Clients', .38, lonOf(1) - .32, 21], ['Deadlines', -.18, lonOf(1) + .34, 14],
+                  ['Decisions', .3, lonOf(2) - .33, 17], ['Invoices', -.26, lonOf(2) + .3, 12]];
+    const pts = [], edges = [];
+    regs.forEach((g, gi) => {
+      const first = pts.length;
+      pts.push({ p: sph(g[1], g[2]), g: gi, hub: 1, d: 0 });
+      for (let k = 1; k < g[3]; k++) { const a = R() * 6.283, r = .05 + Math.pow(R(), .85) * .24; pts.push({ p: sph(g[1] + Math.sin(a) * r, g[2] + Math.cos(a) * r / Math.cos(g[1])), g: gi, hub: 0, d: .15 + R() * .85 }); }
+      for (let i = first; i < pts.length; i++) {
+        const near = [];
+        for (let j = first; j < pts.length; j++) if (j !== i) { const a = pts[i].p, b = pts[j].p; near.push([(a[0]-b[0])**2 + (a[1]-b[1])**2 + (a[2]-b[2])**2, j]); }
+        near.sort((x, y) => x[0] - y[0]); near.slice(0, 2).forEach(([, j]) => i < j && edges.push([i, j]));
+        if (!pts[i].hub && R() < .3) edges.push([first, i]);
+      }
+    });
+    const hubs = regs.map((_, gi) => pts.findIndex(p => p.g === gi && p.hub));
+    [[0, 1], [2, 3], [4, 5], [1, 2], [3, 4], [5, 0]].forEach(([a, b]) => edges.push([hubs[a], hubs[b], 1]));
+    const ang = (u, v) => Math.acos(Math.max(-1, Math.min(1, u[0]*v[0] + u[1]*v[1] + u[2]*v[2])));
+    const cen = regs.map(g => sph(g[1], g[2]));
+    const land = base.map(v => { let best = -1, bd = 9; cen.forEach((c, gi) => { const d = ang(v, c); if (d < bd) { bd = d; best = gi; } });
+      const c = cen[best], th = Math.atan2(v[1] - c[1], v[0] - c[0] + v[2] - c[2]);
+      const edge = .34 * (1 + .22 * Math.sin(3 * th + best * 1.7) + .14 * Math.sin(5 * th + best));
+      return bd < edge ? best : -1; });
+    const labels = regs.map(g => { const s = document.createElement('span'); s.className = 'kbG-lb'; s.innerHTML = g[0] + '<em> · ' + g[3] + '</em>'; lab.appendChild(s); return s; });
+    let W = 0, H = 0, dpr = 1, col = {};
+    const size = () => { const r = field.getBoundingClientRect(); dpr = Math.min(2, devicePixelRatio || 1); W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px';
+      const cs = getComputedStyle(st); col = { dot: cs.getPropertyValue('--ink-3').trim() || '#999', pt: cs.getPropertyValue('--ink-2').trim() || '#555', hub: cs.getPropertyValue('--ink').trim() || '#222', use: cs.getPropertyValue('--ready').trim() || '#2e7d4f' }; };
+    size(); addEventListener('resize', size);
+    let build = 0, built = 0, usem = 0, t0 = performance.now(), seenNow = false, raf = 0;
+    const has = c => st.classList.contains(c);
+    const U = gi => (st.dataset.use || 'Notes,Tasks').split(',').includes(regs[gi][0]);   // regions the current chat draws on
+    const frame = now => {
+      const t = (now - t0) / 1000;
+      // state from the card's story classes
+      if (!has('k0')) built = 1;   // builds once, then stays
+      const tb = built, tu = (has('k3') || has('done')) ? 1 : 0;
+      build += (tb - build) * .025; usem += (tu - usem) * .06;
+      const yaw = reduce ? FACE : SPIN * (st._t0 ? (now - st._t0) / 1000 : 0), tilt = -.12;   // turns steadily on its axis
+      const cy = Math.cos(yaw), sy = Math.sin(yaw), ct = Math.cos(tilt), stt = Math.sin(tilt);
+      const rad = Math.min(W * .44, H * .47), ox = W / 2, oy = H / 2;
+      const P = v => { const x = v[0] * cy + v[2] * sy, z0 = -v[0] * sy + v[2] * cy, y = v[1] * ct - z0 * stt, z = v[1] * stt + z0 * ct; return [ox + x * rad, oy - y * rad, z]; };
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+      // the sphere's outline and dots
+      ctx.fillStyle = col.dot;
+      base.forEach((v, k) => { const [x, y, z] = P(v); if (z < 0) return; const g = land[k];
+        if (g < 0) { ctx.fillStyle = col.dot; ctx.globalAlpha = (.1 + z * .22) * Math.min(1, build * 1.6); ctx.beginPath(); ctx.arc(x, y, .9, 0, 6.283); ctx.fill(); return; }
+        const used = U(g); ctx.fillStyle = used && usem > .02 ? mix(col.pt, col.use, usem) : col.pt;
+        ctx.globalAlpha = (.3 + z * .55) * Math.min(1, build * 1.4) * (used ? 1 : 1 - usem * .5); ctx.beginPath(); ctx.arc(x, y, 1.5, 0, 6.283); ctx.fill(); });
+      // regions
+      const pr = pts.map(p => P(p.p));
+      const regionA = gi => { const used = U(gi); return used ? 1 : 1 - usem * .62; };
+      ctx.lineWidth = 1;
+      for (const [i, j, x] of edges) {
+        const a = pr[i], b = pr[j]; if (a[2] < -.05 || b[2] < -.05) continue;
+        const gi = pts[i].g, u = U(gi) && U(pts[j].g);
+        ctx.globalAlpha = Math.max(0, Math.min(1, (build - .55) / .45)) * (x ? .22 : .38) * Math.min(1, (a[2] + b[2]) * .9 + .2) * (u ? 1 : regionA(gi));
+        ctx.strokeStyle = u && usem > .5 ? col.use : col.pt; if (x) ctx.setLineDash([2, 3]); ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); ctx.setLineDash([]);
+      }
+      pts.forEach((p, i) => {
+        const [x, y, z] = pr[i]; if (z < -.05) return;
+        const grow = Math.max(0, Math.min(1, (build - p.d * .6) / .4)), u = U(p.g);
+        const r = (p.hub ? 4.2 : 2.1 + (i % 3) * .5) * grow * (u ? 1 + usem * (p.hub ? .25 : .1) : 1);
+        if (r <= 0) return;
+        ctx.globalAlpha = (.35 + z * .65) * regionA(p.g);
+        ctx.fillStyle = u ? (usem > .02 ? mix(col.hub, col.use, usem) : (p.hub ? col.hub : col.pt)) : (p.hub ? col.hub : col.pt);
+        ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill();
+        if (p.hub) { ctx.globalAlpha *= .25; ctx.beginPath(); ctx.arc(x, y, r + 3.5, 0, 6.283); ctx.fill(); }
+      });
+      // labels follow their region while it faces you
+      regs.forEach((g, gi) => { const [x, y, z] = pr[hubs[gi]]; const s = labels[gi];
+        s.style.transform = `translate(${x.toFixed(1)}px, ${(y - 16).toFixed(1)}px) translate(-50%, -100%)`;
+        s.style.opacity = (Math.max(0, Math.min(1, (z - .1) / .3)) * Math.max(0, Math.min(1, (build - .7) / .3)) * (U(gi) ? 1 : 1 - usem * .5)).toFixed(2);
+        s.classList.toggle('use', U(gi) && usem > .5); });
+      ctx.globalAlpha = 1;
+      if (seenNow && !reduce) raf = requestAnimationFrame(frame);
+    };
+    function mix(a, b, k) { const h = c => c.startsWith('#') ? [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16)) : (c.match(/\d+/g) || [0, 0, 0]).slice(0, 3).map(Number);
+      const A = h(a), B = h(b); return `rgb(${A.map((v, i) => Math.round(v + (B[i] - v) * k)).join(',')})`; }
+    if (reduce || !('IntersectionObserver' in window)) { build = 1; usem = 1; requestAnimationFrame(frame); return; }
+    new IntersectionObserver(es => { const v = es[es.length - 1].isIntersecting; if (v && !seenNow) { seenNow = true; raf = requestAnimationFrame(frame); } else if (!v) { seenNow = false; cancelAnimationFrame(raf); } }).observe(field);
+    requestAnimationFrame(frame);
+  })();
+
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const seen = (el, fn, t = .45) => { if (!el) return; if (calm || !('IntersectionObserver' in window)) { el.classList.add('run', 'calm'); return; }
+    el.classList.add('arm'); new IntersectionObserver((es, io) => { if (es[es.length - 1].isIntersecting) { fn(); io.disconnect(); } }, { threshold: t }).observe(el); };
+  seen(wt, () => wt.classList.add('run'));
+  if (st && !calm && 'IntersectionObserver' in window) {
+    // Artifice builds it; you ask; your AI draws on exactly what it needs; hold; again
+    let timers = [], on = false, live = false;
+    const later = (f, t) => timers.push(setTimeout(f, t));
+    const ph = (...c) => { st.className = 'kb ' + KIND + ' ' + c.join(' '); };
+    const SCENES = [
+      ['Where did we leave off?', 'You finished the export fix for <b>Halden &amp; Co.</b> Next up: the search review, due <b>March 10</b>.', 'Notes', 'Tasks'],
+      ['Draft the client update.', 'Here\'s the update for <b>Halden &amp; Co.</b>: the export work is done, and the deadline moves to <b>March 10</b>.', 'Clients', 'Deadlines'],
+      ['What did we decide about invoices?', 'Invoices go out on the <b>1st</b>, in <b>euros</b> for EU clients. You decided that last month.', 'Decisions', 'Invoices']];
+    let scene = 0;
+    const you = st.querySelector('.kb-you'), ans = st.querySelector('.kb-ans'), s1 = st.querySelector('.kb-src .s1'), s2 = st.querySelector('.kb-src .s2');
+    const show = i => { const c = SCENES[i]; you.textContent = c[0]; ans.innerHTML = c[1]; s1.textContent = c[2]; s2.textContent = c[3]; st.dataset.use = c[2] + ',' + c[3]; };
+    const ROUND = 12600;   // rounds are pinned to the clock, so the turning globe and the chat stay in step
+    const run = () => {
+      timers.forEach(clearTimeout); timers = []; live = true;
+      const T = performance.now(); if (!st._t0) st._t0 = T;
+      const k = Math.round((T - st._t0) / ROUND); scene = k % SCENES.length;
+      ph('k0'); show(scene);
+      later(() => ph('k1'), 300);                  // built, piece by piece
+      later(() => ph('k1', 'k2'), 3000);                    // a new chat: your message
+      later(() => ph('k1', 'k2', 'kt'), 4100);              // a beat later, your AI starts typing
+      later(() => ph('k1', 'k2', 'kt', 'k3'), 4700);        // as it types, it draws on what it needs
+      later(() => ph('k1', 'k2', 'k3', 'k4'), 6500);        // the answer replaces the dots
+      later(() => ph('k1', 'k2', 'k3', 'k4', 'k5'), 7300);  // then where it came from
+      later(() => ph('k1', 'k2', 'k3', 'k4', 'k5', 'out'), 11900);
+      later(() => (on ? run() : (live = false)), st._t0 + (k + 1) * ROUND - performance.now());
+    };
+    ph('k0');
+    new IntersectionObserver(es => { on = es[es.length - 1].isIntersecting;
+      if (on && !live) { if (!st._t0) return run(); live = true; const wait = st._t0 + Math.ceil((performance.now() - st._t0) / ROUND) * ROUND - performance.now(); timers.push(setTimeout(run, wait)); } }, { threshold: .4 }).observe(st);
+  }
+  if (rc) {
+    // print one line after another, hold, clear, next stage; slow and calm
+    const lines = [...rc.querySelectorAll('.prc-p')];
+    let st = 0, timers = [], on = false, live = false;
+    const later = (f, t) => timers.push(setTimeout(f, t));
+    const stop = () => { timers.forEach(clearTimeout); timers = []; };
+    const print = () => {
+      stop(); live = true;
+      rc.classList.remove('st0', 'st1', 'st2'); rc.classList.add('st' + st);
+      lines.forEach((l, i) => later(() => l.classList.add('prc-on'), 300 + i * 750));
+      const end = 300 + lines.length * 750 + 5200;
+      later(() => rc.classList.add('clear'), end);                                   // fade the printout
+      later(() => lines.forEach(l => l.classList.remove('prc-on')), end + 800);     // re-hide it while invisible
+      later(() => { rc.classList.remove('clear'); st = (st + 1) % 3; on ? print() : (live = false); }, end + 1600);
+    };
+    if (!calm && 'IntersectionObserver' in window) {
+      rc.classList.add('arm'); rc.classList.remove('st0');
+      new IntersectionObserver(es => { on = es[es.length - 1].isIntersecting; if (on && !live) print(); }, { threshold: .45 }).observe(rc);
+    }
+  }
+  if (mn) {
+    // all current; a file is edited; the memory that came from it is flagged; hold; again
+    if (!calm && 'IntersectionObserver' in window) {
+      let timers = [], on = false, live = false;
+      const later = (f, t) => timers.push(setTimeout(f, t));
+      const st = (...c) => { mn.className = 'pmc ' + c.join(' '); };
+      const run = () => {
+        timers.forEach(clearTimeout); timers = []; live = true;
+        st('calm0');
+        later(() => st('edit'), 2200);          // the cause: notes.md was edited
+        later(() => st('edit', 'flag'), 3600);  // the effect: its memory is flagged
+        later(() => st('flag', 'told'), 6000);  // header: 1 to check
+        later(() => st('calm0'), 10500);
+        later(() => (on ? run() : (live = false)), 11300);
+      };
+      st('calm0');
+      new IntersectionObserver(es => { on = es[es.length - 1].isIntersecting; if (on && !live) run(); }, { threshold: .4 }).observe(mn);
+    }
+  }
 })();

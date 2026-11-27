@@ -1181,79 +1181,7 @@
   #bz-pro .reassure span { display: inline-flex; align-items: center; gap: 5px; }
   #bz-pro .reassure svg { width: 13px; height: 13px; color: var(--ready); }
 
-  /* 1. pays for itself: what the extra usage is worth, against what Pro costs */
-  .cx-grid.clean .cx-vis.ppay-vis { padding: 26px 44px; }
-  .ppay { width: 100%; max-width: 560px; }
-  .ppay-row + .ppay-row { margin-top: 26px; }
-  .ppay-top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-size: 14px; color: var(--ink-2); }
-  .ppay-top b { font-size: 40px; line-height: 1; font-weight: 650; letter-spacing: -.035em; color: var(--ink); font-variant-numeric: tabular-nums; }
-  .ppay-top b small { font-size: 15px; font-weight: 500; letter-spacing: 0; color: var(--ink-3); }
-  .ppay-bar { position: relative; height: 12px; margin-top: 10px; border-radius: 6px; background: var(--line); overflow: hidden; }
-  .ppay-bar i { position: absolute; inset: 0 auto 0 0; width: var(--w); border-radius: 6px; background: var(--c); transform-origin: left; }
-  .ppay.run .ppay-bar i { animation: ppay-grow 1.4s var(--ease) backwards; animation-delay: var(--d); animation-play-state: running; }
-  @keyframes ppay-grow { from { transform: scaleX(0); } }
-  .ppay-note { display: flex; align-items: center; gap: 8px; margin-top: 24px; padding-top: 16px; border-top: 1px dashed var(--line-2); font-size: 13px; color: var(--ink-3); }
-  .ppay-note b { flex: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 8px; border-radius: 999px; font-size: 12.5px; font-weight: 600; color: var(--ready); background: color-mix(in srgb, var(--ready) 13%, transparent); }
-  .ppay-note svg { width: 13px; height: 13px; stroke-width: 2.4; }
-
-  /* 2. remembers correctly: one memory, kept true */
-  .cx-grid.clean .cx-vis.pmem-vis { padding: 24px 22px; }
-  .pmem { width: 100%; max-width: 300px; display: grid; gap: 10px; }
-  .pmem-card { padding: 16px 16px 14px; border: 1px solid var(--line-2); border-radius: var(--r-m); background: color-mix(in srgb, var(--ink) 3%, var(--surface)); box-shadow: var(--shadow-s); }
-  .pmem-k { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; letter-spacing: .02em; color: var(--ink-3); }
-  .pmem-k i { width: 7px; height: 7px; border-radius: 50%; background: var(--ready); transition: background .4s; }
-  .pmem-t { margin-top: 8px; font-size: 15px; line-height: 1.4; color: var(--ink); }
-  .pmem-src { margin-top: 10px; font-size: 12px; color: var(--ink-3); }
-  .pmem-flag { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .5s var(--ease), opacity .4s; }
-  .pmem-flag > div { overflow: hidden; }
-  .pmem-flag p { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--attn); }
-  .pmem-flag span { display: flex; gap: 6px; margin-top: 9px; }
-  .pmem-flag span i { padding: 4px 10px; border-radius: 7px; border: 1px solid var(--line-2); font-style: normal; font-size: 12px; color: var(--ink-2); }
-  .pmem-flag span i:first-child { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
-  .pmem-steps { display: grid; gap: 6px; padding: 0 2px; }
-  .pmem-steps span { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-3); opacity: .45; transition: opacity .4s, color .4s; }
-  .pmem-steps span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
-  .pmem-steps span.on { opacity: 1; color: var(--ink-2); }
-  .pmem.s1 .pmem-k i { background: var(--attn); }
-  .pmem.s1 .pmem-flag { grid-template-rows: 1fr; opacity: 1; }
-
-  /* 3. get more done: the same day, more finished in it */
-  .cx-grid.clean .cx-vis.pday-vis { padding: 26px 22px; }
-  .pday { width: 100%; max-width: 300px; }
-  .pday-n { order: -1; }
-  .pday { display: flex; flex-direction: column; }
-  .pday-h { margin-top: 22px; display: flex; justify-content: space-between; font-size: 11.5px; color: var(--ink-3); }
-  .pday-row { display: flex; gap: 4px; height: 30px; margin-top: 8px; padding: 4px; border-radius: 10px; background: var(--line); }
-  .pday-row i { position: relative; flex: 1; border-radius: 6px; background: #3987e5; }
-  .pday-row i::after { content: ""; position: absolute; left: 50%; top: 50%; width: 7px; height: 4px; border: solid #fff; border-width: 0 0 2px 2px; transform: translate(-50%, -70%) rotate(-45deg); opacity: .9; }
-  .pday.run .pday-row i { animation: pday-in .55s var(--ease) backwards; animation-delay: calc(.2s + var(--k) * .16s); animation-play-state: running; }
-  @keyframes pday-in { from { opacity: 0; transform: scaleX(.4); } }
-  .pday-n { display: grid; gap: 6px; }
-  .pday-n b { font-size: 56px; line-height: 1; font-weight: 650; letter-spacing: -.035em; color: var(--ink); }
-  .pday-n span { font-size: 14px; line-height: 1.35; color: var(--ink-2); }
-  .pday-foot { margin-top: 14px; font-size: 12px; color: var(--ink-3); }
-
-  /* 4. skip the upgrade: the plan you have, with room left */
-  .cx-grid.clean .cx-vis.pup-vis { padding: 26px 44px; }
-  .pup { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; width: 100%; max-width: 560px; }
-  .pup-tier { padding: 18px 18px 16px; border-radius: var(--r-m); border: 1px solid var(--line-2); }
-  .pup-tier.yours { background: color-mix(in srgb, var(--ink) 3%, var(--surface)); box-shadow: var(--shadow-s); }
-  .pup-tier.next { border-style: dashed; color: var(--ink-3); }
-  .pup-p { font-size: 30px; line-height: 1; font-weight: 650; letter-spacing: -.03em; color: var(--ink); }
-  .pup-p small { font-size: 13px; font-weight: 500; letter-spacing: 0; color: var(--ink-3); }
-  .pup-tier.next .pup-p { color: var(--ink-3); text-decoration: line-through; text-decoration-thickness: 2px; }
-  .pup-l { margin-top: 6px; font-size: 13px; color: var(--ink-2); }
-  .pup-bar { height: 8px; margin-top: 16px; border-radius: 4px; background: var(--line); overflow: hidden; }
-  .pup-bar i { display: block; height: 100%; width: 72%; border-radius: 4px; background: #3987e5; transform-origin: left; }
-  .pup.run .pup-bar i { animation: ppay-grow 1.4s var(--ease) .3s backwards; animation-play-state: running; }
-  .pup-room { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--ink-3); }
-  .pup-room b { font-weight: 600; color: var(--ready); }
-  .pup-tier.next .pup-l { color: var(--ink-3); }
-  .pup-skip { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; padding: 3px 10px 3px 8px; border-radius: 999px; font-size: 12.5px; font-weight: 600; color: var(--ready); background: color-mix(in srgb, var(--ready) 13%, transparent); }
-  .pup-skip svg { width: 13px; height: 13px; stroke-width: 2.4; }
-
   @media (max-width: 1230px) { .pro-q, .bz .bz-tabs.pro-ch { font-size: 40px; } }
-  @media (max-width: 1230px) and (min-width: 1081px) { .cx-grid.clean .cx-vis.ppay-vis, .cx-grid.clean .cx-vis.pup-vis { padding: 24px 30px; } }
   @media (max-width: 860px) {
     .pro-q, .bz .bz-tabs.pro-ch { font-size: 36px; }
   }
@@ -1261,15 +1189,10 @@
     .pro-q, .bz .bz-tabs.pro-ch { font-size: 29px; line-height: 1.16; } .bz .bz-tabs.pro-ch { margin-bottom: 40px; }
     .bz .bz-tabs.pro-ch button::after { top: -.42em; bottom: -.42em; }   /* taller tap area on phones: about 44px */
       .bz-panel .bz-head .pro-said { font-size: 18px; }   /* .lead on phones */
-    .cx-grid.clean .cx-vis.ppay-vis, .cx-grid.clean .cx-vis.pup-vis { padding: 24px 20px; }
-    .ppay-top { display: grid; gap: 6px; } .ppay-top b { font-size: 32px; }
-    .ppay-note { flex-wrap: wrap; }
-    .pup { grid-template-columns: minmax(0, 1fr); gap: 10px; }
-    .pup-tier { padding: 14px 16px; }
     #bz-pro .reassure { flex-wrap: wrap; }
   }
-  @media (max-width: 400px) { .cx-grid.clean .cx-vis.pmem-vis { padding: 20px 14px; } .pro-q, .bz .bz-tabs.pro-ch { font-size: 26px; } }
-  @media (prefers-reduced-motion: reduce) { .bz .bz-tabs.pro-ch button { transition: none; } .pro-ch button, .pro-ch .pro-ch-end { animation: none !important; opacity: 1 !important; } .bz-panel .bz-head { animation: none !important; } .ppay *, .pmem *, .pday *, .pup *, .pro-ch * { animation: none !important; transition: none !important; } }
+  @media (max-width: 400px) { .pro-q, .bz .bz-tabs.pro-ch { font-size: 26px; } }
+  @media (prefers-reduced-motion: reduce) { .bz .bz-tabs.pro-ch button { transition: none; } .pro-ch button, .pro-ch .pro-ch-end { animation: none !important; opacity: 1 !important; } .bz-panel .bz-head { animation: none !important; } .pro-ch * { animation: none !important; transition: none !important; } }
 
   /* One library for every team (P-040, 2026-11-25): one team's AI at a time. Support's answer caught and corrected,
      Business relations' answer updated when Engineering ships, and one source of truth for every AI. Scene one shows without script. */
@@ -1338,6 +1261,189 @@
     #bz-biz .an4-dots { margin-top: 26px; }
   }
   @media (max-width: 1230px) and (min-width: 641px) { #bz-biz .an4-say { font-size: 28px; } #bz-biz .cx-grid.clean .cx-vis.an4-vis { padding: 28px 36px; } }
+
+  /* The Pro bento (P-043, 2026-11-27): the receipt that pays for itself, the memory check, the answer race, and your project as a globe. Each card shows its finished state without script. */
+
+  /* 1 · the receipt: thermal paper, taped on, printed one line at a time */
+  #bz-pro .cx-grid.clean .cx-vis.prc-vis { padding: 14px 40px 8px; grid-template-columns: minmax(0, 1fr); justify-items: center; }
+  .prc { --paper: #f8f6f0; --print: #2a2825; --faint: #8a857b; position: relative; width: 520px; max-width: 100%; margin-top: 4px; transform: rotate(-1.5deg); }
+  .prc-shade { position: absolute; z-index: -1; inset: 6px 1px 13px; border-radius: 2px; pointer-events: none;   /* plain box-shadow: never re-rendered; the gaps between the teeth fall on it, so they read as the torn edge's shadow */
+    box-shadow: 0 1px 2px rgba(0,0,0,.1), 0 14px 22px -10px rgba(0,0,0,.28), 0 6px 14px -6px rgba(0,0,0,.12); }
+  .prc-paper { position: relative; margin: 6px 0; padding: 18px 28px 14px; border-radius: 3px; background: var(--paper); color: var(--print);
+    font: 500 13.5px/1.45 ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .02em; }
+  .prc-paper { padding-bottom: 21px; border-radius: 0;   /* the torn bottom is cut out of the paper itself: one piece, no seam */
+    -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
+            mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%; }
+  .prc-tape { position: absolute; z-index: 2; top: -8px; left: 50%; width: 104px; height: 24px; transform: translateX(-50%) rotate(3deg);
+    background: linear-gradient(rgba(255,255,255,.25), rgba(255,255,255,0)), rgba(226, 214, 186, .78); box-shadow: 0 1px 2px rgba(0,0,0,.1);
+    clip-path: polygon(0 8%, 4% 0, 8% 10%, 12% 0, 88% 0, 92% 9%, 96% 0, 100% 8%, 100% 92%, 96% 100%, 92% 90%, 88% 100%, 12% 100%, 8% 91%, 4% 100%, 0 92%); }
+  .prc-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 20px; }
+  .prc-brand { white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; letter-spacing: .16em; }
+  .prc-head img { width: 16px; height: 16px; border-radius: 3px; }
+  .prc-head b { font-weight: 700; }
+  .prc-p[data-k="0"] { color: var(--faint); font-size: 12px; letter-spacing: .08em; white-space: nowrap; }
+  .prc-cut { height: 0; margin: 8px 0; border-top: 1.5px dashed rgba(42,40,37,.35); }
+  .prc-row { display: flex; align-items: baseline; gap: 6px; }
+  .prc-row + .prc-row { margin-top: 3px; }
+  .prc-dot { flex: 1; min-width: 12px; border-bottom: 1.5px dotted rgba(42,40,37,.35); transform: translateY(-3px); }
+  .prc-tot { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .prc-tl { display: grid; font-weight: 700; }
+  .prc-tl small { font-size: 11.5px; font-weight: 500; color: var(--faint); letter-spacing: .08em; }
+  .prc-tot b { font-size: 28px; line-height: 1; font-weight: 700; letter-spacing: -.02em; }
+  .prc-tot b .sw > i { position: relative; padding: 3px 6px; margin-right: -6px; }
+  /* the total is marked with a highlighter, the way you'd mark the line that matters */
+  .prc-tot b .sw > i::before { content: ""; position: absolute; z-index: -1; inset: 2px -2px 0 -4px; border-radius: 3px 8px 4px 9px / 6px 4px 8px 4px; transform: rotate(-1.5deg);
+    background: linear-gradient(100deg, rgba(255, 214, 10, .55), rgba(255, 208, 0, .72) 40%, rgba(255, 214, 10, .6)); transform-origin: left; transition: transform .7s var(--ease) .9s; }
+  .prc-tot { isolation: isolate; }
+  .prc { isolation: isolate; will-change: transform; }   /* one fixed layer: printing never re-renders the paper or its shadow */
+  :root[data-theme="dark"] .prc-shade { box-shadow: 0 1px 2px rgba(0,0,0,.5), 0 16px 26px -10px rgba(0,0,0,.7), 0 6px 14px -6px rgba(0,0,0,.4); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .prc-shade { box-shadow: 0 1px 2px rgba(0,0,0,.5), 0 16px 26px -10px rgba(0,0,0,.7), 0 6px 14px -6px rgba(0,0,0,.4); } }
+  .prc.arm .prc-tot:not(.prc-on) b .sw > i::before { transform: rotate(-1.5deg) scaleX(0); transition: none; }
+  .prc.arm .prc-tot.prc-on b .sw > i::before { transform: rotate(-1.5deg) scaleX(1); }
+  .prc-fine { text-align: center; font-size: 11px; color: var(--faint); letter-spacing: .1em; }
+  .prc-bar { height: 15px; margin: 7px auto 0; width: 62%;
+    background: repeating-linear-gradient(90deg, var(--print) 0 1px, transparent 1px 3px, var(--print) 3px 5px, transparent 5px 6px, var(--print) 6px 7px, transparent 7px 10px, var(--print) 10px 13px, transparent 13px 14px); opacity: .85; }
+  /* the changing words: whichever stage is set shows */
+  .sw { display: inline-grid; }
+  .sw > i { grid-area: 1 / 1; font-style: normal; visibility: hidden; }
+  .prc.st0 .sw > i:nth-child(1), .prc.st1 .sw > i:nth-child(2), .prc.st2 .sw > i:nth-child(3) { visibility: visible; }
+  .prc-row > .sw:first-child, .prc-tl .sw { justify-items: start; } .prc-row > .sw:last-child, .prc-tot b .sw { justify-items: end; } .prc-p[data-k="0"] .sw { justify-items: end; }
+  /* printing: each line types in from the left, one after the other; clearing fades the lines out together */
+  .prc.arm .prc-p { clip-path: inset(0 100% 0 0); opacity: 1; transition: clip-path .7s steps(14, end), opacity .5s var(--fade); }
+  .prc.arm .prc-p.prc-on { clip-path: inset(0 0 0 0); }
+  .prc.arm .prc-tot.prc-on { transition: clip-path .9s steps(18, end); }
+  .prc.arm.clear .prc-p { opacity: 0; transition: opacity .7s var(--fade); }
+  .prc.arm:not(.clear) .prc-p:not(.prc-on) { transition: none; }   /* re-hiding happens unseen */
+  .prc.arm.clear .prc-p:not(.prc-on) { transition: none; }
+
+  /* 2 · the memory: a file is edited, the memory that came from it is flagged */
+  #bz-pro .cx-grid.clean .cx-vis.pmn-vis { padding: 22px 26px; }
+  .pmc { width: 100%; max-width: 320px; }
+  .pmc-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 0 2px 10px; font-size: 12px; color: var(--ink-3); }
+  .pmc-h > span:first-child { font-weight: 600; color: var(--ink-2); }
+  .pmc-st { display: inline-grid; justify-items: end; }
+  .pmc-st i { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 6px; font-style: normal; white-space: nowrap; padding: 2px 9px 2px 7px; border-radius: 999px; opacity: 0; transform: translateY(3px); transition: opacity .45s var(--fade), transform .45s var(--ease); }
+  .pmc-st b { width: 6px; height: 6px; border-radius: 50%; }
+  .pmc-st b.g { background: var(--ready); } .pmc-st b.a { background: #d98a2b; }
+  .pmc-st .s1, .pmc-st .s2 { color: #a65a17; font-weight: 600; background: color-mix(in srgb, #d98a2b 14%, var(--surface)); }
+  /* which header note shows */
+  .pmc.calm0 .pmc-st .s0, .pmc:not(.calm0):not(.edit):not(.told) .pmc-st .s2 { opacity: 1; transform: none; }
+  .pmc.edit:not(.told) .pmc-st .s1 { opacity: 1; transform: none; }
+  .pmc.told .pmc-st .s2 { opacity: 1; transform: none; }
+  .pmc-list { list-style: none; margin: 0; padding: 4px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line-2); box-shadow: var(--shadow-s); transition: opacity .7s var(--fade); }
+  .pmc-list li { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 14px; padding: 9px 12px; border-radius: 8px; font-size: 14.5px; color: var(--ink); transition: background .5s var(--fade); }
+  .pmc-list li + li { border-top: 1px solid var(--line); }
+  .pmc-list .m { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; }
+  .pmc-list .m svg { width: 12px; height: 12px; }
+  .pmc-list li.ok .m { color: var(--ready); background: color-mix(in srgb, var(--ready) 14%, var(--surface)); }
+  .pmc-list .t { text-decoration: line-through; text-decoration-color: transparent; text-decoration-thickness: 1.5px; transition: text-decoration-color .5s var(--fade), color .5s var(--fade); }
+  .pmc-list .why { grid-column: 1 / -1; display: grid; grid-template-rows: 0fr; font-size: 12px; font-weight: 500; color: #a65a17; opacity: 0; transition: grid-template-rows .5s var(--ease), opacity .4s var(--fade) .15s, margin .5s var(--ease); }
+  .pmc-list li.bad .m { position: relative; color: var(--ready); background: color-mix(in srgb, var(--ready) 14%, var(--surface)); transition: background .4s var(--fade), color .4s var(--fade); }
+  /* memories as icon + a word or two */
+  .pmc-list .t { display: inline-flex; align-items: center; gap: 10px; font-size: 14.5px; color: var(--ink); }
+  .pmc-list .t .ic { width: 18px; height: 18px; color: var(--ink-3); flex: none; transition: color .5s var(--fade); }
+  .pmc-list .t > span { text-decoration: line-through; text-decoration-color: transparent; text-decoration-thickness: 1.5px; transition: text-decoration-color .5s var(--fade), color .5s var(--fade); }
+  .pmc.flag li.bad .t > span, .pmc.done li.bad .t > span { color: #a65a17; text-decoration-color: color-mix(in srgb, #d98a2b 75%, transparent); }
+  .pmc.flag li.bad .t .ic, .pmc.done li.bad .t .ic { color: #d98a2b; }
+  /* the one that came from the changed file: green until its file changes, then flagged (and flagged without script) */
+  .pmc-list li.bad .m svg { grid-area: 1 / 1; transition: opacity .3s var(--fade); }
+  .pmc-list li.bad .m svg:last-child { opacity: 0; }
+  .pmc.flag li.bad .m svg:first-child, .pmc.done li.bad .m svg:first-child { opacity: 0; }
+  .pmc.flag li.bad .m svg:last-child, .pmc.done li.bad .m svg:last-child { opacity: 1; }
+  .pmc-list .why > span { overflow: hidden; min-height: 0; }
+  .pmc.flag li.bad, .pmc.done li.bad { background: color-mix(in srgb, #d98a2b 9%, var(--surface)); }
+  .pmc.flag li.bad + li, .pmc.done li.bad + li { border-top-color: transparent; }
+  .pmc.flag li.bad .t, .pmc.done li.bad .t { text-decoration-color: color-mix(in srgb, #d98a2b 75%, transparent); color: var(--ink-2); }
+  .pmc.flag li.bad .m, .pmc.done li.bad .m { color: #fff; background: #d98a2b; }
+  .pmc.flag li.bad .why, .pmc.done li.bad .why { grid-template-rows: 1fr; opacity: 1; margin-top: 2px; }
+  .pmc-foot { margin: 12px 0 0; text-align: center; font-size: 12px; color: var(--ink-3); }
+  @media (max-width: 640px) { .pmc-list li { font-size: 14px; } }
+
+  /* 3 · the wait: the same question, two answers, one arrives sooner */
+  #bz-pro .cx-grid.clean .cx-vis.prace-vis { padding: 24px 28px; }
+  .prace { width: 100%; max-width: 320px; }
+  .prace-big { margin: 0 0 20px; font-family: var(--display); font-size: 25px; line-height: 1.18; letter-spacing: -.02em; color: var(--ink); }
+  .prace-big b { font-weight: 650; color: #3987e5; }
+  .prace-lane { display: grid; grid-template-columns: 1fr auto; align-items: center; row-gap: 7px; }
+  .prace-lane + .prace-lane { margin-top: 14px; }
+  .prace-l { font-size: 12.5px; color: var(--ink-3); }
+  .prace-lane.new .prace-l { color: var(--ink); font-weight: 500; }
+  .prace-pill { display: grid; justify-items: end; align-items: center; height: 26px; }
+  .prace-dots, .prace-ans { grid-area: 1 / 1; }
+  .prace-dots { display: inline-flex; gap: 4px; padding: 0 10px; height: 24px; align-items: center; border-radius: 12px; background: var(--sunken); border: 1px solid var(--line); }
+  .prace-dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--ink-3); animation: prace-dot 1.1s ease-in-out infinite; }
+  .prace-dots i:nth-child(2) { animation-delay: .15s; } .prace-dots i:nth-child(3) { animation-delay: .3s; }
+  @keyframes prace-dot { 0%, 60%, 100% { opacity: .35; transform: none; } 30% { opacity: 1; transform: translateY(-2px); } }
+  .prace-ans { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px 3px 8px; border-radius: 12px; font-size: 12.5px; white-space: nowrap;
+    background: color-mix(in srgb, var(--ready) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--ready) 30%, var(--line)); color: var(--ready); }
+  .prace-lane.old .prace-ans { background: color-mix(in srgb, #d98a2b 10%, var(--surface)); border-color: color-mix(in srgb, #d98a2b 30%, var(--line)); color: #a65a17; }   /* slower: light amber */
+  .prace-lane.new .prace-ans { background: color-mix(in srgb, var(--ready) 12%, var(--surface)); border-color: color-mix(in srgb, var(--ready) 30%, var(--line)); color: var(--ready); }   /* Pro: green */
+  .prace-ans svg { width: 12px; height: 12px; }
+  .prace-t { grid-column: 1 / -1; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+  .prace-t i { display: block; height: 100%; border-radius: 2px; background: var(--ink-3); transform-origin: left; }
+  .prace-lane.new .prace-t i { background: #3987e5; width: 63%; }
+  .prace-foot { margin: 16px 0 0; font-size: 12px; color: var(--ink-3); }
+  /* still (no script, motion off): both answers in, the Pro one in 63% of the time */
+  .prace .prace-dots { opacity: 0; }
+  /* running: an 8s loop; the old answer lands at 4s, the Pro one at 2.5s, the bars move at the same speed */
+  .prace.run:not(.calm) .prace-t i { animation: prace-old 8s linear infinite; }
+  .prace.run:not(.calm) .prace-lane.new .prace-t i { animation-name: prace-new; }
+  .prace.run:not(.calm) .prace-lane.old .prace-dots { animation: prace-dots-old 8s step-end infinite; }
+  .prace.run:not(.calm) .prace-lane.old .prace-ans { animation: prace-ans-old 8s step-end infinite; }
+  .prace.run:not(.calm) .prace-lane.new .prace-dots { animation: prace-dots-new 8s step-end infinite; }
+  .prace.run:not(.calm) .prace-lane.new .prace-ans { animation: prace-ans-new 8s step-end infinite; }
+  @keyframes prace-old { 0% { transform: scaleX(0); opacity: 1; } 50%, 90% { transform: scaleX(1); opacity: 1; } 97% { transform: scaleX(1); opacity: 0; } 100% { transform: scaleX(0); opacity: 0; } }   /* fades out, then resets unseen */
+  @keyframes prace-new { 0% { transform: scaleX(0); opacity: 1; } 31.5%, 90% { transform: scaleX(1); opacity: 1; } 97% { transform: scaleX(1); opacity: 0; } 100% { transform: scaleX(0); opacity: 0; } }
+  @keyframes prace-dots-old { 0% { opacity: 1; } 50% { opacity: 0; } 96% { opacity: 1; } }
+  @keyframes prace-ans-old { 0% { opacity: 0; } 50% { opacity: 1; } 96% { opacity: 0; } }
+  @keyframes prace-dots-new { 0% { opacity: 1; } 31.5% { opacity: 0; } 96% { opacity: 1; } }
+  @keyframes prace-ans-new { 0% { opacity: 0; } 31.5% { opacity: 1; } 96% { opacity: 0; } }
+
+  /* 4 · no more amnesia: Artifice organizes your project; your AI draws on it */
+  #bz-pro .cx-grid.clean .cx-vis.kb-vis { padding: 22px 32px; }
+  .kb { width: 100%; max-width: 720px; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 22px; align-items: center; }
+  .kb-cap { margin: 10px 0 0; font-size: 12px; color: var(--ink-3); }
+  .kb-chat { display: grid; gap: 9px; align-content: start; min-height: 206px; box-sizing: border-box; padding: 12px 0 14px; }   /* no outline: the chat sits on the card */
+  .kb-top { display: flex; align-items: center; gap: 7px; padding-bottom: 9px; border-bottom: 1px solid var(--line); font-size: 12px; font-weight: 600; color: var(--ink-2); }
+  .kb-top em { margin-left: auto; font-style: normal; font-weight: 500; color: var(--ready); }
+  .kb-live { width: 7px; height: 7px; border-radius: 50%; background: var(--ready); }
+  .kb-you { justify-self: end; max-width: 90%; margin: 0; padding: 7px 11px; border-radius: 12px 12px 4px 12px; background: #3987e5; color: #fff; font-size: 13px; line-height: 1.35; }
+  .kb-reply { display: grid; } .kb-reply > * { grid-area: 1 / 1; }
+  .kb-dots { justify-self: start; align-self: start; display: inline-flex; gap: 4px; padding: 9px 11px; border-radius: 12px; background: var(--sunken); border: 1px solid var(--line); visibility: hidden; }
+  .kb-dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--ink-3); animation: prace-dot 1.1s ease-in-out infinite; }
+  .kb-dots i:nth-child(2) { animation-delay: .15s; } .kb-dots i:nth-child(3) { animation-delay: .3s; }
+  .kb-dots { opacity: 0; transform: translateY(4px); transition: opacity .35s var(--fade), transform .35s var(--ease), visibility 0s .35s; }
+  .kb.kt:not(.k4) .kb-dots { visibility: visible; opacity: 1; transform: none; transition: opacity .35s var(--fade), transform .35s var(--ease), visibility 0s; }   /* typing: after your message, before the answer */
+  .kb-ans { margin: 0; font-size: 13.5px; line-height: 1.42; color: var(--ink); }
+  .kb-ans b, .kb-src b { font-weight: 600; }
+  .kb-src { justify-self: start; display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 4px; border-radius: 999px; font-size: 11.5px; color: var(--ready);
+    background: color-mix(in srgb, var(--ready) 11%, var(--surface)); border: 1px solid color-mix(in srgb, var(--ready) 28%, var(--line)); }
+  .kb-src img { width: 16px; height: 16px; border-radius: 4px; }
+  .kb .kb-you, .kb .kb-ans, .kb .kb-src { transition: opacity .5s var(--fade), transform .5s var(--ease); }
+  .kb.k0 .kb-you, .kb.k1:not(.k2) .kb-you { opacity: 0; transform: translateY(6px); }
+  .kb.k0 .kb-ans, .kb.k0 .kb-src, .kb.k1:not(.k4) .kb-ans, .kb.k1:not(.k5) .kb-src { opacity: 0; }
+  .kb.k1 .kb-ans { transform: translateY(4px); } .kb.k4 .kb-ans { transform: none; }
+  .kb.out .kb-you, .kb.out .kb-ans, .kb.out .kb-src { opacity: 0; transition: opacity .7s var(--fade); }   /* only the chat cycles; the globe stays */
+  @media (max-width: 1230px) and (min-width: 641px) { #bz-pro .cx-grid.clean .cx-vis.kb-vis { padding: 20px 22px; } .kb { gap: 16px; } }
+  @media (max-width: 640px) { .kb { grid-template-columns: 1fr; gap: 14px; } .kb-chat { min-height: 0; } #bz-pro .cx-grid.clean .cx-vis.kb-vis { padding: 20px 16px; } }
+  .kbG-field { position: relative; height: 250px; }
+  .kbG-c { position: absolute; inset: 0; display: block; }
+  .kbG-labels { position: absolute; inset: 0; pointer-events: none; }
+  .kbG-lb { position: absolute; left: 0; top: 0; font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; transition: color .5s var(--fade);
+    text-shadow: 0 0 3px var(--surface), 0 0 6px var(--surface); }
+  .kbG-lb em { font-style: normal; font-weight: 500; color: var(--ink-3); letter-spacing: .02em; }
+  .kbG-lb.use { color: var(--ready); }
+  @media (max-width: 640px) { .kbG-field { height: 230px; } }
+
+  .calm, .calm * { transition: none !important; }
+
+  @media (max-width: 640px) {
+    #bz-pro .cx-grid.clean .cx-vis.prc-vis { padding: 16px 12px 8px; }
+    .prc { width: 100%; }
+    .prc-brand { font-size: 12.5px; letter-spacing: .1em; } .prc-p[data-k="0"] { font-size: 10.5px; letter-spacing: .04em; }
+    .prc-paper { padding: 14px 16px 19px; font-size: 12px; } .prc-tot b { font-size: 22px; } .prc-fine { font-size: 10px; }
+  }
+  @media (max-width: 360px) { .prc-paper { font-size: 11px; padding-left: 13px; padding-right: 13px; } .prc-row > .sw:first-child { white-space: nowrap; } }
 
   /* AI tools: the app's own screen on the left, the words on the right */
   .tools { display: grid; grid-template-columns: 7fr 5fr; gap: 72px; align-items: center; }
@@ -1674,36 +1780,57 @@
         </div>
         <div class="cx-grid clean">
           <article class="cx w2">
-            <div class="cx-vis ppay-vis"><div class="ppay" role="img" aria-label="On a 20 dollar AI plan, about 8 dollars a month of extra usage, for 5.99 dollars">
-              <div class="ppay-row"><div class="ppay-top"><span>Extra usage you get, on a $20 AI plan</span><b>$8<small> a month</small></b></div><div class="ppay-bar"><i style="--w:100%;--c:#3987e5;--d:.2s"></i></div></div>
-              <div class="ppay-row"><div class="ppay-top"><span>What Pro costs</span><b>$5.99<small> a month</small></b></div><div class="ppay-bar"><i style="--w:74.9%;--c:var(--ink-3);--d:.5s"></i></div></div>
-              <p class="ppay-note"><b><svg viewBox="0 0 24 24" class="i" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>Pays for itself</b>About 40% more usage, measured on questions about code</p>
-            </div></div>
-            <div class="cx-t"><h3>Pays for itself</h3><p>On a $20 AI plan, the extra usage is worth more than Pro costs.</p></div>
+            <div class="cx-vis prc-vis">
+    <div class="prc st0" role="img" aria-label="A receipt for your month with Pro. On a 20 dollar AI plan, Pro costs 5.99 and gets you about 40 percent more usage, worth about 8 dollars. On a 100 dollar plan, worth about 40 dollars. On 100 dollars a month of API use, about 28 dollars saved on tokens, so 22.01 to spare after Pro.">
+      <div class="prc-shade" aria-hidden="true"></div>
+      <div class="prc-tape"></div>
+      <div class="prc-paper">
+        <div class="prc-head"><span class="prc-brand"><img src="assets/mark.svg" alt=""><b>ARTIFICE PRO</b></span><span class="prc-p" data-k="0"><span class="sw"><i>$20 AI PLAN</i><i>$100 AI PLAN</i><i>$100/MO API USE</i></span></span></div>
+        <div class="prc-cut"></div>
+        <div class="prc-p prc-row" data-k="1"><span class="sw"><i>YOUR AI PLAN</i><i>YOUR AI PLAN</i><i>SAVED ON TOKENS (28%)</i></span><i class="prc-dot"></i><span class="sw"><i>$20.00</i><i>$100.00</i><i>+$28.00</i></span></div>
+        <div class="prc-p prc-row" data-k="2"><span>ARTIFICE PRO</span><i class="prc-dot"></i><span class="sw"><i>$5.99</i><i>$5.99</i><i>-$5.99</i></span></div>
+        <div class="prc-cut"></div>
+        <div class="prc-p prc-tot" data-k="3"><span class="prc-tl"><span class="sw"><i>EXTRA USAGE (+40%)</i><i>EXTRA USAGE (+40%)</i><i>VALUE TO SPARE</i></span><small><span class="sw"><i>WORTH</i><i>WORTH</i><i>AFTER PRO</i></span></small></span><b><span class="sw"><i>$8.00</i><i>$40.00</i><i>+$22.01</i></span></b></div>
+        <div class="prc-cut"></div>
+        <div class="prc-p prc-fine" data-k="4">MEASURED ON QUESTIONS ABOUT CODE</div>
+        <div class="prc-bar"></div>
+      </div>
+    </div></div>
+            <div class="cx-t"><h3>Artifice pays for itself and more</h3><p>On plans from $20, the extra usage is worth more than Pro. On the API, it cuts about 28% off your token bill.</p></div>
           </article>
           <article class="cx">
-            <div class="cx-vis pmem-vis"><div class="pmem" aria-hidden="true">
-              <div class="pmem-card"><span class="pmem-k"><i></i>Memory · Decision</span><p class="pmem-t">Exports always use UTC dates.</p><span class="pmem-src">From export-settings.md</span>
-                <div class="pmem-flag"><div><p>export-settings.md changed. Still true?</p><span><i>Still true</i><i>Remove</i></span></div></div></div>
-              <div class="pmem-steps"><span class="on">Said twice? Kept once.</span><span>A file it came from changed? It asks.</span></div>
-            </div></div>
-            <div class="cx-t"><h3>Remembers correctly</h3><p>No duplicates, and no out-of-date facts slipping through.</p></div>
+            <div class="cx-vis pmn-vis">
+    <div class="pmc done" role="img" aria-label="Your AI's memory: when a file changes, the memory that came from it is flagged as out of date. In testing, Artifice caught 56 of 58 out-of-date memories with no false alarms.">
+      <div class="pmc-h"><span>Your AI's memory</span><span class="pmc-st"><i class="s0"><b class="g"></b>All current</i><i class="s1"><b class="a"></b>A file changed</i><i class="s2"><b class="a"></b>1 to check</i></span></div>
+      <ul class="pmc-list"><li class="ok" style="--k:0"><span class="t"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg><span>Deadline</span></span><span class="m"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></span></li><li class="bad" style="--k:1"><span class="t"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.2"></circle><path d="M3.5 19c.6-3.2 2.9-5 5.5-5s4.9 1.8 5.5 5"></path><circle cx="17" cy="9.5" r="2.4"></circle><path d="M15.5 14.4c2.6-.4 4.4 1.2 5 4.6"></path></svg><span>Weekly call</span></span><span class="m"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 6.5v7M12 17.5v.2"></path></svg></span></li><li class="ok" style="--k:2"><span class="t"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h12v17l-2.4-1.6-2.4 1.6-2.4-1.6-2.4 1.6L6 20.5z"></path><path d="M9.5 8.5h5M9.5 12h5"></path></svg><span>Invoices</span></span><span class="m"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></span></li><li class="ok" style="--k:3"><span class="t"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.3 0 1.8-.8 1.8-1.7 0-1.2-1-1.5-1-2.6 0-1 .8-1.7 1.9-1.7H17a3.5 3.5 0 0 0 3.5-3.6C20.5 6.9 16.7 3.5 12 3.5z"></path><circle cx="8" cy="11" r="1"></circle><circle cx="10.5" cy="7.5" r="1"></circle><circle cx="14.5" cy="7.5" r="1"></circle></svg><span>Brand colours</span></span><span class="m"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></span></li></ul>
+      <p class="pmc-foot">Caught 56 of 58 in testing · 0 false alarms</p>
+    </div></div>
+            <div class="cx-t"><h3>Keeps your AI in check</h3><p>Artifice alerts your AI when it hallucinates or says something out of date.</p></div>
           </article>
           <article class="cx">
-            <div class="cx-vis pday-vis"><div class="pday" role="img" aria-label="Answers take 37% less time">
-              <div class="pday-h"><span>Answers in your day</span><span>more of them fit</span></div>
-              <div class="pday-row"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><i style="--k:4"></i><i style="--k:5"></i><i style="--k:6"></i><i style="--k:7"></i></div>
-              <div class="pday-n"><b>37%</b><span>less time waiting on each answer</span></div>
-              <p class="pday-foot">Measured on questions about code</p>
-            </div></div>
+            <div class="cx-vis prace-vis">
+    <div class="prace" role="img" aria-label="With Pro, each answer arrives with 37 percent less waiting">
+      <p class="prace-big"><b>37%</b> less waiting<br>on each answer.</p>
+      <div class="prace-lane old"><span class="prace-l">Without Artifice</span><span class="prace-pill"><span class="prace-dots"><i></i><i></i><i></i></span><span class="prace-ans"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>Answer ready</span></span><span class="prace-t"><i></i></span></div>
+      <div class="prace-lane new"><span class="prace-l">With Pro</span><span class="prace-pill"><span class="prace-dots"><i></i><i></i><i></i></span><span class="prace-ans"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>Answer ready</span></span><span class="prace-t"><i></i></span></div>
+      <p class="prace-foot">Measured on questions about code</p>
+    </div></div>
             <div class="cx-t"><h3>Get more done</h3><p>Fewer back-and-forths, so more of your day goes to the work.</p></div>
           </article>
           <article class="cx w2">
-            <div class="cx-vis pup-vis"><div class="pup" role="img" aria-label="Stay on your 20 dollar plan with room to spare, instead of moving to the 100 dollar plan">
-              <div class="pup-tier yours"><div class="pup-p">$20<small> a month</small></div><div class="pup-l">The plan you have</div><div class="pup-bar"><i></i></div><div class="pup-room"><span>Used</span><b>Room to spare</b></div></div>
-              <div class="pup-tier next"><div class="pup-p">$100<small> a month</small></div><div class="pup-l">The next plan up</div><span class="pup-skip"><svg viewBox="0 0 24 24" class="i" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>Not needed</span></div>
-            </div></div>
-            <div class="cx-t"><h3>Skip the upgrade</h3><p>Stay on the plan you have, instead of paying five times more for the next one.</p></div>
+            <div class="cx-vis kb-vis">
+    <div class="kb kbG-k done" data-use="Notes,Tasks" role="img" aria-label="Your project as a globe, built by Artifice: its topics are regions on it: Notes, Tasks, Clients, Deadlines, Decisions and Invoices. New chats ask things only a project-aware AI could answer: where you left off, the client update, a past decision. Each time, the regions it draws on light up.">
+      <div class="kbG">
+        <div class="kbG-field"><canvas class="kbG-c" aria-hidden="true"></canvas><div class="kbG-labels" aria-hidden="true"></div></div>
+      </div>
+      <div class="kb-chat">
+        <div class="kb-top"><span class="kb-live"></span>New chat<em>With Pro</em></div>
+        <p class="kb-you">Where did we leave off?</p>
+        <div class="kb-reply"><span class="kb-dots" aria-hidden="true"><i></i><i></i><i></i></span><p class="kb-ans">You finished the export fix for <b>Halden &amp; Co.</b> Next up: the search review, due <b>March 10</b>.</p></div>
+        <span class="kb-src"><img src="assets/mark.svg" alt="">From <b class="s1">Notes</b> and <b class="s2">Tasks</b></span>
+      </div>
+    </div></div>
+            <div class="cx-t"><h3>Yes! No more amnesia for your AI</h3><p>Artifice organizes everything in your project, so every new chat starts already knowing it.</p></div>
           </article>
         </div></div>
         <div class="bz-panel" id="bz-stu" role="tabpanel" aria-labelledby="bz-tab-stu" hidden>
