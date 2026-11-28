@@ -1039,3 +1039,36 @@
     }
   }
 })();
+
+// ---- AI tools (P-048, 2026-11-27): fades in once, then both rings orbit Artifice slowly (inner every 2 min, outer every 3.5 min) ----
+(function () {
+  const sec = document.getElementById('ai-tools'); if (!sec || !sec.querySelector('.r8w')) return;
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const seen = (el, fn, t = .35) => { if (calm || !('IntersectionObserver' in window)) return fn(true);
+    new IntersectionObserver((es, io) => { if (es[es.length - 1].isIntersecting) { io.disconnect(); fn(false); } }, { threshold: t }).observe(el); };
+  const box = sec.querySelector('.r8w');
+  // hidden from the start (when it will animate), so the first view is only ever a fade in
+  if (!calm && 'IntersectionObserver' in window) box.classList.add('arm'); else box.classList.add('done');
+  seen(box.querySelector('[data-run]'), still => { if (still) return; requestAnimationFrame(() => box.classList.add('run')); }, .3);
+  // the orbit: both rings turn slowly the same way, the inner one a little faster; icons stay upright
+  if (!calm) (function () {
+    const r8 = box.querySelector('.r8'), ts = [...r8.querySelectorAll('.r8-t')];
+    const inner = ts.filter(n => n.classList.contains('in')), outer = ts.filter(n => n.classList.contains('out'));
+    const ringA = r8.querySelector('.r8-ring.a'), ringB = r8.querySelector('.r8-ring.b');
+    const BASE = { in: 238, out: 342 }, R = { in: 23, out: 40 }, PERIOD = { in: 120, out: 210 };   // seconds per turn
+    let raf = 0, t0 = 0, spent = 0, on = false;
+    // moved with a GPU translate from the centre, not left/top, so they glide between pixels instead of stepping
+    let W = r8.offsetWidth; new ResizeObserver(() => { W = r8.offsetWidth; }).observe(r8);
+    ts.forEach(n => { n.style.left = '50%'; n.style.top = '50%'; n.style.willChange = 'translate'; });
+    const place = (list, base, r, step) => list.forEach((n, k) => { const a = (base + step * k) * Math.PI / 180, d = W * r / 100; n.style.translate = (d * Math.cos(a)).toFixed(2) + 'px ' + (d * Math.sin(a)).toFixed(2) + 'px'; });
+    const frame = now => { const s = (spent + now - t0) / 1000;
+      const ai = BASE.in + 360 * s / PERIOD.in, ao = BASE.out + 360 * s / PERIOD.out;
+      place(inner, ai, R.in, 360 / inner.length); place(outer, ao, R.out, 360 / outer.length);
+      ringA.style.transform = `translate(-50%, -50%) rotate(${(ai - BASE.in).toFixed(3)}deg)`; ringB.style.transform = `translate(-50%, -50%) rotate(${(ao - BASE.out).toFixed(3)}deg)`;
+      if (on) raf = requestAnimationFrame(frame); };
+    { const n0 = performance.now(); t0 = n0; frame(n0); }   // in orbit position from the first paint, so nothing jumps when it starts
+    new IntersectionObserver(es => { const v = es[es.length - 1].isIntersecting;
+      if (v && !on) { on = true; t0 = performance.now(); raf = requestAnimationFrame(frame); }
+      else if (!v && on) { on = false; cancelAnimationFrame(raf); spent += performance.now() - t0; } }).observe(r8);
+  })();
+})();
